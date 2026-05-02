@@ -1,0 +1,218 @@
+:PROPERTIES:
+:ID:       683719c5-0d58-4e2b-8e9a-9b8c80869a4b
+:END:
+#+title: EnglishGrammar
+
+* Tenses
+** Past Perfect Tense
+*** Past Perfect
+
+The Past Perfect is used to show that one action happened before another action in the past.
+It helps us “step back” in time and describe the earlier of two past events.
+
+**** Core Idea
+
+The Past Perfect shows an action that was completed before another past moment.
+
+Key concept: We use it to talk about a past event from the perspective of a later past event.
+
+(Event A → happened first → Event B)
+
+**** Structure
+
+Subject + had + past participle (V3)
+
+*** Past Perfect Tense (The “Before” Tense)
+
+Used for an action completed before another past action.
+
+**** Examples
+
+- When I arrived, the movie had already started.
+  (The movie started before I arrived.)
+
+- I failed the test because I hadn't studied enough.
+  (Studying happened before the failure.)
+
+*** Past Perfect Continuous (Duration Before)
+
+Used to emphasize how long an action was happening before another past event.
+
+**** Structure
+
+Subject + had been + verb-ing
+
+**** Examples
+
+- She was exhausted because she had been running all morning.
+- The ground was wet because it had been raining.
+
+*** Simple “Had” (Past of “Have”)
+
+Sometimes "had" is NOT part of a perfect tense. It shows possession, experience, or state in the past.
+
+**** Structure
+
+Subject + had + object
+
+**** Examples
+
+- I had a red bicycle when I was a child.
+- We had dinner together last night.
+
+*** Past Simple vs Past Perfect
+
+| Tense        | Structure  | Focus                   | Time Relationship | Example |
+|--------------+------------+-------------------------+-------------------+---------|
+| Past Simple  | V-ed       | A completed past action | A then B          | I ate lunch and walked home. |
+| Past Perfect | had + V3   | Earlier past action     | A happened first  | I had eaten lunch before I walked home. |
+
+*** Quick Check
+
+Which is correct?
+
+- The children were quiet because they slept.
+- The children were quiet because they had slept. ✔
+
+(They slept first, then became quiet.)
+
+*** Summary
+
+- had + V3 → earlier of two past actions
+- had been + V-ing → duration before a past moment
+- had (simple) → possession or past state
+
+*** Videos / YouTube
+
+- Past Perfect Tense Lesson: https://www.youtube.com/watch?v=Jjj5-KnpdIQ
+
+*** Irregular Verbs and Examples for Past Perfect
+**** Core verbs (very high frequency)
+
+***** be → was/were → been
+Example: She had been very busy all week.
+
+***** have → had → had
+Example: They had had enough of the noise.
+
+***** do → did → done
+Example: He had done his homework before dinner.
+
+***** go → went → gone
+Example: We had gone home before it started raining.
+
+***** get → got → gotten (US) / got (UK)
+Example: She had gotten much better by then.
+
+***** make → made → made
+Example: I had made a big mistake.
+
+***** take → took → taken
+Example: He had taken the wrong train.
+
+***** see → saw → seen
+Example: They had seen that movie already.
+
+***** come → came → come
+Example: She had come early to the meeting.
+
+***** give → gave → given
+Example: He had given me great advice.
+
+**** Very common everyday verbs
+
+***** find → found → found
+Example: I had found the answer before the test.
+
+***** think → thought → thought
+Example: She had thought about it carefully.
+
+***** tell → told → told
+Example: They had told him the truth.
+
+***** become → became → become
+Example: He had become very successful.
+
+***** show → showed → shown
+Example: She had shown me how to do it.
+
+***** leave → left → left
+Example: They had left before we arrived.
+
+***** feel → felt → felt
+Example: I had felt sick earlier.
+
+***** put → put → put
+Example: He had put the keys on the table.
+
+***** bring → brought → brought
+Example: She had brought enough food for everyone.
+
+***** begin → began → begun
+Example: The meeting had begun before I joined.
+
+**** Communication & thinking
+
+***** say → said → said
+Example: He had said that already.
+
+***** know → knew → known
+Example: I had known her for years.
+
+***** understand → understood → understood
+Example: They had understood the problem.
+
+***** hear → heard → heard
+Example: She had heard that story before.
+
+***** read → read → read
+Example: I had read the book twice.
+
+**** Movement & actions
+
+***** run → ran → run
+Example: He had run five miles that morning.
+
+***** fall → fell → fallen
+Example: The leaves had fallen by October.
+
+***** break → broke → broken
+Example: She had broken her phone.
+
+***** choose → chose → chosen
+Example: They had chosen a new leader.
+
+***** drive → drove → driven
+Example: He had driven all night.
+
+***** write → wrote → written
+Example: She had written three reports.
+
+**** Daily life verbs
+
+***** eat → ate → eaten
+Example: We had eaten before they arrived.
+
+***** drink → drank → drunk
+Example: He had drunk too much coffee.
+
+***** sleep → slept → slept
+Example: I had slept only a few hours.
+
+***** buy → bought → bought
+Example: They had bought a new house.
+
+***** pay → paid → paid
+Example: She had paid the bill already.
+
+** Idioms
+
+**** Right off the bat
+
+Meaning: immediately, without delay, or from the very beginning.
+
+Examples:
+- “I knew something was wrong right off the bat.” → immediately
+- “She liked him right off the bat.” → from the start
+
+Origin: Baseball — the moment the ball leaves the bat, action begins immediately.

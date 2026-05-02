@@ -1,0 +1,49 @@
+:PROPERTIES:
+:ID:       c9318d48-6dc8-49ea-b2cb-5c4ce97469ab
+:END:
+#+title: Emacs Notes
+
+* Search
+** In a File
+Search a line in open buffer: space ss or space ,
+Search Headers: consult-imenu / space si
+
+Search a word online: K or space so
+
+** Files
+space space to search all files in current directory.
+
+* Buffers
+Switch to buffer: space bb
+
+* Bookmarks
+Add a bookmark: space bm
+Bookmark jump: space enter
+
+* Narrow and Widen back a region
+Narrow a selection: C-x nn
+Widen back the narrowed selection: C-x nw
+
+* Org Roam Related
+** Add an alias to note file
+#+begin_src
+:PROPERTIES:
+:ROAM_ALIASES: My Alias
+:END:
+#+end_src
+** Create an Id for a header
+org-id-get-create
+** Note Id's
+In order to see note id's, go to PROPERTIES and hit TAB.
+
+* Projectile
+** Find a file in project:
+Once project folder is open: space pf or space space
+
+* Lsp
+** Keybindings
+Enable lsp wiht: lsp
+Goto definition: gd or space cd
+Go back from definition: xref-go-back
+** find functions
+space si (This is better than M-x: imenu because it shows results while you navigate too.)
