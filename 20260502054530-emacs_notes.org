@@ -47,3 +47,6 @@ Goto definition: gd or space cd
 Go back from definition: xref-go-back
 ** find functions
 space si (This is better than M-x: imenu because it shows results while you navigate too.)
+* Images
+Below is great documentation for images in emacs.
+https://signor.dev/simple-inline-images-in-org-mode/

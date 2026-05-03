@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       f56696fc-49eb-4f63-bc96-1c134f4a8b5a
+:END:
+#+title: Git
+
+* gitignore
+Adding a file to .gitignore only prevents future tracking; it does not remove files already committed to the repository.
+
+To remove .DS_Store from the remote repository, you must first remove it from Git's index. Run this command:
+
+#+begin_src
+git rm --cached .DS_Store
+git commit -m "Remove .DS_Store from repository"
+git push
+#+end_src

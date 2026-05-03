@@ -1,0 +1,38 @@
+:PROPERTIES:
+:ID:       9584bfcc-c4d1-4233-8cc3-03df7d6e0f09
+:END:
+#+title: Docker
+
+* Usefull Docker Composses
+
+** Neko - Firefox Browsers in Docker Container
+https://github.com/m1k1o/neko
+
+https://neko.m1k1o.net/docs/v3/installation
+
+*** Docker Compose for Neko
+#+begin_src docker
+services:
+  neko:
+    image: ghcr.io/m1k1o/neko/firefox:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "56000-56100:56000-56100/udp"
+    environment:
+      NEKO_WEBRTC_EPR: "56000-56100"
+      NEKO_WEBRTC_NAT1TO1: "127.0.0.1"
+      NEKO_MEMBER_MULTIUSER_USER_PASSWORD: "neko"
+      NEKO_MEMBER_MULTIUSER_ADMIN_PASSWORD: "admin"
+#+end_src
+
+Run it with:
+docker compose up -d
+
+Update it:
+docker compose pull
+docker compose up -d
+
+Open Firefox:
+https://127.0.0.1:8080
+If 8080 is used change docker-compose.
