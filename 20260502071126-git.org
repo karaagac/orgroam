@@ -3,7 +3,9 @@
 :END:
 #+title: Git
 
-* gitignore
+* Git 
+
+** gitignore
 Adding a file to .gitignore only prevents future tracking; it does not remove files already committed to the repository.
 
 To remove .DS_Store from the remote repository, you must first remove it from Git's index. Run this command:
@@ -13,3 +15,23 @@ git rm --cached .DS_Store
 git commit -m "Remove .DS_Store from repository"
 git push
 #+end_src
+** Add files
+=git add .=
+
+** Git fetch remote changes
+
+*** git fetch
+*What is Does:*
+git fetch reaches out to the remote repository (origin) and downloads all the new data (commits) it can find for all the branches. It updates your remote-tracking branches (the branches that look like origin/main, origin/feature-x, etc.).
+
+*What it does NOT do:*
+It does not touch your local working directory. It does not merge, rebase, or change your current local branch.
+
+*Goal*: To update your knowledge of what the remote repository knows, without changing your current code.
+
+=git fetch origin/branchName=
+
+Update your remote-tracking branches (like origin/main, origin/feature-x):
+
+=git fetch --all=
+
