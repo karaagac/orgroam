@@ -107,7 +107,17 @@ Daily tip: When you use phrases like "I wish..." or "It's too late to change," a
 
 "I wish I had called her before she left." (The calling didn't happen.)
 
+**** Edge Case : Obvious Timeline
+If the events are so close together or their causal link is immediate, Past Perfect often feels like overkill. Focus on the cause and effect using simpler grammar if possible.
 
+Scenario: You miss a train because you woke up late.
+❌ P.P. Edge Case: Because I had woken up late (before the scheduled time), I missed the train.
+✅ Better (Causal Focus): I was late, so I missed the train.
+****  Edge Case : The Implied Time Frame
+Sometimes, using Past Perfect implies a time frame that isn't strictly defined by another past event. It often serves to establish context for the narrator.
+
+Example: By the time the police arrived, the thief had already vanished into the crowd.
+(The "time" boundary is not a specific action; it is the moment of the police arrival.) The focus here is on establishing the background condition (the vanishing) that was completed before the narrative point (arrival).
 *** Quick Check
 
 Which is correct?
