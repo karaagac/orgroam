@@ -35,3 +35,13 @@ Update your remote-tracking branches (like origin/main, origin/feature-x):
 
 =git fetch --all=
 
+** Detached HEAD state
+When you do =git checkout origin/develop= you ended up in detached HEAD state because it checks out the remote-tracking ref directly (a snapshot), not the local =develop= branch.
+
+To get back to a normal state on local =develop= branch (and to pick up the latest from origin)
+
+=git checkout develop=
+=git pull origin/develop=
+
+then create a new branch out of develop or release.
+
