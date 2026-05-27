@@ -9,9 +9,10 @@ Search a line in open buffer: space ss or space ,
 Search Headers: consult-imenu / space si
 
 Search a word online: K or space so
-
 ** Files
 space space to search all files in current directory.
+
+Also use =consult-riprep= to search any string in all files in current directory.
 
 * Buffers
 Switch to buffer: space bb
@@ -33,6 +34,23 @@ Widen back the narrowed selection: C-x nw
 #+end_src
 ** Create an Id for a header
 org-id-get-create
+
+How to connect id tagged header to another note?
+Same as linking any other note. For keybindings of Org Roam check below link: 
+
+[[file:~/.emacs.d/config.org::*Org Roam][Org Roam config]]
+
+Example to add file and chapter link. This is for a file that is not inside org-roam database. It is a regular file.
+
+#+BEGIN_SRC emacs-lisp
+[[file:~/.emacs.d/config.org::#org-roam][Org Roam config]]
+#+END_SRC
+
+For org-roam connection. These are config.org keybindings.
+
+  "nf" '(org-roam-node-find :which-key "find note")
+  "nc" '(org-roam-capture :which-key "create note"))
+
 ** Note Id's
 In order to see note id's, go to PROPERTIES and hit TAB.
 

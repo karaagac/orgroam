@@ -1,0 +1,15 @@
+:PROPERTIES:
+:ID:       0737B945-876D-4CDC-9EA1-0B0AB45F835F
+:END:
+#+title: Logseq
+
+* Logseq Basics
+
+- TAB to create indent.
+- Create dedicated page with double bracket surrounded word:
+  #+BEGIN_SRC emacs-lisp
+[[somepage]]
+  #+END_SRC
+
+** Pdf's
+https://www.youtube.com/watch?v=Ry3Ni30HBPw

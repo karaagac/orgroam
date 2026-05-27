@@ -4,11 +4,7 @@
 #+title: EnglishGrammar
 
 * Tenses
-** Past Perfect Tense
-#+TITLE: English Grammar: Past Perfect Tense
-#+AUTHOR: Study Notes
-
-** Past Perfect
+** Past Perfect Tense 
 *** Core Concept
 The Past Perfect describes an action that was completed *before* another point or action in the past. It is essentially the "past of the past."
 
