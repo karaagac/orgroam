@@ -44,4 +44,3 @@ To get back to a normal state on local =develop= branch (and to pick up the late
 =git pull origin/develop=
 
 then create a new branch out of develop or release.
-

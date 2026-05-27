@@ -1,0 +1,7 @@
+:PROPERTIES:
+:ID:       DFD0F850-0C24-44CD-BCCE-74E29A574D90
+:TYPE: book
+:AUTHOR: William Zinsser 
+:END:
+#+title: On writing well
+

@@ -14,6 +14,22 @@ space space to search all files in current directory.
 
 Also use =consult-riprep= to search any string in all files in current directory.
 
+*** Logseq like features
+If you want logseq like tagging and being able to find those tagged blocks:
+
+Set:
+(setq org-agenda-files '("~/org"))
+
+Find what you want:
+M-x org-tags-view
+
+Query examples:
+test
+test+bug
+test|idea
+
+check out note: [[file:logseqlike.md][Logseq Like Workflow]] 
+
 * Buffers
 Switch to buffer: space bb
 
@@ -68,3 +84,83 @@ space si (This is better than M-x: imenu because it shows results while you navi
 * Images
 Below is great documentation for images in emacs.
 https://signor.dev/simple-inline-images-in-org-mode/
+
+* Link Files
+org-insert-link
+
+* Yasnippet
+* Creating a YASnippet for Org Mode
+
+** Create a new snippet
+
+Run:
+
+#+begin_src elisp
+M-x yas-new-snippet
+#+end_src
+
+A new buffer opens.
+
+** Example snippet
+
+Paste this:
+
+#+BEGIN_SRC emacs-lisp
+  
+  ,#+begin_src snippet
+  # -*- mode: snippet -*-
+  # name: org-roam book note
+  # key: book
+  # --
+
+  ,#+title: ${1:Book Title}
+
+  :PROPERTIES:
+  :TYPE:     book
+  :AUTHOR:   ${2:Author}
+  :STATUS:   ${3:unread}
+  :ROAM_REFS: ${4:isbn:}
+  :END:
+
+   Summary
+
+  $0
+
+   Key Ideas
+
+   Quotes
+
+   Connections
+#+end_src
+
+*** Save the snippet
+
+Press:
+
+#+begin_src text
+C-x C-s
+#+end_src
+
+Save it to:
+
+#+begin_src text
+~/.emacs.d/snippets/org-mode/book
+#+end_src
+
+*** Reload snippets
+
+#+begin_src elisp
+M-x yas-reload-all
+#+end_src
+
+*** Use the snippet
+
+Inside an Org file:
+
+#+begin_src text
+book TAB
+#+end_src
+
+It expands into a complete book note template.
+
+#+END_SRC
