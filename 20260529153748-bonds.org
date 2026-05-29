@@ -1,0 +1,25 @@
+:PROPERTIES:
+:ID:       5C9C4526-37E2-4617-AAD3-20E67A99C886
+:END:
+#+title: Bonds
+
+* Bonds
+** What are bonds?
+
+https://www.youtube.com/watch?v=H1ZgqhX7O-g
+
+When goverment wants to get loan, it issues bonds.
+
+*** Principle
+The original amount of money that is borrowed (and later repaid).
+*** Coupon
+The interest payment. The percent you are going to get in yearly bases.
+*** Maturity
+When the loan is due.
+*** Yield
+The return that investor gets from the bond. The reason this is different from coupon is because the price of the bond can change. Bond prices go up and down. But cuopon (the dollar amounth being paid) is same. Because of that yield can go up and down, based upon price of the bond. If the price of the bond falls, yield rises, If price of bond goes up, yield declines. 
+
+** How when bonds are issued?
+Treasury actions are one piece of that puzzle. Goverment sells bonds as set schedule. Weekly, monthly, depends on maturity of the bond. The yield of the bonds at auction, depends on how much demand there is at that action for these bonds. This is called primary market.
+
+When new treasury bonds are actuined in the primary market, the yield they are sold becomes benchmarks. And investors in secondary markets look at this yield to reasses the value of the similiar bonds already in cercilation. 

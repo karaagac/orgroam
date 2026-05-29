@@ -5,3 +5,68 @@
 :END:
 #+title: On writing well
 
+* Notes from On Writing Well
+
+The product that any writer has to sell is not the subject being written about, but who he or she is. (Page 5)
+
+Our national tendency is to inflate and thereby sound important. (Page 7)
+
+Clear thinking becomes clear writing; one can't exist without the other. (Page 8)
+
+You can never forget that you are practicing a craft that's based on certain principles. If the nails are weak, your house will collapse. If your verbs are weak and your syntax is rickety, your sentense will fall apart. (Page 18)
+
+Reader want the person who is talking to them to sound genuine. Therefore a fundemental rule is: be yorself. (Page 19)
+
+It's amazing how often an editor can throw away the first three or four paragraphs of an article, or even the first few pages, and start with the paragraph where the writer begins to show like himself or helself. Not only are those first paragraphs impersonal or ornate; they don't say anything-They are self-conscious attempt at a fancy prologue. What I'm always looking for as an editor is a sentense that says something like "I'll never forget the day when I ..." I think, "Aha! A person!" (Page 20)
+
+Writers are obviously at their most natural when they write in the first person. Writing is an intimate transaction between two people, conducted on paper, and it will go well to the extent that it retains its humanity. Therefore I urge people to write in the first person: to use "I" and "we" and "us". They put up a fight. (Page 20)
+
+There are vast regions of writing where "I" isn't allowed... Stil, we have become a society fearful of revealing who we are... It's hard to glimps them among all the impersonal passive sentenses that says "initiatives were undertaken" and "priorities have been identified." (Page 21)
+
+Good writers are visible just behind their words. If you aren't allowed to use "I", at least think "I" while you write, or write the first draft in the fifrst person and then take the "I"'s out. It will warm up your impersonal style. (Page 21)
+
+Style is tied to psyche, and writing has deep psychological roots. The reason why we express ourselves as we do, or fail to express ourselves because of "writers block", are partly buried in the subconscious mind. (Page 21)
+
+(Page 24)
+
+Soon after you confront the matter of preserving your identity, another question will occur to you: "Who am I writing for?"
+
+It's a fundemental question, and it has a fundemental answer: You are writing for yourself. Don't try to visualize the great mass audience. There is no such audience - every reader is a different person. Don't try to guess what sort of thing editors want to publish or what you think the country is in a mood to read. Editors and readers don't know what they want to read until they read it. Besides, they're always looking for something new.
+
+You are writing primarily to please yourself, and if you go about it with enjoyment you will also entertain the readers who are worth writing for.
+
+(Page 25)
+
+I'm saying you must write for yourself and not be gnawed by worry over whether the reader is tagging along.
+
+I'm talking about two different issues. One is craft, the other is attitude. The first is a question of mastering a precise skill. the second is a question of how you use that skill to express your personalty.
+
+
+(Page 26)
+
+Never say anything in writing that you wouldn't comfortable say in conversation. If you're not a person who says "indeed" or "moreover," ow who calls someone an individual ("he's a fine individual"), please don't write it.
+
+(Page 34)
+
+Writing is learned by immitation. If anyone asked me how I learned to write, I'd say I learned by reading the men and women who were doing the kind of writing I wanted to do and trying to figure out how they did it.
+
+(Page 49)
+
+You learn to write by writing. The only way to learn to write is to force yourself to produce a certain number of words on a regular basis.
+
+All writing is ultimately a question of solving a problem. It may be a problem of where to obtain the facts or how to organize the material. It may be a problem of approach or attitude, tone or style. Whatever it is, it has to be confronted and solved.
+
+Unity is the anchor of good writing. So, first, get your unities straight. Unity not only keeps the reader from straggling off in all directions. It satisfies your readers subconscious need for order and reassures them that all is well and the helm. Therefore choose from amoung the many variables and stick to your choise.
+
+(Page 52)
+
+Nobody can write a book or an article "about" something. Tolstoy couldn't write a book about war and peace, or Melville a book about whaling. They made certain reductive decisions about time and place and about individual characters in that time and place-one man pursuing one whale. Every writing protect must be reduced before you start to write.
+
+
+
+
+
+
+
+* References
+The Element of Style - by E.B. White (One of the most important book about writing in style.)
