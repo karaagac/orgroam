@@ -7,6 +7,8 @@
 
 * Notes from On Writing Well
 
+** Previos Pages
+
 The product that any writer has to sell is not the subject being written about, but who he or she is. (Page 5)
 
 Our national tendency is to inflate and thereby sound important. (Page 7)
@@ -62,10 +64,75 @@ Unity is the anchor of good writing. So, first, get your unities straight. Unity
 
 Nobody can write a book or an article "about" something. Tolstoy couldn't write a book about war and peace, or Melville a book about whaling. They made certain reductive decisions about time and place and about individual characters in that time and place-one man pursuing one whale. Every writing protect must be reduced before you start to write.
 
+** Bits an pieces
 
+*** Verbs
+Use active verbs unless there is no confortable way to get around using a passive verbs. The difference between an active-verb style and passive verb-style-in clarity and vigor-is the difference between life and death for a writer.
 
+"Joe saw him" is strong. "He was seen by Joe" is weak. The first is short and precise; it leaves no doubt about who did what. The second is necassarily longer and it has an insipid quality: something was done by somebody to someone else. It's also ambiguous. How often was he seen by Joe? Once? Every day? Once a week?
 
+*** Adverbs
 
+Adverbs are words that modify (describe) verbs, adjectives or other adverbs. Ex: She spoke softly.
+
+Most adverbs are unnecessary. You will clutter your sentence and annoy the reader if you choose a verb that has a specific meaning and then add an adverb that carries the same meaning.
+
+Again and again in careless writing, strong verbs are weakened by redundant adverbs.
+
+*** Adjectives
+Adjectives are words that modify (describe) nouns or pronouns. Ex: The snowflakes made my nose cold.
+
+Most adjectives are also unnecessary. Like adverbs, they are sprinkled into sentences by writers who don't stop to think that the concept is already in the noun.
+
+Again, the rule is simple: make your adjectives do work that needs to be done. "He looked at the grey sky and the black clouds and decided to sail back to the harbor." The darkness of the sky and the clouds is the reason for the decision. If it's important to tell the reader that a house was drab or a girl was beautiful, by all means use "drab" and "beautiful." They will have their proper power because you have learned to use adjectives sparsely. 
+
+*** Little Qualifiers
+
+Don't say you were a bit of confused and sort of tired and a little depressed and somewhat annoyed. Be confused. Be tired. Be depressed. Be annoyed. Don't hedge your prose with little timidities. Good writing is lean and confident.
+
+Don't say you weren't too happy because the hotel was pretty expensive. Say you weren't happy because the hotel was expensive. Don't tell us you were quite fortunate. How fortunate is that? Don't describe an event as rather spectacular or very awesome. Words like "spectacular" and "awesome" don't submit to measurement. "Very" is a useful word to achieve emphasis, but far more often it's clutter. There's no need to call someone very methodical. Either he is methodical or he isn't.
+
+The large point is one of authority. Every little qualifier whittles away some fraction of the reader's trust. Reader want a writer who believes in himself and in what he is saying. Don't diminish that belief. Don't be kind of both. Be bold.
+
+*** Puctuation
+
+**** Period
+If you find yourself hopelessly mired in a long sentense, it's probably because you're trying to make the sentense do more it can reasonably do - pehaps express two dissimilar thoughts. The quickest way out is to break the long sentence into two short sentences, or even three.
+
+If you want to write long sentences be genious. Or at least make sure that the sentence is under control from beginning to end, in syntax and punctuation, so that the reader knows where he is at every step of the winding trail.
+
+*** Contradictions
+Your style will be warmer and truer to your personality if you use contradictions like "I'll" and "won't" and "can't" when they fit comfortably into what you're writing. "I'll be glad to see them if they don't get mad" is less stiff than "I will be glad to see them if they don't get mad."
+
+Also, don't invent contradictions like "could've." They cheapen your style. Stick with the ones you can find in the dictionary.
+
+*** That and Which
+Always use "that" unless it makes your meaning ambiguous.
+
+If your sentence needs a comma to achieve its precise meaning, it probably needs "which". "Which" serves a particular identifying function, different from "that". (A) "Take the shoes that are in closet." This means: take the shoes that are in the closet, not the ones under the bed. (B) "Take the shoes, which are in the closet." Only one pair of shoes is under discussion; the "which" usage tells you were they are. Note that the comma is necassary in B, but not in A.
+
+A high proportion of "which" usages narrowly describe, or identify, or lcoate, or explain, or otherwise qualify the phrase that preceded the comma:
+
+    The house, which has a red roof.
+    The store, which is called Bob's Hardware.
+    The Rhine, which is in Germany.
+    The mansoon, which is a seasonal wind.
+    The moon, which I saw from the porch.
+
+*** Paragraphs
+Keep your paragraphs short. Writing is visual - it catches the eye before it has a chance to catch the brain. Short paragraphs put air around what you write and make it look inviting, whereas a long chunk of type can discourage a reader from even starting to read.
+
+Newspaper paragraphs should be only two or three sentences long; newspaper type is set in a narrow width, and the inche quickly add up.
+
+But don't go berserk. A succession of tiny paragraphs is an annoying as a paragraph that's too long. I'm thinking of all those midget paragraphs -verbless wonders- written by modern journalist to make their articles quick 'n' easy. Actually they make the reader's job harder by chopping up a natural train of thought.
+
+*** Rewriting
+Rewriting is the essense of writing well: it's where the game is won or lost.
+
+Most writers don't initially say what they want to say, or say it as well as they could. The newly hatched sentense almost always has something wrong with it. It's not clear. It's not logical. It's verbose. It's klunky. It's pretentious. It's boring. It's full of clutter. It's full of cluches. It lacks rhythm.
+
+*** Trust your material
+The reader plays a major role in the act of writing and must be given room to play it. Don't annoy your readers by over explaining - by telling them something they already know or can figure out. Try not to use words like "surprisingly", "predictable" and "of course," which put a value on a fact before the reader encounters the fact. Trust your material. 
 
 
 * References
