@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       9FF4EE67-ED4B-4D91-995B-621CFFBEE19A
+:END:
+#+title: Cinema
+
+* Cinema
+** Subjects and Context
+*** Suffering and art
+Why suffering is not necessary for art:
+https://www.youtube.com/watch?v=prlXA___43I
+
