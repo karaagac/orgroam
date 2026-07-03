@@ -4,6 +4,8 @@
 #+title: Java
 
 * Design Patterns
+https://m.youtube.com/watch?v=DtE3YNkVTao&ra=m
+
 ** Factory Design Pattern
 *** Overview
 The Factory Design Pattern is a creational pattern that centralizes object creation and hides the exact class being created from the client. This allows the calling code to create objects without knowing the exact class being instantiated.
