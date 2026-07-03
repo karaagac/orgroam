@@ -1,0 +1,85 @@
+:PROPERTIES:
+:ID:       4183EFD0-2246-44B0-9BDC-5BE011C8F76D
+:END:
+#+title: Java
+
+* Design Patterns
+** Factory Design Pattern
+*** Overview
+The Factory Design Pattern is a creational pattern that centralizes object creation and hides the exact class being created from the client. This allows the calling code to create objects without knowing the exact class being instantiated.
+
+Instead of using the new keyword directly, the client requests objects from a factory, and the factory chooses which concreate implementation to return.
+
+It is useful when object creation is complex or when you want your system to be flexible, maintanable, and loosely coupled.
+
+The Factory Pattern helps replace tight coupling with clean abstraction, making your project easier to extend and easier to modify as requirements change.
+*** Example Code
+
+**** Create a Notification interface
+  #+BEGIN_SRC java
+    interface Notification{
+        void sendMessage(String msg);
+        }
+  #+END_SRC
+  
+**** Create 2 classes that implement that interface
+
+  #+BEGIN_SRC java
+    class EmailNotification implements Notification{
+        @Override
+        void sendMessage(String msg){
+    	System.out.println("Sending Email: " + msg);
+    	}
+        }
+  #+END_SRC
+
+  
+  #+BEGIN_SRC java
+    class SMSNotification implements Notification{
+        @Override
+        void sendMessage(String msg){
+    	System.out.println("Sending SMS: " + msg);
+    	}
+        }
+  #+END_SRC
+
+**** Now comes the core part
+- Exact class is not exposed to the client.
+  
+    #+BEGIN_SRC java
+      class NotificationFactory {
+          public static Notification createNotification(String type){
+      	//Based on type passed, create an object
+      	if(type.equalsIgnoreCase("Email")){
+      	    return new EmailNotification();
+      	}else(type.equalsIgnoreCase("SMS")){
+      		return new SMSNotification();
+      	    }
+      	return null;
+          }
+      }
+    #+END_SRC
+    
+**** Main method to create the actual object
+   #+BEGIN_SRC java
+     public class FactoryPatternDemo{
+         public static void main(String[] args){
+
+     	Notification N1 = NotificationFactory.createNotification("EMAIL");
+     	N1.sendMessage("Welcome to java factory pattern");
+     	
+     	Notification N2 = NotificationFactory.createNotification("SMS");
+     	N2.sendMessage("OTP sent successfully");
+     	
+     	}
+         }
+
+   #+END_SRC
+   
+*** When to Use the Factory Pattern
+
+- Hide the concrete class from the client.
+- When object creation may change in the future.
+- Add new object types without modifying client code.
+- Choose which object to create at runtime.
+- Common in large applications (e.g., database connections, parsers, drivers, UI components, validators, loggers, and frameworks like Spring).
