@@ -85,3 +85,98 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
 - Add new object types without modifying client code.
 - Choose which object to create at runtime.
 - Common in large applications (e.g., database connections, parsers, drivers, UI components, validators, loggers, and frameworks like Spring).
+
+**  Builder Design Pattern
+*** Overview
+- It is an creational pattern used to construct complex objects step by step while keeping full control over the construction process.
+- It is usefull when an object has many fields, especially optional fields, and constructor becomes too large or confusing.
+- Instead of creating many constructors with different parameter combinations, the Builder pattern provides a clean, readable, and flexible way to create objects using method chaining.
+- Builder solves the telescoping constructor problem(too many constructors problem) by letting you set only the values you need.
+- It helps you create objects like "a User with name, email, address, and phone number" without forcing you to fill every parameter.
+
+*** Example Code
+#+BEGIN_SRC java
+  class User{
+      private String name;
+      private String email;
+      private String phone;
+      private String address;
+
+      private User (Builder builder){
+  	this.name = builder.name;
+  	this.email= builder.email;
+  	this.phone= builder.phone;
+  	this.address= builder.address;
+    }
+      //inner class
+      //It contains same fields as User class
+      public static class Builder{
+  	private String name;
+  	private String email;
+  	private String phone;
+  	private String address;
+
+  	//Every method inside Builder sets one field at a time and returns Builder object itself. This allows method chaining.
+  	public Builder setName(String name){
+  	    this.name = name;
+  	    return;
+  	 }
+
+  	public Builder setEmail(String email){
+  	    this.email = email;
+  	    return;
+  	 }
+  	
+  	public Builder setName(String phone){
+  	    this.phone = phone;
+  	    return;
+  	 }
+
+  	public Builder setName(String address){
+  	    this.address = address;
+  	    return;
+  	 }
+
+  	
+  	public User build(){
+  	    //Create a User object and pass builder to constructor.
+  	    //User Constructor (above) is private and you can not directly call User.
+  	    //You must use Builder, this insures controlled creation. 
+  	    return new User(this);
+  	}
+
+  	public void show(){
+  	    System.out.println("User details:");
+  	    System.out.println(name + ", " + email + ", " + phone + ", " + address);
+  	}
+      }//end Builder
+
+  }
+#+END_SRC
+
+- Main Method
+  #+BEGIN_SRC java
+    public class BuilderPatternDemo{
+        public static void main(String[] args){
+    	User u1 = new User.Builder()
+    	    .setName("Abe")
+    	    .setEmail("xalil@gmail.com")
+    	    .setPhone("999-765-2134")
+    	    .build(); //build() method creates the final object with fields we provided. 
+
+    	u1.show();
+    	}
+
+        }
+  #+END_SRC
+
+*** When should you use the Builder Pattern?
+- Use the Builder pattern when a class has many fields, especially when some fields are optional and others are required.
+- Use when constructor with many parameters becomes confusing or error-prone.
+- Use it when your object should be immutable, since the builder can prepare all values and then create the final object only once.
+- Use it when number of parameters increases and the code becomes harder to read.
+- The Builder pattern is widely used in Spring Boot, Hibernate, Lambok's @Builder, HTTP client, database query builders, and most modern java libraries.
+*** Resources
+https://youtu.be/DtE3YNkVTao?si=0JZHaNnoOuoRuaXZ&t=320
+* System Design
+https://www.youtube.com/watch?v=s9Qh9fWeOAk
