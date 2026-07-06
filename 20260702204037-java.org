@@ -86,7 +86,7 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
 - Choose which object to create at runtime.
 - Common in large applications (e.g., database connections, parsers, drivers, UI components, validators, loggers, and frameworks like Spring).
 
-**  Builder Design Pattern
+** Builder Design Pattern
 *** Overview
 - It is an creational pattern used to construct complex objects step by step while keeping full control over the construction process.
 - It is usefull when an object has many fields, especially optional fields, and constructor becomes too large or confusing.
@@ -127,12 +127,12 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
   	    return;
   	 }
   	
-  	public Builder setName(String phone){
+  	public Builder setPhone(String phone){
   	    this.phone = phone;
   	    return;
   	 }
 
-  	public Builder setName(String address){
+  	public Builder setAddress(String address){
   	    this.address = address;
   	    return;
   	 }

@@ -1,0 +1,226 @@
+% Created 2026-07-05 Sun 09:34
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Ibrahim Karaagac}
+\date{\today}
+\title{Java}
+\hypersetup{
+ pdfauthor={Ibrahim Karaagac},
+ pdftitle={Java},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 30.2 (Org mode 9.7.11)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Design Patterns}
+\label{sec:orge0be3fd}
+\url{https://m.youtube.com/watch?v=DtE3YNkVTao\&ra=m}
+\subsection{Factory Design Pattern}
+\label{sec:org0681162}
+\subsubsection{Overview}
+\label{sec:orga2a28d0}
+The Factory Design Pattern is a creational pattern that centralizes object creation and hides the exact class being created from the client. This allows the calling code to create objects without knowing the exact class being instantiated.
+
+Instead of using the new keyword directly, the client requests objects from a factory, and the factory chooses which concreate implementation to return.
+
+It is useful when object creation is complex or when you want your system to be flexible, maintanable, and loosely coupled.
+
+The Factory Pattern helps replace tight coupling with clean abstraction, making your project easier to extend and easier to modify as requirements change.
+\subsubsection{Example Code}
+\label{sec:org372eb6d}
+
+\begin{enumerate}
+\item Create a Notification interface
+\label{sec:orge7f85b2}
+\begin{verbatim}
+interface Notification{
+    void sendMessage(String msg);
+    }
+\end{verbatim}
+\item Create 2 classes that implement that interface
+\label{sec:org73bfd3a}
+
+\begin{verbatim}
+class EmailNotification implements Notification{
+    @Override
+    void sendMessage(String msg){
+        System.out.println("Sending Email: " + msg);
+        }
+    }
+\end{verbatim}
+
+
+\begin{verbatim}
+class SMSNotification implements Notification{
+    @Override
+    void sendMessage(String msg){
+        System.out.println("Sending SMS: " + msg);
+        }
+    }
+\end{verbatim}
+\item Now comes the core part
+\label{sec:org66e547e}
+\begin{itemize}
+\item Exact class is not exposed to the client.
+
+\begin{verbatim}
+class NotificationFactory {
+    public static Notification createNotification(String type){
+        //Based on type passed, create an object
+        if(type.equalsIgnoreCase("Email")){
+            return new EmailNotification();
+        }else(type.equalsIgnoreCase("SMS")){
+                return new SMSNotification();
+            }
+        return null;
+    }
+}
+\end{verbatim}
+\end{itemize}
+\item Main method to create the actual object
+\label{sec:orga2d0b1d}
+\begin{verbatim}
+public class FactoryPatternDemo{
+    public static void main(String[] args){
+
+        Notification N1 = NotificationFactory.createNotification("EMAIL");
+        N1.sendMessage("Welcome to java factory pattern");
+
+        Notification N2 = NotificationFactory.createNotification("SMS");
+        N2.sendMessage("OTP sent successfully");
+
+        }
+    }
+
+\end{verbatim}
+\end{enumerate}
+\subsubsection{When to Use the Factory Pattern}
+\label{sec:org2386e64}
+
+\begin{itemize}
+\item Hide the concrete class from the client.
+\item When object creation may change in the future.
+\item Add new object types without modifying client code.
+\item Choose which object to create at runtime.
+\item Common in large applications (e.g., database connections, parsers, drivers, UI components, validators, loggers, and frameworks like Spring).
+\end{itemize}
+\subsection{Builder Design Pattern}
+\label{sec:orgc6bebdd}
+\subsubsection{Overview}
+\label{sec:org6454927}
+\begin{itemize}
+\item It is an creational pattern used to construct complex objects step by step while keeping full control over the construction process.
+\item It is usefull when an object has many fields, especially optional fields, and constructor becomes too large or confusing.
+\item Instead of creating many constructors with different parameter combinations, the Builder pattern provides a clean, readable, and flexible way to create objects using method chaining.
+\item Builder solves the telescoping constructor problem(too many constructors problem) by letting you set only the values you need.
+\item It helps you create objects like "a User with name, email, address, and phone number" without forcing you to fill every parameter.
+\end{itemize}
+\subsubsection{Example Code}
+\label{sec:org3a70bac}
+\begin{verbatim}
+class User{
+    private String name;
+    private String email;
+    private String phone;
+    private String address;
+
+    private User (Builder builder){
+        this.name = builder.name;
+        this.email= builder.email;
+        this.phone= builder.phone;
+        this.address= builder.address;
+  }
+    //inner class
+    //It contains same fields as User class
+    public static class Builder{
+        private String name;
+        private String email;
+        private String phone;
+        private String address;
+
+        //Every method inside Builder sets one field at a time and returns Builder object itself. This allows method chaining.
+        public Builder setName(String name){
+            this.name = name;
+            return;
+         }
+
+        public Builder setEmail(String email){
+            this.email = email;
+            return;
+         }
+
+        public Builder setPhone(String phone){
+            this.phone = phone;
+            return;
+         }
+
+        public Builder setAddress(String address){
+            this.address = address;
+            return;
+         }
+
+
+        public User build(){
+            //Create a User object and pass builder to constructor.
+            //User Constructor (above) is private and you can not directly call User.
+            //You must use Builder, this insures controlled creation. 
+            return new User(this);
+        }
+
+        public void show(){
+            System.out.println("User details:");
+            System.out.println(name + ", " + email + ", " + phone + ", " + address);
+        }
+    }//end Builder
+
+}
+\end{verbatim}
+
+\begin{itemize}
+\item Main Method
+\begin{verbatim}
+public class BuilderPatternDemo{
+    public static void main(String[] args){
+        User u1 = new User.Builder()
+            .setName("Abe")
+            .setEmail("xalil@gmail.com")
+            .setPhone("999-765-2134")
+            .build(); //build() method creates the final object with fields we provided. 
+
+        u1.show();
+        }
+
+    }
+\end{verbatim}
+\end{itemize}
+\subsubsection{When should you use the Builder Pattern?}
+\label{sec:org58c163c}
+\begin{itemize}
+\item Use the Builder pattern when a class has many fields, especially when some fields are optional and others are required.
+\item Use when constructor with many parameters becomes confusing or error-prone.
+\item Use it when your object should be immutable, since the builder can prepare all values and then create the final object only once.
+\item Use it when number of parameters increases and the code becomes harder to read.
+\item The Builder pattern is widely used in Spring Boot, Hibernate, Lambok's @Builder, HTTP client, database query builders, and most modern java libraries.
+\end{itemize}
+\subsubsection{Resources}
+\label{sec:org7a1d698}
+\url{https://youtu.be/DtE3YNkVTao?si=0JZHaNnoOuoRuaXZ\&t=320}
+\section{System Design}
+\label{sec:orgd347e00}
+\url{https://www.youtube.com/watch?v=s9Qh9fWeOAk}
+\end{document}

@@ -164,3 +164,14 @@ book TAB
 It expands into a complete book note template.
 
 #+END_SRC
+
+* Code Block
+You can name code blocks, so if it doesnt run you can see what block that failed. In order to name the block of code in org file, use: =+NAME: example code=
+
+
+* Tags
+** Add tags to a header
+Use : at the beginning and end of the tagname. Ex: =:example:=
+** Exlucde Tags to be exported
+If you want to exclude certain tags to be excluded when exporting a doctument to another format, use: =#+EXCLUDE: something anotherone= in the header section, up top of the document.
+
