@@ -178,5 +178,22 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
 - The Builder pattern is widely used in Spring Boot, Hibernate, Lambok's @Builder, HTTP client, database query builders, and most modern java libraries.
 *** Resources
 https://youtu.be/DtE3YNkVTao?si=0JZHaNnoOuoRuaXZ&t=320
+** Singleton Class in Java
+*** What is Singleton class in java?
+- A singleton class *allows only one object* to exist in the entire application.
+- Even if you try to create multiple objects, the *same instance* is always returned.
+- Use when you need a *single global shared object* in the system.
+- Common examples: logging system, database connection manager, cache manager, configuration loader, thread pool manager.
+- Core idea: *control and restrict object creation* so only one instance is allowed.
+*** How to implement Singleton class?
+Singleton implementation follows 3 rules:
+
+- *Private constructor* to prevent object creation using *new*.
+- *Private static instance* of the same class, created inside the class.
+- *Public static getInstance() method* that always returns the same object.
+
+The *getInstance method ensures the *single shared instance* is returned every time.
+
+
 * System Design
 https://www.youtube.com/watch?v=s9Qh9fWeOAk
