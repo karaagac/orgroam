@@ -107,36 +107,36 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
   	this.email= builder.email;
   	this.phone= builder.phone;
   	this.address= builder.address;
-    }
+      }
+      
       //inner class
-      //It contains same fields as User class
       public static class Builder{
+      //It contains same fields as User class
   	private String name;
   	private String email;
   	private String phone;
   	private String address;
 
-  	//Every method inside Builder sets one field at a time and returns Builder object itself. This allows method chaining.
+       //Every method inside Builder sets one field at a time and returns Builder object itself. This allows method chaining.
   	public Builder setName(String name){
   	    this.name = name;
-  	    return;
+  	    return this;
   	 }
 
   	public Builder setEmail(String email){
   	    this.email = email;
-  	    return;
+  	    return this;
   	 }
   	
   	public Builder setPhone(String phone){
   	    this.phone = phone;
-  	    return;
+  	    return this;
   	 }
 
   	public Builder setAddress(String address){
   	    this.address = address;
-  	    return;
+  	    return this;
   	 }
-
   	
   	public User build(){
   	    //Create a User object and pass builder to constructor.
@@ -144,14 +144,14 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
   	    //You must use Builder, this insures controlled creation. 
   	    return new User(this);
   	}
+      }//end Builder
 
   	public void show(){
   	    System.out.println("User details:");
   	    System.out.println(name + ", " + email + ", " + phone + ", " + address);
   	}
-      }//end Builder
 
-  }
+  }//end User class
 #+END_SRC
 
 - Main Method
