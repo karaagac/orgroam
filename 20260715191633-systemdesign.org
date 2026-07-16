@@ -1,0 +1,147 @@
+:PROPERTIES:
+:ID:       FA3BEA21-0348-413F-BD51-AA7DA2FC1802
+:END:
+#+title: SystemDesign
+
+* System Design Related
+** Resources
+
+https://www.youtube.com/watch?v=s9Qh9fWeOAk
+* Api Gataway
+
+** What is Api Gataway?
+
+
+                    +------------------+
+                    |      Client      |
+                    | (Web / Mobile)   |
+                    +--------+---------+
+                             |
+                             | HTTPS
+                             v
+                  +----------------------+
+                  |     API Gateway      |
+                  |----------------------|
+                  | • Authentication     |
+                  | • Rate Limiting      |
+                  | • Routing            |
+                  | • Logging            |
+                  +---+--------+---------+
+                      |        |
+            +---------+        +---------+
+            |                            |
+            v                            v
+     +---------------+            +---------------+
+     | User Service  |            | Order Service |
+     +-------+-------+            +-------+-------+
+             |                            |
+             v                            v
+      +-------------+              +-------------+
+      | User DB     |              | Order DB    |
+      +-------------+              +-------------+
+
+Api gataway provides several important functions:
+
+- Authentication
+- Security policy enforcement
+- Load balancing and circuit breaking (Circuit breaking is a pattern that stops sending requests to a service that is failing, so it doesn't become even more overloaded.)
+- Protocol Translation and service discovery
+- Monitoring, Logging, analytics and billing
+- Caching
+
+Step 1: Client send a request to api gataway. request is typically HTTP based. It can be REST, GRAPHQL or some other high level abstraction.
+
+Step 2: Api Gataway validates the HTTP request.
+
+Step 3: Api Gataway checks callers ip address and other HTTP Headers against its allow list and deny list.
+
+Step 4: Api Gataway passes request to identity provider for authentication and authorization. Api Gataway receives an authenticated session back from the provider with the scope of what the request is allowed to do.
+
+Step 5: High level rate-limit check is applied against the authenticated session. If its over the limit request is rejected at this point.
+
+Step 6 and 7: With the help of a service discovery component, the AP gataway locates the appropriate backend service to handle the request by path matching.
+
+Step 8: Api Gataway transforms the request into the appropriate protocol and send transformed request to the backend service.
+
+
+When response comes back from the backend service, the API gataway transforms the response back to the public-facing protocol and returns the response to the client.
+
+A proper API gataway also provides other critical services. For example: an API gataway should track errors and provides circuit breaking functionality to protect the services from overloading.
+
+An API gataway should also provide logging, monitoring and analitics services for operational observability.
+
+An API gataway is a critical piece of the infrastructure. It should be deployed to multiple regions to improve availability.
+
+For many cloud provider offerings, the API gataway is deployed across the world close to the clients.  
+
+
+
+                           API Gateway Request Flow
+
++---------+
+| Client  |
++---------+
+     |
+     | 1. Send HTTP Request
+     |    (REST / GraphQL)
+     v
+
++-----------------------------------------------------------+
+|                    API GATEWAY                            |
+|                                                           |
+|  2. Validate Request                                      |
+|     - Check request format                                |
+|     - Validate required fields                            |
+|                                                           |
+|  3. Security Checks                                       |
+|     - Check IP address                                    |
+|     - Check HTTP headers                                  |
+|     - Apply Allow/Deny lists                              |
+|                                                           |
+|  4. Authentication & Authorization                        |
+|     ┌──────────────────────┐                              |
+|     │  Identity Provider   │                              |
+|     └──────────────────────┘                              |
+|     - Authenticate caller                                |
+|     - Receive session + permissions (scope)              |
+|                                                           |
+|  5. Rate Limiting                                         |
+|     - Reject request if limit exceeded                    |
+|                                                           |
+|  6. Service Discovery                                     |
+|     - Match request path                                  |
+|     - Locate backend service                              |
+|                                                           |
+|  7. Request Transformation                                |
+|     - Convert protocol (e.g., HTTP → gRPC)                |
+|                                                           |
++-----------------------------------------------------------+
+     |
+     | 8. Forward Request
+     v
+
++----------------------+
+|   Backend Service    |
++----------------------+
+     |
+     v
+
++---------+
+| Client  |
++---------+
+      
+** What are popular Api gataway services/providers?
+*** Managed
+- Amazon API Gataway
+- Azure API Management
+*** Open Source
+- Kong
+- Tyk
+- express gataway
+  
+** Resources
+What is API gataway?
+https://www.youtube.com/watch?v=6ULyxuHKxg8
+
+History of API Gataway and what it is?
+https://www.youtube.com/watch?v=7-6F3b14baA

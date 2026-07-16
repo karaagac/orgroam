@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       BF2BBB94-C617-477D-B361-C31B13FF4223
+:END:
+#+title: Databases
+
+* Databases
+** Cassandra
+https://www.youtube.com/watch?v=TD3-INhm60Q

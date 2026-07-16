@@ -228,5 +228,3 @@ The *getInstance method ensures the *single shared instance* is returned every t
 
 ** Prototype Design Patter
 
-* System Design
-https://www.youtube.com/watch?v=s9Qh9fWeOAk
