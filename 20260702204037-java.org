@@ -227,6 +227,7 @@ The *getInstance method ensures the *single shared instance* is returned every t
 #+END_SRC
 
 ** Prototype Design Patter
+
 *** Explain Prototype Design Pattern
 - The prototype design pattern is a creational pattern that creates new objects by copying an existing object, also called cloning.
 - Instead of building objects from scratch using new keyword, the pattern duplicates an existing instance that already has the required configuration.
@@ -235,3 +236,6 @@ The *getInstance method ensures the *single shared instance* is returned every t
 - The core idea is simple: instead of rebuilding everything, you reuse the structure and only adjust the parts you need.
 * System Design
 https://www.youtube.com/watch?v=s9Qh9fWeOAk
+
+
+
