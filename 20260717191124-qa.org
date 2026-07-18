@@ -1,0 +1,3637 @@
+:PROPERTIES:
+:ID:       5a8fcb84-d1b9-47cf-976b-d5ff0224eeb1
+:END:
+#+title: QA
+
+* Testing Tools
+
+These tools do what we do with java but in UI based app. Basically you need to choose chrome and add url with ui etc.
+
+** UFT Tutorials
+https://www.youtube.com/watch?v=7P_LPhc-47w&list=PLYtAmt7gziDXAFUlkVlwDa5LXohBGZsJt&index=3
+
+** UiPath
+https://www.youtube.com/watch?v=0O2wiyZVm68&list=PLhTE7-JU1rhapvY5Z8d22Zun_IRTa6IG2&index=5
+
+** Robot Framework
+
+For desktop app automation.
+
+* Xpath and CSS Locators
+
+** Xpath
+#+BEGIN_SRC bash
+/child::div
+/parent::div
+/following::*
+/following-sibling::*
+#+END_SRC
+
+*** contains-class
+
+//table[contains(@class, 'something')]
+
+*** contains-text
+
+//a[contains(text(), 'something')]
+
+*** text Method
+
+//span[text()='something']
+
+** CSS Locator
+
+#+BEGIN_SRC bash
+
+# is is ID
+. is class
+button.gn::first-of-type
+button.gn::last-of-type
+button.gn::nth-of-type(2)
+#+END_SRC
+
+* Selenium
+** DesiredCapabilities - Depricated
+
+In recent versions of Selenium (especially Selenium 4), DesiredCapabilities has been deprecated in favor of the more flexible Options classes (e.g., ChromeOptions, FirefoxOptions). You can still use DesiredCapabilities, but it's recommended to switch to Options where possible.
+
+*** Description
+
+- In Selenium, DesiredCapabilities is a class used to define and configure various properties of the browser and the environment in which the test will run. It allows you to specify various configurations for the browser, such as the version, platform, browser name, and more, which can be particularly useful when working with remote WebDriver instances, like in Selenium Grid or cloud services like BrowserStack or Sauce Labs.
+
+*** Use Cases:
+
+- Configuring WebDriver for specific browsers: You can set the browser name (Chrome, Firefox, etc.), version, and operating system (Windows, macOS, Linux, etc.).
+- Running tests on a remote server: For instance, you might want to specify the desired capabilities when running tests on a Selenium Grid or cloud-based services.
+- Enabling/disabling certain browser features: Such as enabling browser logging, specifying the window size, etc.
+
+*** Common DesiredCapabilities Properties:
+
+- browserName: Specifies the name of the browser you want to use (e.g., "chrome", "firefox", "internet explorer").
+- platform: Defines the operating system platform on which the browser should run, such as "Windows 10", "Linux", or "macOS".
+- version: Sets the version of the browser to use.
+- acceptSslCerts: Whether to accept SSL certificates automatically (set to true or false).
+- javascriptEnabled: Whether JavaScript should be enabled (set to true or false).
+- device: For mobile testing, defines the device you want to emulate, for example, an Android phone or an iPhone.
+- proxy: Configures a proxy server for browser traffic.
+- timeouts: Specifies various timeout settings, such as page load timeout and script timeout.
+
+*** Example
+
+#+BEGIN_SRC java
+public static void main(String[] args) {
+        // Set the desired capabilities
+        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+        capabilities.setCapability("platform", "Windows 10");
+        capabilities.setCapability("browserName", "chrome");
+        capabilities.setCapability("version", "latest");
+
+        // Initialize the WebDriver with the capabilities
+        WebDriver driver = new ChromeDriver(capabilities);
+
+        // Open a URL
+        driver.get("http://www.example.com");
+
+        // Close the browser
+        driver.quit();
+    }
+#+END_SRC
+
+** Options
+
+In modern Selenium versions, Options classes (like ChromeOptions, FirefoxOptions) are preferred.
+
+#+BEGIN_SRC java
+ChromeOptions options = new ChromeOptions();
+options.addArguments("--start-maximized"); // Example of setting a Chrome-specific option
+
+// Initialize WebDriver with ChromeOptions
+WebDriver driver = new ChromeDriver(options);
+
+// Open a URL
+driver.get("http://www.example.com");
+
+// Close the browser
+driver.quit();
+#+END_SRC
+
+** getArrtibute - Depricated
+
+https://www.youtube.com/watch?v=qMiu4DIomyE
+
+* TestNG
+** Create a TestNG Test
+For individual class:
+
+Right click on class that has @Test method and Run As then TestNG Test.
+
+For Whole Project:
+Right click on Project and New File Give a name, like smoke.xml or homepagetest.xml. Then fill xml with features you want.
+
+** Include and Exclude Methods
+https://www.udemy.com/course/the-complete-testng-automation-framework-design-course/learn/lecture/19998496#overview
+
+#+BEGIN_SRC java
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Test Suite" parallel="tests" thread-count="2">
+
+  <test name="Test Example">
+    <classes>
+
+      <!-- Include specific methods -->
+      <class name="com.example.tests.MyTestClass">
+        <methods>
+          <include name="testMethod1"/>
+          <include name="testMethod2"/>
+        </methods>
+      </class>
+
+      <!-- Exclude specific methods -->
+      <class name="com.example.tests.MyTestClass">
+        <methods>
+          <exclude name="testMethod3"/>
+          <exclude name="testMethod4"/>
+        </methods>
+      </class>
+
+    </classes>
+  </test>
+
+</suite>
+#+END_SRC
+
+Notice in above code, we added packageName.className.
+
+Consider adding excluded methods because usually excluded methods are less. Instead of including many many methods and excluding 2,3 methods, just add excluded methods.
+
+** Groups
+Let's say we tagged some methods with @smoke and we only want to run them. In this case we can use groups tag in .xml file
+
+#+BEGIN_SRC xml
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ParallelTestSuite" parallel="classes" thread-count="2">
+    <test name="Homepage">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.example.tests.TestClass1"/>
+            <class name="com.example.tests.TestClass2"/>
+        </classes>
+    </test>
+</suite>
+#+END_SRC
+
+In above test, it will run 2 classes that has methods tagged as @smoke.
+
+** Parameters
+In .xml file add parameters and use them in methods.
+
+#+BEGIN_SRC java
+<suite name="Sanity Test On Chrome">
+	<parameters>
+		<parameter name="browser" value="Chrome"/>
+		<parameter name="driverexe" value="/Users/mayurdeshmukh/Documents/Drivers/chromedriver"/>
+	</parameters>
+	<groups>
+		<run>
+			<include name="P0"/>
+			<include name="P1"/>
+		</run>
+	</groups>
+	<test name="Release 2019.5 Sanity Testing">
+		<classes>
+			<class name="com.dezlearn.tests.Ebay_Home_Sanity" />
+			<class name="com.dezlearn.tests.Ebay_Advanced_Search_Sanity" />
+		</classes>
+	</test>
+</suite>
+#+END_SRC
+
+In above code browser is parameter. And in @Test we can utilize this value.
+
+#+BEGIN_SRC java
+public class AbstractBaseTest{
+
+	WebDriver driver;
+	private AppLib app;
+
+	@Parameters({"browser","driverexe"})
+	@BeforeMethod(alwaysRun=true)
+	public void setUp(@Optional("Chrome") String browser,
+			@Optional("/Users/mayurdeshmukh/Documents/Drivers/chromedriver") String exe) throws Exception {
+		if (browser.equals("Chrome")) {
+			System.setProperty("webdriver.chrome.driver", exe);
+			driver = new ChromeDriver();
+		} else if(browser.equals("Firefox")) {
+			System.setProperty("webdriver.gecko.driver", exe);
+			driver = new FirefoxDriver();
+		}
+		driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+		app = new AppLib(driver);
+	}
+
+	@AfterMethod(alwaysRun=true)
+	public void tearDown() {
+		driver.close();
+	}
+
+	public AppLib App() {
+		return app;
+	}
+
+}
+#+END_SRC
+
+
+- @Optional is a default value if nothing is passed as parameter.
+
+** Dependency in Test
+
+We can make a method to depend on other methods. If those methods are failed then this method will not run, unless market alwaysRun=true.
+
+#+BEGIN_SRC java
+@Test(dependsOnMethods = {"test2","test3"})
+	public void test1() {
+		System.out.println("Test1 Executed");
+		System.out.println("--------------------------");
+	}
+
+	@Test
+	public void test2() {
+		System.out.println("Test2 Executed");
+		System.out.println("--------------------------");
+	}
+
+	@Test
+	public void test3() {
+		System.out.println("Test3 Executed");
+		System.out.println("--------------------------");
+	}
+#+END_SRC
+
+
+If test2 and test3 fails, test1 will never run, it will be skipped.
+
+If you want test1 to run even if those dependent methods fail, you can add alwaysRun=true.
+
+#+BEGIN_SRC java
+@Test(dependsOnMethods = {"test2","test3"}, alwaysRun=true)
+	public void test1() {
+		System.out.println("Test1 Executed");
+		System.out.println("--------------------------");
+	}
+
+	@Test
+	public void test2() {
+		System.out.println("Test2 Executed");
+		System.out.println("--------------------------");
+	}
+
+	@Test
+	public void test3() {
+		System.out.println("Test3 Executed");
+		System.out.println("--------------------------");
+	}
+#+END_SRC
+
+** Ignore Test
+*** You can add @Ignore to ignore a testcase level.
+
+#+BEGIN_SRC java
+@Test @Ignore
+	public void test4() {
+		System.out.println("Test4 Executed");
+		System.out.println("--------------------------");
+	}
+#+END_SRC
+
+*** We can also ignore whole class, by adding @Ignore on class.
+
+#+BEGIN_SRC java
+@Ignore
+public class DemoTest{
+    @Test
+	public void test4() {
+		System.out.println("Test4 Executed");
+		System.out.println("--------------------------");
+	}
+
+    @Test
+	public void test5() {
+		System.out.println("Test4 Executed");
+		System.out.println("--------------------------");
+	}
+}
+#+END_SRC
+** Parallel Execution in TestNG
+
+Add parallel tag to suite level and assign as many thread as you want(if they are available.).
+
+#+BEGIN_SRC xml
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ParallelTestSuite" parallel="classes" thread-count="2">
+    <test name="Smoke">
+        <classes>
+            <class name="com.example.tests.TestClass1"/>
+            <class name="com.example.tests.TestClass2"/>
+        </classes>
+    </test>
+</suite>
+#+END_SRC
+
+Above .xml will start 2 chrome instances and run both clases simultanesly.
+
+** Html Reports in TestNG
+When we run a test, a folder is created inside test-output folder named same as suite name in .xml file.
+
+#+BEGIN_SRC xml
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="ParallelTestSuite" parallel="classes" thread-count="2">
+    <test name="Smoke">
+        <classes>
+            <class name="com.example.tests.TestClass1"/>
+            <class name="com.example.tests.TestClass2"/>
+        </classes>
+    </test>
+</suite>
+#+END_SRC
+
+If we take above example, it will be ParallelTestSuite. If you are not able to see it refresh the project folder. There will be html file that you can check result of the tests.
+
+** Data Provider
+
+https://www.udemy.com/course/the-complete-testng-automation-framework-design-course/learn/lecture/19998732#overview
+
+*** Create an Excel File to Store Data
+
+- Create a excel file to store data. (Let's say we have something like this in our excel file.)
+
+| Rob     | Rob@gmail.com     | password1 |
+| Dan     | Dan@gmail.com     | password2 |
+| Amar    | Amar@gmail.com    | password3 |
+| Joseph  | Joseph@gmail.com  | password4 |
+| Shravya | Shravya@gmail.com | password5 |
+| Mayur   | Mayur@gmail.com   | password6 |
+
+*** Create an Excel Reading Util in a Class
+- Create an class (Let's say DataProviderTest) to hold excel reading util to read and return 2d object array. *** Excel Reading Util
+
+#+BEGIN_SRC java
+public class ReadExcelLib {
+
+	public Object [][] Get_Excel_Data(String filename, String sheetname, int numberOfCols){
+
+		File file = new File(filename);
+
+		XSSFWorkbook wkbook;
+		XSSFSheet sheet;
+		Object [][] arr = new Object[0][0];
+
+		try {
+			FileInputStream excel = new FileInputStream(file);
+			wkbook = new XSSFWorkbook(excel);
+			sheet = wkbook.getSheet(sheetname);
+			int start = sheet.getFirstRowNum();
+			int end = sheet.getLastRowNum();
+			arr = new Object[end-start+1][numberOfCols];
+			for(int i = start; i <= end; i++) {
+				for(int j = 0; j <= numberOfCols-1; j++) {
+					arr[i][j] = sheet.getRow(i).getCell(j).getStringCellValue();
+				}
+			}
+
+		} catch(IOException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return arr;
+	}
+}
+#+END_SRC
+
+*** Create a DataProvider Class
+
+#+BEGIN_SRC java
+public class DataProviderTest {
+  @DataProvider
+  public Object[][] dataProvider1() {
+	  ReadExcelLib excel = new ReadExcelLib();
+	  String file = "/Users/mayurdeshmukh/eclipse-workspace24/testng-project1/TestData/TestData.xlsx";
+	  return excel.Get_Excel_Data(file, "Sheet1", 3);
+  }
+}
+#+END_SRC
+
+*** Use DataProvider in @Test Method
+
+- In the test you are going to use data provider, add @Test(dataProvider="dataprovider1", dataProviderClass = DataProviderTest.class) and pass number of variable in to test method as argument.
+
+#+BEGIN_SRC java
+	@Test(dataProvider = "dataProvider1", dataProviderClass = DataProviderTest.class)
+	public void test5(String p1, String p2, String p3) {
+		System.out.println(p1);
+		System.out.println(p2);
+		System.out.println(p3);
+		System.out.println("--------------");
+	}
+#+END_SRC
+
+In above @Test method test5 is taking 3 strings because we have 3 columns in excel file. Column size and arguments must match so data can be passed.
+
+
+
+import urllib3
+from urllib3.util.retry import Retry
+from requests.adapters import HTTPAdapter
+import requests
+import logging
+
+# Enable logging for debugging purposes
+logging.basicConfig(level=logging.DEBUG)
+
+# Define the proxy
+proxy_url = "http://your_proxy_address:port"  # Replace with your proxy address and port
+
+# Create a ProxyManager
+http = urllib3.ProxyManager(proxy_url)
+
+# Optional: Set up retries in case of intermittent issues
+retry = Retry(
+    total=5,  # Total number of retries
+    backoff_factor=1,  # Wait time between retries
+    status_forcelist=[500, 502, 503, 504],  # Retry on these HTTP status codes
+)
+adapter = HTTPAdapter(max_retries=retry)
+
+# Create a requests session with the proxy and retry adapter
+session = requests.Session()
+session.mount('http://', adapter)
+session.mount('https://', adapter)
+
+# Use the ProxyManager in the requests session
+session.proxies = {
+    'http': proxy_url,
+    'https': proxy_url,
+}
+
+# Now make the request with your session
+client_id = 'your-client-id'
+client_secret = 'your-client-secret'
+url = 'https://example.com/oauth/authorize'  # URL that sends the Set-Cookie header
+
+# Get the cookie key and value from the authentication request
+response = session.get(url, auth=(client_id, client_secret))
+
+# Check if the request was successful and print the response cookies
+if response.status_code == 200:
+    print("Successfully authenticated")
+    print("Cookies:", response.cookies)
+    set_cookie_header = response.headers.get('Set-Cookie')
+    if set_cookie_header:
+        cookies = set_cookie_header.split(';')
+        cookie_name, cookie_value = cookies[0].split('=')
+        print(f"Extracted Cookie: {cookie_name} = {cookie_value}")
+else:
+    print(f"Failed to authenticate: {response.status_code} - {response.text}")
+
+* Cucumber BDD
+** Annotations and Hooks
+*** ✅ Step Definition Annotations
+
+**** 1. @Given – Precondition Before a Scenario
+
+#+BEGIN_SRC java
+@Given("I have a valid login credential")
+public void i_have_a_valid_login_credential() {
+    // Implementation code
+}
+#+END_SRC
+
+---
+
+**** 2. @When – Action During the Scenario
+
+#+BEGIN_SRC java
+@When("I enter username and password")
+public void i_enter_username_and_password() {
+    // Implementation code
+}
+#+END_SRC
+
+---
+
+**** 3. @Then – Expected Outcome or Result
+
+#+BEGIN_SRC java
+@Then("I should be logged in successfully")
+public void i_should_be_logged_in_successfully() {
+    // Implementation code
+}
+#+END_SRC
+
+---
+
+**** 4. @And and @But – Chaining Steps
+
+#+BEGIN_SRC java
+@And("I navigate to the dashboard")
+public void i_navigate_to_the_dashboard() {
+    // Implementation code
+}
+
+@But("I should see an error message")
+public void i_should_see_an_error_message() {
+    // Implementation code
+}
+#+END_SRC
+
+---
+
+**** 5. @Background – Steps Before Each Scenario
+
+#+BEGIN_SRC gherkin
+Background:
+  Given a user is on the login page
+  And the user has a valid username and password
+#+END_SRC
+
+---
+
+*** 🧪 Scenario Types
+
+**** @Scenario – Single Test Case
+
+#+BEGIN_SRC gherkin
+Scenario: User logs in successfully
+  Given the user is on the login page
+  When the user enters valid credentials
+  Then the user should be redirected to the dashboard
+#+END_SRC
+
+---
+
+**** @Scenario Outline – Multiple Test Cases with Inputs
+
+#+BEGIN_SRC gherkin
+Scenario Outline: User logs in with different credentials
+  Given the user is on the login page
+  When the user enters <username> and <password>
+  Then the user should be redirected to the <expectedPage>
+
+Examples:
+  | username | password | expectedPage |
+  | user1    | pass1    | dashboard    |
+  | user2    | pass2    | home         |
+#+END_SRC
+
+---
+
+*** 🧩 Hooks
+
+**** @Before Hook – Setup
+
+Runs *before each scenario*.
+
+#+BEGIN_SRC java
+import io.cucumber.java.Before;
+
+public class Hooks {
+    @Before
+    public void setUp() {
+        System.out.println("Setting up the test environment...");
+    }
+}
+#+END_SRC
+
+---
+
+**** @After Hook – Cleanup
+
+Runs *after each scenario*.
+
+#+BEGIN_SRC java
+import io.cucumber.java.After;
+
+public class Hooks {
+    @After
+    public void tearDown() {
+        System.out.println("Cleaning up the test environment...");
+    }
+}
+#+END_SRC
+
+---
+
+*** 🏷️ Hooks with Tags and Order
+
+**** Hooks for Specific Tags
+
+#+BEGIN_SRC java
+@Before("@Login")
+public void setUpLogin() {
+    System.out.println("Setting up for login scenarios...");
+}
+
+@After("@Login")
+public void tearDownLogin() {
+    System.out.println("Cleaning up after login scenarios...");
+}
+#+END_SRC
+
+---
+
+**** Ordered Hooks
+
+#+BEGIN_SRC java
+@Before(order = 0)
+public void setUp() {
+    System.out.println("Runs first");
+}
+
+@Before(value = "@SetCookies", order = 1)
+public void setCookies() {
+    System.out.println("Runs second for @SetCookies scenarios");
+}
+#+END_SRC
+
+---
+
+**** 🔁 Execution Order Summary
+
+1. Global @Before with *lowest* order (e.g., `order = 0`)
+2. Scenario-specific @Before hooks
+3. Scenario runs
+4. Scenario-specific @After hooks
+5. Global @After with *highest* order
+
+---
+
+*** 🧠 Other Global Hooks (Cucumber-JVM Specific)
+
+| *Hook Type*     | *When It Runs*        | *Purpose*              |
+|------------------+------------------------+--------------------------|
+| @BeforeSuite     | Before entire test suite | Suite-wide setup         |
+| @AfterSuite      | After entire test suite  | Suite-wide cleanup       |
+| BeforeFeature    | Before each feature file | Feature-specific setup   |
+| AfterFeature     | After each feature file  | Feature-specific cleanup |
+
+---
+
+** Context - HashMap
+*** 🧱 Context Class for Shared State
+
+The `Context` class is essentially a *wrapper around a `HashMap<String, String>`*, designed to:
+
+- Store data (like *shared state between steps*),
+- Allow *setting and getting* values by key,
+- And make this shared context *easily injectable* into Cucumber step definitions or helper classes.
+
+---
+
+**** 🔍 Breakdown of What’s Happening
+
+#+BEGIN_SRC java
+public class Context {
+    Map<String, String> stepData;
+
+    public Context(){
+        this.stepData = new HashMap<>();
+    }
+
+    public void setContext(String key, String value){
+        stepData.put(key, value);
+    }
+
+    public String getContext(String key){
+        return stepData.get(key);
+    }
+}
+#+END_SRC
+
+---
+
+**** ✅ What It’s Doing:
+
+1. *Initializes a `HashMap`* (`stepData`) in the constructor
+2. Provides:
+   - `setContext(key, value)` — adds/updates key-value pairs.
+   - `getContext(key)` — retrieves the value by key.
+
+---
+
+**** 🧩 How It’s Used in Cucumber BDD
+
+This `Context` class is typically used as a *shared state holder* during a scenario.
+
+***** Example using `cucumber-picocontainer`:
+
+#+BEGIN_SRC java
+public class LoginSteps {
+    private Context context;
+
+    public LoginSteps(Context context) {
+        this.context = context;
+    }
+
+    @Given("user logs in with username {string}")
+    public void user_logs_in(String username) {
+        context.setContext("username", username);
+    }
+
+    @Then("user profile should show the same username")
+    public void verify_username() {
+        String actualUsername = context.getContext("username");
+        // assert or use in verification
+    }
+}
+#+END_SRC
+
+Because Cucumber creates *a fresh instance of all step definitions per scenario*, dependency injection ensures that the *same `Context` instance* is shared across them for that scenario.
+
+---
+
+**** ✅ Summary
+
+#+BEGIN_QUOTE
+✅ Yes, you're creating and managing a `HashMap` through a class to enable *shared data access across steps* in a Cucumber test.
+#+END_QUOTE
+
+If you're planning to store complex objects or more structured data, you might consider using a generic type or even a `Map<String, Object>`.
+
+** Data Driven
+*** 🧪 Data-Driven API Testing in Cucumber with REST-assured (Using CSV)
+
+A complete guide on performing data-driven API testing in *Cucumber + REST-assured*, reading login credentials from a CSV file.
+
+---
+
+**** ✅ Goal
+
+Test login API for multiple *username-password* combinations stored in a CSV file.
+
+---
+
+**** 🔧 1. Project Setup
+
+Add the following dependencies to your `pom.xml` (for Maven projects):
+
+#+BEGIN_SRC xml
+<dependencies>
+    <!-- Cucumber -->
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-java</artifactId>
+        <version>7.14.0</version>
+    </dependency>
+    <dependency>
+        <groupId>io.cucumber</groupId>
+        <artifactId>cucumber-junit</artifactId>
+        <version>7.14.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- REST-assured -->
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>5.4.0</version>
+    </dependency>
+
+    <!-- Apache Commons CSV -->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-csv</artifactId>
+        <version>1.10.0</version>
+    </dependency>
+
+    <!-- JUnit -->
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+</dependencies>
+#+END_SRC
+
+---
+
+**** 📄 2. CSV File (`login_data.csv`)
+
+Place this file in your *resources* folder:
+
+#+BEGIN_SRC csv
+username,password
+user1,pass1
+user2,pass2
+user3,wrongpass
+#+END_SRC
+
+---
+
+**** 🧪 3. Feature File (`login.feature`)
+
+#+BEGIN_SRC gherkin
+Feature: Data-driven login test with CSV
+
+  Scenario: Login with multiple credentials from CSV
+    Given I test login API with credentials from "login_data.csv"
+#+END_SRC
+
+---
+
+**** 🧠 4. Step Definition (`LoginSteps.java`)
+
+#+BEGIN_SRC java
+import io.cucumber.java.en.Given;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.apache.commons.csv.*;
+
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+
+import static io.restassured.RestAssured.given;
+
+public class LoginSteps {
+
+    @Given("I test login API with credentials from {string}")
+    public void i_test_login_api_with_credentials_from(String fileName) throws IOException {
+        InputStream is = getClass().getClassLoader().getResourceAsStream(fileName);
+        if (is == null) {
+            throw new FileNotFoundException("CSV file not found: " + fileName);
+        }
+
+        Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(reader);
+
+        for (CSVRecord record : records) {
+            String username = record.get("username");
+            String password = record.get("password");
+
+            System.out.println("Testing login for user: " + username);
+
+            Response response = given()
+                .baseUri("https://yourapi.com") // replace with your base URI
+                .contentType("application/json")
+                .body("{ \"username\": \"" + username + "\", \"password\": \"" + password + "\" }")
+            .when()
+                .post("/login");
+
+            System.out.println("Response code: " + response.getStatusCode());
+            System.out.println("Response body: " + response.getBody().asString());
+
+            // Optionally assert based on expected values or check response schema
+            // For now, just printing
+        }
+    }
+}
+#+END_SRC
+
+---
+
+**** 🏃 5. Running the Test
+
+- Run your Cucumber test suite as usual.
+- The scenario will read all login credentials from the CSV and test them one by one.
+
+---
+
+**** 🧩 Bonus: Add Assertions (Optional)
+
+If your CSV contains *expected status codes*, expand it like this:
+
+#+BEGIN_SRC csv
+username,password,expectedStatus
+user1,pass1,200
+user2,pass2,200
+user3,wrongpass,401
+#+END_SRC
+
+Then update the step definition:
+
+#+BEGIN_SRC java
+String expectedStatus = record.get("expectedStatus");
+assertEquals(Integer.parseInt(expectedStatus), response.getStatusCode());
+#+END_SRC
+
+---
+
+**** ✅ Summary
+
+| *Feature*             | *Benefit*                               |
+|-----------------------+------------------------------------------|
+| External CSV file     | Easy to maintain large datasets         |
+| Decoupled test logic  | Clean, readable Cucumber scenarios      |
+| Scalable execution    | No need to write multiple scenarios     |
+
+*** 🧪 Data-Driven Testing in Cucumber
+
+Data-driven testing means running the same test scenario multiple times with different input data sets.
+Cucumber supports this primarily in three ways:
+
+---
+
+**** 1. Data-Driven Testing Using a Single Scenario
+
+- You define data only inside one step in your scenario.
+- Useful for quick tests with a single set of inputs.
+- Data is hardcoded or passed directly in a step.
+
+*Example:*
+The step uses specific data values, e.g., `"user1"` and `"password1"`.
+
+---
+
+**** 2. Parameterization Using Scenario Outline and Examples
+
+- Use `Scenario Outline` instead of `Scenario` to create a parameterized template.
+- Define different sets of test data under the `Examples:` section.
+- Each row in the `Examples` table runs the scenario once with those parameters.
+- All steps in the scenario can access the parameters using `<parameterName>` syntax.
+
+*Feature file example:*
+
+#+BEGIN_SRC gherkin
+Scenario Outline: User login with multiple credentials
+  Given User navigates to login page
+  When User enters username "<username>" and password "<password>"
+  Then User should see "<expectedResult>"
+
+Examples:
+  | username | password | expectedResult  |
+  | user1    | pass1    | Welcome Page    |
+  | user2    | pass2    | Dashboard Page  |
+  | user3    | wrong    | Error Message   |
+#+END_SRC
+
+This runs the same scenario *three times* with different input data.
+
+---
+
+**** 3. Parameterization Using DataTable
+
+- Use `DataTable` to pass multiple rows and columns of data to steps.
+- Helpful when passing complex data sets as tables.
+- The step definition receives this table and can iterate or map it as needed.
+
+*Feature file example:*
+
+#+BEGIN_SRC gherkin
+Scenario: User enters multiple details
+  Given User enters following details:
+    | field    | value           |
+    | username | user1           |
+    | password | pass1           |
+    | email    | user1@mail.com  |
+#+END_SRC
+
+In step definitions, you handle the `DataTable` argument to process the data.
+
+*** 📊 Using DataTable in Cucumber BDD
+
+In Cucumber BDD, a *DataTable* allows you to pass structured data (like a table) from your Gherkin feature file directly into your step definition.
+It's perfect for representing things like form inputs, configurations, or multiple test values.
+
+---
+
+**** ✅ When to Use DataTable
+
+Use it when you want to:
+
+- Pass multiple *key-value pairs*
+- Provide *lists of values*
+- Provide *tabular data* (like a spreadsheet)
+
+---
+
+**** 🧪 Example: Key-Value Pair (Map)
+
+***** 🔹 Gherkin Feature File
+
+#+BEGIN_SRC gherkin
+Scenario: User logs in with credentials
+  Given the user enters credentials
+    | username | testuser   |
+    | password | secret123  |
+#+END_SRC
+
+***** 🔸 Step Definition (Java)
+
+_Note: DataTable comes with `cucumber-java`._
+
+#+BEGIN_SRC java
+@Given("the user enters credentials")
+public void user_enters_credentials(DataTable dataTable) {
+    Map<String, String> credentials = dataTable.asMap(String.class, String.class);
+
+    String username = credentials.get("username");
+    String password = credentials.get("password");
+
+    System.out.println("Username: " + username);
+    System.out.println("Password: " + password);
+}
+#+END_SRC
+
+---
+
+**** 📋 Example: List of Values
+
+***** 🔹 Gherkin
+
+#+BEGIN_SRC gherkin
+Scenario: User sees the following menu items
+  Given the menu has the following options
+    | Home    |
+    | About   |
+    | Contact |
+#+END_SRC
+
+***** 🔸 Java Step Definition
+
+#+BEGIN_SRC java
+@Given("the menu has the following options")
+public void menu_has_options(DataTable dataTable) {
+    List<String> menuItems = dataTable.asList(String.class);
+
+    for (String item : menuItems) {
+        System.out.println("Menu Item: " + item);
+    }
+}
+#+END_SRC
+
+---
+
+**** 🔢 Example: Table with Rows and Columns
+
+***** 🔹 Gherkin
+
+#+BEGIN_SRC gherkin
+Scenario: User adds multiple products
+  Given the following products are added to the cart
+    | name     | price |
+    | Laptop   | 1200  |
+    | Monitor  | 300   |
+    | Keyboard | 50    |
+#+END_SRC
+
+***** 🔸 Java Step Definition
+
+#+BEGIN_SRC java
+@Given("the following products are added to the cart")
+public void add_products_to_cart(DataTable dataTable) {
+    List<Map<String, String>> products = dataTable.asMaps(String.class, String.class);
+
+    for (Map<String, String> product : products) {
+        String name = product.get("name");
+        String price = product.get("price");
+
+        System.out.println("Product: " + name + ", Price: " + price);
+    }
+}
+#+END_SRC
+
+---
+
+**** 🔧 Extra: Transform DataTable to Custom Object
+
+If you have a custom `Product` class, you can let Cucumber automatically map the data:
+
+***** Java Class
+
+#+BEGIN_SRC java
+public class Product {
+    private String name;
+    private int price;
+
+    // Getters and setters
+}
+#+END_SRC
+
+***** Step Definition
+
+#+BEGIN_SRC java
+@Given("the following products are added to the cart")
+public void add_products_to_cart(List<Product> products) {
+    for (Product product : products) {
+        System.out.println("Product: " + product.getName() + ", Price: " + product.getPrice());
+    }
+}
+#+END_SRC
+
+Cucumber will automatically convert each row into a `Product` object —
+but your class must follow *JavaBean conventions* (i.e., have proper getters and setters).
+
+---
+
+**** 💡 Summary Table
+
+| *Gherkin Format*     | *Java Conversion Method*               |
+|----------------------+-----------------------------------------|
+| Single column        | `dataTable.asList(String.class)`       |
+| Key-value pairs      | `dataTable.asMap(String, String)`      |
+| Rows with headers    | `dataTable.asMaps(String, String)`     |
+| Custom class mapping | `List<YourClass>`                      |
+
+*** 🧪 Cucumber `DataTable` Conversions in Java
+
+Cucumber's `DataTable` in Java is *highly flexible* — it can be converted into various data structures such as `Map`, `List`, `List<Map>`, `List<List>`, etc., depending on the *shape* of your table in the feature file.
+
+This guide walks through practical examples using:
+
+- ✅ `Map<String, String>`
+- ✅ `List<String>`
+- ✅ `List<List<String>>`
+- ✅ `List<Map<String, String>>`
+- ✅ Note on using `Set`
+
+---
+
+**** ✅ 1. `Map<String, String>` – For Key-Value Pairs
+
+***** 📋 Gherkin
+
+#+BEGIN_SRC gherkin
+Scenario: User logs in
+  Given the user provides login details:
+    | username | testuser   |
+    | password | secret123  |
+#+END_SRC
+
+***** ☕ Step Definition
+
+#+BEGIN_SRC java
+@Given("the user provides login details:")
+public void the_user_provides_login_details(DataTable dataTable) {
+    Map<String, String> loginMap = dataTable.asMap(String.class, String.class);
+    String username = loginMap.get("username");
+    String password = loginMap.get("password");
+
+    System.out.println("Username: " + username);
+    System.out.println("Password: " + password);
+}
+#+END_SRC
+
+---
+
+**** ✅ 2. `List<String>` – For Single-Column Tables
+
+***** 📋 Gherkin
+
+#+BEGIN_SRC gherkin
+Scenario: User selects categories
+  Given the user selects the following categories:
+    | Electronics  |
+    | Books        |
+    | Groceries    |
+#+END_SRC
+
+***** ☕ Step Definition
+
+#+BEGIN_SRC java
+@Given("the user selects the following categories:")
+public void the_user_selects_categories(DataTable dataTable) {
+    List<String> categories = dataTable.asList();
+    categories.forEach(System.out::println);
+}
+#+END_SRC
+
+---
+
+**** ✅ 3. `List<List<String>>` – For Multi-Column Tables (Without Headers)
+
+***** 📋 Gherkin
+
+#+BEGIN_SRC gherkin
+Scenario: Add multiple products
+  Given the user adds products with the following details:
+    | TV     | 500 |
+    | Phone  | 200 |
+    | Mouse  | 30  |
+#+END_SRC
+
+***** ☕ Step Definition
+
+#+BEGIN_SRC java
+@Given("the user adds products with the following details:")
+public void user_adds_products(DataTable dataTable) {
+    List<List<String>> rows = dataTable.asLists(String.class);
+    for (List<String> row : rows) {
+        String product = row.get(0);
+        String price = row.get(1);
+        System.out.println("Product: " + product + ", Price: " + price);
+    }
+}
+#+END_SRC
+
+---
+
+**** ✅ 4. `List<Map<String, String>>` – For Multi-Row Table with Headers
+
+***** 📋 Gherkin
+
+#+BEGIN_SRC gherkin
+Scenario: Register multiple users
+  Given the following users are registered:
+    | name  | email           | age |
+    | Alice | alice@test.com  | 30  |
+    | Bob   | bob@test.com    | 25  |
+#+END_SRC
+
+***** ☕ Step Definition
+
+#+BEGIN_SRC java
+@Given("the following users are registered:")
+public void register_users(DataTable dataTable) {
+    List<Map<String, String>> users = dataTable.asMaps(String.class, String.class);
+    for (Map<String, String> user : users) {
+        System.out.println("Name: " + user.get("name"));
+        System.out.println("Email: " + user.get("email"));
+        System.out.println("Age: " + user.get("age"));
+    }
+}
+#+END_SRC
+
+---
+
+**** ❗ About `Set`
+
+Cucumber does *not directly support* conversion to `Set` (like `Set<String>` or `Set<Map>`).
+However, you can *manually convert* a list to a set to remove duplicates:
+
+#+BEGIN_SRC java
+Set<String> uniqueCategories = new HashSet<>(dataTable.asList());
+#+END_SRC
+
+---
+
+**** ✅ Summary Table
+
+| *Structure*              | *Use Case*                       | *Method*       |
+|--------------------------+----------------------------------+----------------|
+| `Map<String, String>`    | One row, two columns (key-value) | `asMap()`      |
+| `List<String>`           | One column, multiple rows        | `asList()`     |
+| `List<List<String>>`     | Multi-column table, no header    | `asLists()`    |
+| `List<Map<String, String>>` | Table with header row         | `asMaps()`     |
+| `Set<...>`               | Not supported directly           | Manual         |
+
+---
+
+#+BEGIN_QUOTE
+💡 *Tip:* If you're building a *data-driven API test suite*,
+`List<Map<String, String>>` is the most powerful for handling multiple inputs (e.g., payloads, headers, etc.).
+#+END_QUOTE
+
+** Example Files
+*** Example Feature File
+**** 🧠 Tag Usage Summary
+
+- *Feature-level tags* (e.g., `@smoke`, `@regression`): apply to *all scenarios* in the file.
+- *Scenario-level tags* (e.g., `@positive`, `@negative`, `@api`, `@ui`): apply to specific scenarios.
+- Tags allow you to filter which tests to run via CLI or configuration.
+
+---
+
+**** 📄 `login.feature`
+
+#+BEGIN_SRC gherkin
+@smoke @regression
+Feature: Login functionality for the application
+
+  As a registered user
+  I want to log into the system
+  So that I can access my account
+
+  @positive @ui
+  Scenario: Successful login with valid credentials
+    Given the user is on the login page
+    When the user enters valid username and password
+    And clicks the login button
+    Then the user should be redirected to the dashboard
+
+  @negative
+  Scenario: Login fails with invalid password
+    Given the user is on the login page
+    When the user enters a valid username and invalid password
+    And clicks the login button
+    Then an error message should be displayed
+
+  @api @smoke
+  Scenario: Login via API
+    Given the login API is available
+    When the user sends a valid login request
+    Then the response status should be 200
+    And the response should contain a valid auth token
+#+END_SRC
+
+---
+
+**** ✅ Run Tests by Tag (Command Line Example)
+
+#+BEGIN_SRC bash
+# Run only smoke tests
+mvn test -Dcucumber.filter.tags="@smoke"
+
+# Run tests tagged with both @smoke AND @ui
+mvn test -Dcucumber.filter.tags="@smoke and @ui"
+
+# Run tests tagged with either @api OR @regression
+mvn test -Dcucumber.filter.tags="@api or @regression"
+
+# Exclude a tag
+mvn test -Dcucumber.filter.tags="not @negative"
+#+END_SRC
+
+*** Example Scenario
+**** 📄 `search.feature`
+
+#+BEGIN_SRC gherkin
+Feature: Search functionality on the e-commerce site
+
+  As a user
+  I want to search for products
+  So that I can find items I want to buy
+
+  @smoke
+  Scenario: Search with valid keyword
+    Given the user is on the homepage
+    When the user searches for "laptop"
+    Then results related to "laptop" should be displayed
+
+  Scenario: Search with no keyword
+    Given the user is on the homepage
+    When the user submits an empty search
+    Then a message "Please enter a search term" should be displayed
+
+  Scenario: Search with special characters
+    Given the user is on the homepage
+    When the user searches for "@#$%"
+    Then a message "No results found" should be displayed
+#+END_SRC
+
+---
+
+**** 🧠 Explanation
+
+- ✅ Only the *first scenario* (`Search with valid keyword`) is tagged with `@smoke`.
+- The other two scenarios are *untagged*.
+- This allows you to selectively run just that scenario using:
+
+#+BEGIN_SRC bash
+mvn test -Dcucumber.filter.tags="@smoke"
+#+END_SRC
+
+** Excluding Tests from Executions
+*** ✅ Selective Test Execution with Exclusion Tags
+
+Sometimes, you want to run tests based on tags like `@smoke` or `@regression`, but also **exclude specific scenarios** — even if they match your main expression.
+
+**Example:**
+
+#+BEGIN_SRC text
+tags = "(@smoke or @regression) and not @wip"
+#+END_SRC
+
+But what if a `@smoke` test needs to be skipped temporarily?
+
+---
+
+*** ✅ Solution: Use a Custom Exclusion Tag
+
+**Step 1:** Tag the scenarios you want to exclude
+
+#+BEGIN_SRC gherkin
+@smoke @exclude
+Scenario: This smoke test should not run
+  ...
+#+END_SRC
+
+**Step 2:** Update your tag expression
+
+#+BEGIN_SRC text
+tags = "(@smoke or @regression) and not @wip and not @exclude"
+#+END_SRC
+
+---
+
+*** 🔍 What This Expression Means
+
+> Run all scenarios tagged with `@smoke` or `@regression`,
+> but **exclude** any scenarios also tagged with `@wip` or `@exclude`.
+
+---
+
+*** 🔄 Full Example: Tag Logic in Cucumber Options
+
+#+BEGIN_SRC java
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepdefinitions",
+    tags = "(@smoke or @regression) and not @wip and not @exclude"
+)
+#+END_SRC
+
+---
+
+*** 💻 Command Line Equivalent (Maven)
+
+#+BEGIN_SRC bash
+mvn test -Dcucumber.filter.tags="(@smoke or @regression) and not @wip and not @exclude"
+#+END_SRC
+
+---
+
+*** ✅ Tip
+
+Use `@exclude`, or something more descriptive like:
+
+- `@ignore`
+- `@deprecated`
+- `@manualCheck`
+
+…to **cleanly manage exclusions** in your test suite.
+
+** JUnit Annotations in Cucumber Tests
+
+JUnit integrates with Cucumber using specific annotations to manage test execution and lifecycle. Here's a breakdown of the most commonly used annotations:
+
+---
+
+*** 1. @RunWith(Cucumber.class)
+
+- Tells **JUnit** to use **Cucumber's test runner**.
+- Placed on the test runner class.
+
+**📄 Example:**
+
+#+BEGIN_SRC java
+@RunWith(Cucumber.class)
+public class RunCucumberTest {
+}
+#+END_SRC
+
+---
+
+*** 2. @CucumberOptions
+
+- Configures how Cucumber should run.
+- Common attributes:
+  - `features`: Path to `.feature` files.
+  - `glue`: Package for step definitions.
+  - `tags`: Filter which scenarios to run.
+  - `plugin`: How to generate reports (html, json, etc.)
+
+**📄 Example:**
+
+#+BEGIN_SRC java
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "com.example.stepdefinitions",
+    tags = "@smoke",
+    plugin = {"pretty", "html:target/cucumber-reports"}
+)
+public class RunCucumberTest {
+}
+#+END_SRC
+
+---
+
+*** 3. @Before
+
+- Runs **before each scenario**.
+- Used for **setup** operations.
+
+**📄 Example:**
+
+#+BEGIN_SRC java
+@Before
+public void setUp() {
+    // Setup code here
+}
+#+END_SRC
+
+---
+
+*** 4. @After
+
+- Runs **after each scenario**.
+- Used for **cleanup** operations.
+
+**📄 Example:**
+
+#+BEGIN_SRC java
+@After
+public void tearDown() {
+    // Cleanup code here
+}
+#+END_SRC
+
+---
+
+*** 5. @BeforeClass and @AfterClass
+
+- **JUnit annotations** (not Cucumber-specific).
+- Run once **before/after all tests** in a class.
+- Useful for **global setup/teardown**.
+
+**📄 Example:**
+
+#+BEGIN_SRC java
+@BeforeClass
+public static void globalSetUp() {
+    // Run once before all tests
+}
+
+@AfterClass
+public static void globalTearDown() {
+    // Run once after all tests
+}
+#+END_SRC
+
+---
+
+*** ✅ Summary
+
+| Annotation                      | Purpose                          | Scope                  |
+|----------------------------------|----------------------------------|-------------------------|
+| `@RunWith(Cucumber.class)`       | Use Cucumber as JUnit test runner | Class-level             |
+| `@CucumberOptions`               | Configure features, glue, tags    | Class-level             |
+| `@Before` / `@After`             | Setup/teardown each scenario      | Scenario-level          |
+| `@BeforeClass` / `@AfterClass`   | Run once before/after all tests   | Class-level (global)    |
+
+** Overview of Cucumber Feature & Scenario
+*** ✅ Introduction to Gherkin Language in Cucumber
+
+Cucumber uses a plain-text language called **Gherkin** to describe application behavior in a way that’s easily readable by both non-technical stakeholders and developers.
+
+---
+
+*** 🧩 Core Concepts
+
+**✅ Feature**
+
+- A **high-level description** of a functionality or capability being tested.
+- Typically includes **one or more scenarios** that demonstrate different behaviors of that feature.
+
+**✅ Scenario**
+
+- A **specific test case** or example that describes a particular behavior or flow.
+- Represents a **concrete usage example**.
+
+**✅ Steps**
+
+Defined using Gherkin keywords:
+
+- `Given` – preconditions (setup)
+- `When` – actions/events
+- `Then` – expected outcomes
+- `And` – used for combining steps (can follow any of the above)
+
+---
+
+*** 🧱 Structure
+
+#+BEGIN_SRC gherkin
+Feature: Description of the feature
+
+Scenario:
+  Given a certain scenario which is prerequisite
+  When an action takes place
+  And some more action
+  Then this should be the outcome, expected result
+#+END_SRC
+
+---
+
+*** 💡 Example: Check Login Functionality
+
+#+BEGIN_SRC gherkin
+Feature: Check Login functionality
+
+Scenario:
+  Given the login screen is opened
+  When user enters username and password
+  And clicks on Login Button
+  Then user should be navigated to Home Page
+#+END_SRC
+
+---
+
+This structure helps align technical implementation with business requirements in a **clear, collaborative, and testable** way.
+
+** Reporting
+*** Combining Cucumber, RestAssured, and TestNG/JUnit for BDD-style API Testing
+
+When combining tools like:
+
+- **Cucumber** – for writing human-readable scenarios in Gherkin.
+- **RestAssured** – for executing API calls and performing assertions.
+- **TestNG / JUnit** – as test runners.
+
+You’re essentially performing **BDD-style API testing** — where reporting is done through:
+
+- ✅ Cucumber’s built-in plugins (HTML, JSON, etc.)
+- ✅ JUnit/TestNG reports
+- ✅ Third-party tools like **Allure** and **ExtentReports**
+
+---
+
+*** ✅ Typical Reporting Options for Cucumber + RestAssured
+
+**⚙️ What `plugin {}` Is in `@CucumberOptions`**
+
+In **Cucumber + JUnit (or TestNG)**, the `@CucumberOptions` annotation is used to configure the test run. The `plugin` attribute specifically controls **reporting output**, not general features.
+
+**📄 Example:**
+
+#+BEGIN_SRC java
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepdefinitions",
+    tags = "@billing and @important",
+    plugin = {
+        "pretty",
+        "html:target/cucumber-reports",
+        "rerun:target/failed_scenarios.txt"
+    }
+)
+public class TestRunner {
+}
+#+END_SRC
+
+**✅ Common Plugin Options:**
+
+| Plugin                    | What It Does                            |
+|---------------------------+---------------------------------------|
+| `"pretty"`                | Prints readable Gherkin output in console |
+| `"html:target/report"`    | Generates a basic HTML report          |
+| `"json:target/report.json"` | Produces JSON report for other tools |
+| `"rerun:target/failed_scenarios.txt"` | Logs failed scenarios for rerun |
+| `ExtentCucumberAdapter:`  | Enables ExtentReports integration      |
+
+---
+
+*** 🧾 Reporting Types
+
+**** 1️⃣ Cucumber’s Built-in HTML Report**
+
+#+BEGIN_SRC java
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepdefinitions",
+    plugin = {
+        "pretty",
+        "html:target/cucumber-reports.html",
+        "json:target/cucumber.json"
+    }
+)
+#+END_SRC
+
+✅ Shows pass/fail status of each scenario
+❌ Basic design and limited customization
+
+---
+
+**** 2️⃣ JSON Report + Advanced Reporting Tools**
+
+***🔹 Allure Reports***
+
+- Rich, interactive HTML reports
+- Supports:
+  - Screenshots
+  - Request/response logs
+  - Environment info
+- Steps to use:
+  1. Add Allure dependencies
+  2. Annotate steps with `@Step` if desired
+  3. Run tests and generate the report:
+
+#+BEGIN_SRC bash
+allure serve target/allure-results
+#+END_SRC
+
+***🔹 ExtentReports (via `ExtentCucumberAdapter`)***
+
+- Visual, step-by-step logging
+- Supports:
+  - Screenshots
+  - Custom styling/themes
+  - API logs
+
+#+BEGIN_SRC java
+@CucumberOptions(
+    plugin = {
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+    }
+)
+#+END_SRC
+
+You’ll also need an `extent.properties` file for configuration (theme, output path, etc.).
+
+---
+
+**** 3️⃣ Custom Logging in Step Definitions with RestAssured**
+
+You can use **RestAssured's logging** to capture API request/response for debugging and attach them to reports:
+
+#+BEGIN_SRC java
+given()
+    .log().all()               // Logs request
+.when()
+    .get("/users")
+.then()
+    .log().body()              // Logs response
+    .statusCode(200);
+#+END_SRC
+
+> These logs print to the console but can be redirected to files or report attachments.
+
+---
+
+*** 📁 Typical Folder Structure
+
+#+BEGIN_EXAMPLE
+project-root/
+├── src/test/java/
+│   ├── stepdefinitions/
+│   ├── runners/
+│   └── utils/
+├── src/test/resources/features/
+├── target/
+│   ├── cucumber-reports.html
+│   ├── cucumber.json
+│   └── allure-results/
+#+END_EXAMPLE
+
+---
+
+*** 💡 Tips for Better Reporting in API Tests
+
+| Strategy                        | Benefit                              |
+|--------------------------------+------------------------------------|
+| Log request/response in steps   | Helps debug failed scenarios        |
+| Use `@Before`, `@After` hooks   | Capture and attach logs per scenario|
+| Tag scenarios (e.g., `@smoke`) | Filter reports by category           |
+| Use structured naming conventions | Easier to trace failures in reports|
+| Integrate with CI (Jenkins, GitHub) | Publish and analyze reports automatically |
+
+---
+
+*** 📘 Summary: Reporting Tools Comparison
+
+| Reporting Tool      | What It Offers                           | Ideal Use Case                   |
+|---------------------+-----------------------------------------+---------------------------------|
+| **Cucumber HTML**    | Basic pass/fail view                    | Simple visibility                |
+| **Cucumber JSON**    | Exportable for third-party tools        | Advanced visualization           |
+| **Allure Reports**   | Interactive UI, logs, attachments       | Professional reporting           |
+| **ExtentReports**    | Visual themes, detailed logs, screenshots | Stakeholder-friendly presentation |
+| **TestNG/JUnit XML** | Integration with CI tools                | Historical test tracking         |
+
+** Reports Plugin in Runner Class
+
+In your **Runner class**, the `plugin` option inside the `@CucumberOptions` annotation defines **how and where** test reports are generated.
+
+You can specify multiple report formats and their output locations.
+
+---
+
+*** ✅ Example: Runner Class with Multiple Report Plugins**
+
+#+BEGIN_SRC java
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "your.step.definitions.package",
+    plugin = {
+        "html:Reports\\HTMLReports",                       // HTML report
+        "json:Reports\\JSonReports\\cucumber.json",        // JSON report
+        "junit:Reports\\JUnitReport\\cucumber.xml"         // JUnit XML report
+    }
+)
+#+END_SRC
+
+---
+
+*** 📦 This Will Generate:**
+
+| Format    | Location                          |
+|-----------+---------------------------------|
+| HTML      | `Reports/HTMLReports`            |
+| JSON      | `Reports/JSonReports/cucumber.json` |
+| JUnit XML | `Reports/JUnitReport/cucumber.xml` |
+
+> 🛠 **Note:**
+> Ensure these folders exist or that your framework/test runner has permissions to **create them during execution**.
+
+---
+
+*** ✅ Benefits of Using Multiple Plugins**
+
+- **HTML**: Quick human-readable report
+- **JSON**: Useful for feeding into advanced tools (e.g., Allure, Extent)
+- **JUnit XML**: Integrates well with CI pipelines (e.g., Jenkins, GitHub Actions)
+
+** Rerun Failed Scenarios in Cucumber BDD
+
+In **TestNG**, failed tests are rerun using `testng-failed.xml`.
+In **Cucumber**, reruns are handled differently — but the process is just as effective.
+
+---
+
+*** ✅ Rerun Failed Scenarios in Cucumber BDD**
+
+**** 🧩 1. Use the Built-in Rerun Plugin***
+
+Cucumber includes a built-in **rerun formatter** that logs failed scenarios to a file for later re-execution.
+
+---
+
+**** 🔧 Step-by-Step Setup***
+
+***** *A. Add the `rerun` Plugin to Your Runner Class**
+
+#+BEGIN_SRC java
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepdefinitions",
+    plugin = {
+        "pretty",
+        "html:target/cucumber-report.html",
+        "rerun:target/failed_scenarios.txt"  // <--- key line
+    }
+)
+public class TestRunner {}
+#+END_SRC
+
+✅ This tells Cucumber to save failed scenarios into `failed_scenarios.txt`.
+
+---
+
+***** *B. Create a Second Runner to Rerun the Failed Scenarios**
+
+#+BEGIN_SRC java
+@CucumberOptions(
+    features = "@target/failed_scenarios.txt",   // <--- rerun only failed scenarios
+    glue = "stepdefinitions",
+    plugin = {
+        "pretty",
+        "html:target/rerun-report.html"
+    }
+)
+public class FailedTestRunner {}
+#+END_SRC
+
+➡️ This runner will **only re-execute** the scenarios listed in the file.
+
+---
+
+*** 🛠️ Optional: Command Line Integration (Maven)**
+
+You can also handle this via the command line for CI/CD:
+
+#+BEGIN_EXAMPLE
+# First run: log failures
+mvn test -Dcucumber.options="--plugin rerun:target/failed.txt"
+
+# Rerun only the failed scenarios
+mvn test -Dcucumber.options="@target/failed.txt"
+#+END_EXAMPLE
+
+---
+
+*** ✅ Bonus: Integrate Retry Logic (Optional)**
+
+You can combine this mechanism with **retry logic**, especially helpful for flaky tests or **parallel execution**.
+
+***Options:***
+
+- Use `IRetryAnalyzer` in **TestNG**
+- Use **Cucumber Retry Plugin**
+- Implement a custom retry strategy in `@After` or `@Before` hooks
+
+---
+
+*** 🔄 Summary Comparison**
+
+| Feature             | TestNG               | Cucumber BDD            |
+|---------------------+----------------------+------------------------|
+| Rerun failed tests   | `testng-failed.xml`  | `rerun:target/failed.txt`|
+| Built-in retry mech. | `IRetryAnalyzer`     | Manual or plugin-based  |
+| Command-line rerun   | `-test testng-failed.xml` | `-Dcucumber.options="@failed.txt"` |
+
+** Running Multiple Feature Files with a JUnit Runner
+
+When you have **multiple feature files**, you can execute them all using a **JUnit Runner class**. Simply right-click the runner class and run it as a **JUnit Test** in your IDE.
+
+---
+
+*** ✅ Example: TestRunner.java**
+
+#+BEGIN_SRC java
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",   // Path to feature files
+    glue = "stepDefinitions",                   // Step definitions package
+    tags = "@smoke or @regression",             // Scenarios with these tags will run
+    plugin = {
+        "html:Reports\\HTMLReports",
+        "json:Reports\\JSonReports\\cucumber.json",
+        "junit:Reports\\JUnitReport\\cucumber.xml"
+    },
+    monochrome = true,                          // Cleaner console output
+    dryRun = false,                             // Validate steps without executing if true
+    strict = true                               // Fail on undefined steps if true
+)
+public class TestRunner {
+    // This class runs all feature files that match the above options
+}
+#+END_SRC
+
+---
+
+*** 🔍 Breakdown of `@CucumberOptions`**
+
+| Option      | Description                                                     |
+|-------------+-----------------------------------------------------------------|
+| `features`  | Path to your feature files (supports folders and individual files) |
+| `glue`      | Package that contains your step definitions                     |
+| `tags`      | Run scenarios with specific tags (e.g., `@smoke`, `@regression`) |
+| `plugin`    | Generate reports in various formats (HTML, JSON, JUnit)        |
+| `monochrome`| When `true`, makes console output more readable                 |
+| `dryRun`    | When `true`, checks for missing step definitions **without** executing them |
+| `strict`    | When `true`, test run fails if there are undefined steps       |
+
+---
+
+*** 📁 Example Folder Structure**
+
+#+BEGIN_EXAMPLE
+project-root/
+├── src/test/java/
+│   ├── stepDefinitions/
+│   └── TestRunner.java
+├── src/test/resources/features/
+│   ├── login.feature
+│   ├── cart.feature
+│   └── checkout.feature
+├── Reports/
+│   ├── HTMLReports/
+│   ├── JSonReports/
+│   └── JUnitReport/
+#+END_EXAMPLE
+
+---
+
+*** ✅ Tips**
+
+- You can pass multiple feature files explicitly using an array:
+
+  #+BEGIN_SRC java
+  features = {
+      "src/test/resources/features/login.feature",
+      "src/test/resources/features/cart.feature"
+  }
+  #+END_SRC
+
+- Combine `tags` with logical operators:
+  `@smoke and not @wip`, `(@regression or @sanity)`
+
+- Always include `plugin` options to generate test reports, especially for CI pipelines.
+
+** Running Parallel Tests in Cucumber with JUnit
+*** 1. Add Required Dependencies
+
+Make sure your ~pom.xml~ includes these dependencies (replace ~YOUR_CUCUMBER_VERSION~ with your version):
+
+#+begin_src xml
+<dependencies>
+  <dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-java</artifactId>
+    <version>YOUR_CUCUMBER_VERSION</version>
+  </dependency>
+  <dependency>
+    <groupId>io.cucumber</groupId>
+    <artifactId>cucumber-junit</artifactId>
+    <version>YOUR_CUCUMBER_VERSION</version>
+  </dependency>
+  <dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+  </dependency>
+</dependencies>
+#+end_src
+
+-----
+
+*** 2. Create Test Runner Classes
+
+Example of a basic runner class:
+
+#+begin_src java
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "your.step.definitions.package",
+    tags = "@smoke" // Optional: filter scenarios by tags
+)
+public class TestRunner {
+}
+#+end_src
+
+#+begin_quote
+To run tests in parallel, create *multiple runner classes* dividing your tests into groups.
+#+end_quote
+
+-----
+
+*** 3. Enable Parallel Execution in JUnit 5
+
+Create a file:
+~src/test/resources/junit-platform.properties~ with:
+
+#+begin_src text
+junit.jupiter.execution.parallel.enabled=true
+junit.jupiter.execution.parallel.parallelism=4
+#+end_src
+
+#+begin_quote
+Adjust ~parallelism~ to the number of threads you want.
+#+end_quote
+
+-----
+
+*** 4. Configure Maven Surefire Plugin
+
+Add the following to your ~pom.xml~:
+
+#+begin_src xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>3.0.0-M5</version>
+      <configuration>
+        <parallel>methods</parallel> <!-- or "classes" -->
+        <threadCount>4</threadCount>
+        <includes>
+          <include>/*Test.java</include>
+        </includes>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>
+#+end_src
+
+-----
+
+*** 5. Run Your Tests
+
+Run tests via IDE or command line. Tests will execute in parallel based on your configuration.
+
+-----
+
+*** ⚠️ Important Notes
+
+- Ensure *thread safety* in tests and step definitions.
+- Avoid *shared mutable state* to prevent flaky tests.
+- Use *tags* and *multiple runner classes* to organize tests for parallel execution.
+
+** Running Scenarios with Cucumber Options
+*** 1. Adding Tags in Feature Files
+
+- Tags start with ~@~ and are placed *above* a Feature or Scenario.
+- Tags can apply to the *entire feature* or just *specific scenarios*.
+
+**Example Feature File with Tags:**
+
+#+begin_src gherkin
+@smoke @login
+Feature: Login functionality
+
+  @smoke @regression
+  Scenario: Successful login
+    Given I am on the login page
+    When I enter valid credentials
+    Then I should be logged in successfully
+
+  @regression @login
+  Scenario: Invalid login attempt
+    Given I am on the login page
+    When I enter invalid credentials
+    Then I should see an error message
+#+end_src
+
+- ~@smoke~ and ~@regression~ are scenario-specific tags.
+- ~@login~ is applied to multiple scenarios to indicate the login-related feature.
+
+-----
+
+*** 2. Running Scenarios with Tags in Runner Class
+
+You can control which scenarios run by specifying tags in your test runner, such as with JUnit.
+
+**Example Runner Filtering by Tag:**
+
+#+begin_src java
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepDefinitions",
+    tags = "@smoke and not @regression",
+    plugin = {"pretty", "html:target/cucumber-reports"}
+)
+public class TestRunner {
+}
+#+end_src
+
+-----
+
+*** ✨ Benefits of Using Tags
+
+- *Selective Execution:* Run specific test groups (e.g., smoke, regression) when needed.
+- *Organizational Clarity:* Easier to categorize and manage scenarios.
+
+#+begin_quote
+*Note:* Tags like ~@smoke~ and ~@regression~ are custom — Cucumber does not provide built-in tags but lets you create your own freely.
+#+end_quote
+
+** Running Tagged Cucumber Tests with Maven Surefire Plugin
+*** 1. Project Structure Example
+
+#+begin_src text
+project-root
+├── pom.xml
+└── src
+    └── test
+        ├── java
+        │   └── stepDefinitions
+        │       └── TestRunner.java
+        └── resources
+            └── features
+                └── login.feature
+#+end_src
+
+-----
+
+*** 2. pom.xml Configuration
+
+#+begin_src xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>cucumber-example</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <dependencies>
+        <!-- Cucumber dependencies -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>7.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>7.2.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven Surefire plugin configuration -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <includes>
+                        <include>/TestRunner.java</include>
+                    </includes>
+                    <argLine>-Dcucumber.filter.tags="@smoke or @regression"</argLine>
+                    <systemPropertyVariables>
+                        <cucumber.options>--tags "@smoke or @regression"</cucumber.options>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+#+end_src
+
+-----
+
+*** 3. Explanation
+
+- *Dependencies*: Include Cucumber Java and JUnit for testing.
+
+- *Surefire Plugin*:
+  - ~<includes>~: Specifies test classes to run (e.g., ~TestRunner.java~).
+  - ~<argLine>~: Passes JVM argument to filter scenarios by tags.
+  - ~<systemPropertyVariables>~: Another way to pass tag filtering to Cucumber CLI.
+
+-----
+
+*** 4. TestRunner.java
+
+#+begin_src java
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+import org.junit.runner.RunWith;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepDefinitions",
+    tags = "@smoke or @regression"  // Run scenarios tagged with @smoke or @regression
+)
+public class TestRunner {
+    // Runner class for Cucumber tests
+}
+#+end_src
+
+-----
+
+*** 5. Running Tests
+
+Run from terminal:
+
+#+begin_src bash
+mvn clean test
+#+end_src
+
+This runs only scenarios tagged with ~@smoke~ or ~@regression~ as configured.
+
+-----
+
+*** Summary
+
+- Use *Maven Surefire Plugin* to pass Cucumber tag options for selective scenario execution.
+- Keep tags consistent between ~pom.xml~ and your ~TestRunner.java~.
+- Run tests from Maven CLI to easily filter and execute tagged scenarios.
+
+** Scenario Outline
+*** Purpose
+
+A *Scenario Outline* allows you to run the *same scenario multiple times* with different sets of input data. It’s a way to avoid repetition by using a *template* with placeholders, and then providing different inputs via an *Examples* table.
+
+-----
+
+*** Syntax Example
+
+#+begin_src gherkin
+Scenario Outline: Login with valid credentials
+  Given user is on the login page
+  When user logs in with username "<username>" and password "<password>"
+  Then user should see the dashboard
+
+Examples:
+  | username | password |
+  | alice    | 123456   |
+  | bob      | password |
+#+end_src
+
+-----
+
+*** What Happens?
+
+Cucumber runs the scenario *once for each row* in the Examples table:
+
+- Run 1: username = "alice", password = "123456"
+- Run 2: username = "bob", password = "password"
+
+-----
+
+*** Key Points
+
+- Use ~< >~ to denote *placeholders* inside scenario steps.
+- Placeholder names must exactly match column names in the Examples table.
+- You can have *multiple Examples tables* in one Scenario Outline for different datasets.
+- Improves *maintainability* and *readability* by avoiding duplicate scenarios.
+
+-----
+
+*** When to Use Scenario Outline
+
+- When you want to run the same test steps with *different input data*.
+- To implement *data-driven testing* without repeating scenarios.
+
+-----
+
+*** Scenario vs Scenario Outline
+
+| Feature         | Scenario                       | Scenario Outline                            |
+|-----------------|--------------------------------|---------------------------------------------|
+| Repetition      | Runs once                      | Runs multiple times with different data     |
+| Parameterization| Not supported                  | Supported via placeholders & Examples       |
+| Use Case        | Simple tests                   | Data-driven tests                           |
+
+** Summary of Cucumber Hooks
+
+| Hook                         | Purpose                                            | Use Case Example                                            |
+|-----------------------------+----------------------------------------------------+-------------------------------------------------------------|
+| ~@Before~                   | Runs *before each scenario*                        | Setup actions like starting a browser                       |
+| ~@After~                    | Runs *after each scenario*                         | Cleanup actions like closing a browser                      |
+| ~@BeforeStep~               | Runs *before each step*                            | Pre-step actions like logging or screenshots                |
+| ~@AfterStep~                | Runs *after each step*                             | Post-step actions like screenshots or logging step results  |
+| ~@BeforeAll~ (JUnit 5)      | Runs *once before all scenarios in a feature*      | Global setup like starting a server                         |
+| ~@AfterAll~ (JUnit 5)       | Runs *once after all scenarios in a feature*       | Global cleanup like stopping a server                       |
+| ~@Before / @After~ with tags| Runs before/after scenarios with *specific tags*   | Tag-specific setup or cleanup, e.g., for ~@Login~ scenarios |
+
+** Tagged Hooks
+*** What are Tagged Hooks?
+
+Tagged hooks allow you to run ~@Before~ or ~@After~ hooks *only for scenarios with specific tags*.
+This lets you scope setup or teardown logic to certain groups of tests, rather than running globally for all scenarios.
+
+-----
+
+*** 💡 Why Use Tagged Hooks?
+
+- To avoid running expensive or irrelevant setup/cleanup steps on every scenario.
+- To apply specialized setup only for tests with particular tags (e.g., ~@smoke~ or ~@regression~).
+
+-----
+
+*** ✅ Syntax (Java Example)
+
+#+begin_src java
+import io.cucumber.java.Before;
+import io.cucumber.java.After;
+
+public class Hooks {
+
+    @Before("@smoke")
+    public void beforeSmokeScenario() {
+        System.out.println("Running setup for smoke test");
+    }
+
+    @After("@smoke")
+    public void afterSmokeScenario() {
+        System.out.println("Tearing down smoke test");
+    }
+}
+#+end_src
+
+-----
+
+*** 🏷️ Feature File Example
+
+#+begin_src gherkin
+@smoke
+Scenario: Smoke test login
+  Given user is on the login page
+  When user enters valid credentials
+  Then user is redirected to the dashboard
+#+end_src
+
+- The ~@Before("@smoke")~ hook runs *only* for this scenario.
+- Scenarios without the ~@smoke~ tag do *not* trigger this hook.
+
+-----
+
+*** 🔄 Using Multiple Tags
+
+**Logical OR:**
+
+#+begin_src java
+@Before("@smoke or @regression")
+public void beforeSmokeOrRegression() {
+    System.out.println("Runs for smoke or regression tests");
+}
+#+end_src
+
+**Logical AND:**
+
+#+begin_src java
+@Before("@smoke and @critical")
+public void beforeSmokeAndCritical() {
+    System.out.println("Runs only if both tags are present");
+}
+#+end_src
+
+-----
+
+*** ⚠️ Key Notes
+
+- Tagged hooks *run only for scenarios matching the tags*.
+- They *do not replace global hooks*; both global and tagged hooks can run.
+- Hooks run *before and after every scenario*, unless restricted by tags.
+
+** Tags in Cucumber
+*** What are Tags?
+
+Tags are labels like ~@smoke~, ~@regression~, ~@billing~ used to group and organize your tests.
+You can add them to:
+
+- Entire *Feature* files.
+- Specific *Scenarios*.
+
+-----
+
+*** Why Use Tags?
+
+- *Selectively run* or *skip* tests using tag filters.
+- Manage tests easily by grouping similar tests together.
+- Use logical operators to control test execution.
+
+-----
+
+*** Tag Logic Operators (use lowercase!)
+
+- ~and~ — both tags must be present
+- ~or~ — either tag can be present
+- ~not~ — exclude tests with this tag
+
+*Example:*
+
+#+begin_src text
+tags = "@smoke and not @regression"
+#+end_src
+
+-----
+
+*** Example Feature File with Tags
+
+#+begin_src gherkin
+@billing
+Feature: Verify billing
+
+  @important
+  Scenario: Missing product description
+    Given hello
+
+  Scenario: Several products
+    Given hello
+#+end_src
+
+- ~@billing~ applies to all scenarios in the feature.
+- ~@important~ applies only to the first scenario.
+
+-----
+
+*** Example TestRunner Filtering by Tags
+
+#+begin_src java
+import org.junit.runner.RunWith;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+    features = "src/test/resources/features",
+    glue = "stepDefinitions",
+    tags = "@billing and @important",           // Only run scenarios with BOTH tags
+    plugin = {"pretty", "html:target/cucumber-reports"}
+)
+public class TestRunner {
+    // Runner class for filtering tests by tags
+}
+#+end_src
+
+-----
+
+*** Summary
+
+- Use tags to *organize* and *filter* your tests flexibly.
+- Combine tags with ~and~, ~or~, and ~not~ for powerful test selection.
+- Define tags in both *feature files* and *runner classes* to control what runs.
+
+** TestRunner
+*** 🧪 Cucumber TestRunner Class
+
+The ~TestRunner~ class is what triggers your Cucumber tests. It controls:
+
+- Which feature files to run
+- Where the step definitions are
+- Reporting options
+- Tags filtering
+- Console output formatting
+- ~dryRun~ validation
+
+-----
+
+*** 🔑 Key Points
+
+- Annotate the class with ~@RunWith(Cucumber.class)~
+  *(from ~io.cucumber.junit.Cucumber~)*
+
+- Specify:
+  - ~features~ – Location of feature files
+  - ~glue~ – Package where step definitions live
+  - ~plugin~ – Reporting configuration
+  - ~dryRun~ – Validate step definitions without running tests
+  - ~monochrome~ – Improve console output readability
+  - ~tags~ – Filter which scenarios to run
+
+-----
+
+*** ✅ Example TestRunner Class
+
+#+begin_src java
+import org.junit.runner.RunWith;
+import io.cucumber.junit.Cucumber;
+import io.cucumber.junit.CucumberOptions;
+
+@RunWith(Cucumber.class)  // Run with Cucumber’s JUnit runner
+@CucumberOptions(
+    features = {"features"},           // Path to feature files folder
+    glue = {"steps"},                  // Package where step definitions live
+    plugin = {"pretty", "html:Report1"},  // Generate console & HTML reports
+    dryRun = true,                    // true = check missing step defs only; false = run tests
+    monochrome = true,                // Clean console output
+    tags = "@P1 or @P2"               // Run scenarios tagged with @P1 or @P2
+)
+public class TestRunner {
+    // This class remains empty; serves only as entry point for tests
+}
+#+end_src
+
+-----
+
+*** 🧾 What These Options Mean
+
+| Option       | Description                                                                 |
+|--------------+-----------------------------------------------------------------------------|
+| ~features~   | Location of your ~.feature~ files. Example: ~"features"~ if folder is at root. |
+| ~glue~       | Java package containing your step definitions.                              |
+| ~plugin~     | Reporting plugins. Examples:                                                |
+|              | • ~"pretty"~ – Console output formatting                                    |
+|              | • ~"html:Report1"~ – HTML report in ~Report1~ folder                        |
+|              | • ~"json:JsonReport"~ – JSON formatted output                               |
+|              | • ~"junit:JUnitReport"~ – JUnit XML report                                  |
+| ~dryRun~     | ~true~ – Check for undefined steps only (doesn’t run tests)                 |
+|              | ~false~ – Run tests normally                                                |
+| ~monochrome~ | ~true~ – Makes console output cleaner (no weird characters)                 |
+| ~tags~       | Filters scenarios by tag. Supports:                                         |
+|              | • ~@P1 or @P2~                                                              |
+|              | • ~@P1 and @P2~                                                             |
+|              | • ~not @P3~                                                                 |
+
+-----
+
+*** ▶️ How to Run Tests
+
+- Right-click on the ~TestRunner~ class in your IDE
+- Select *"Run as JUnit Test"*
+
+This will execute all matching scenarios and generate reports as configured.
+
+* Rest Assured
+** Bearer Token Usage in API Testing
+*** 🔐 Typical Bearer Token Flow
+
+1. *Authenticate via API call* (e.g., POST ~/login~ or ~/auth~):
+
+   - Send credentials (username/password, client ID/secret).
+
+2. *Receive token in response* (usually JSON):
+
+   #+begin_src json
+   {
+     "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+   }
+   #+end_src
+
+3. *Extract token from response* using RestAssured:
+
+   #+begin_src java
+   String token = given()
+       .contentType("application/json")
+       .body(credentialsJson)
+   .when()
+       .post("/login")
+   .then()
+       .extract()
+       .path("access_token");
+   #+end_src
+
+4. *Use Bearer Token in Authorization header for protected endpoints:*
+
+   #+begin_src java
+   given()
+       .header("Authorization", "Bearer " + token)
+   .when()
+       .get("/protected/resource")
+   .then()
+       .statusCode(200);
+   #+end_src
+
+-----
+
+*** 🍪 What about Cookies?
+
+- Cookies are *used mainly in session-based auth* (traditional web apps).
+- You extract cookies from the response and send them back with subsequent requests.
+- Example: ~Set-Cookie~ header in login response → send back as ~Cookie~ header.
+- However, *modern REST APIs usually do NOT use cookies* for auth.
+- Instead, they use *token-based auth* (OAuth2, JWT), where tokens go in headers, not cookies.
+
+-----
+
+*** 📝 Summary Table
+
+| Feature         | Cookies                              | Bearer Token                             |
+|-----------------+---------------------------------------+-------------------------------------------|
+| Auth Mechanism  | Session-based (stored in cookie)     | Token-based (sent in headers)             |
+| Storage         | Usually in ~Set-Cookie~ header        | Usually in JSON response body             |
+| Used in Header? | Sent in ~Cookie~ header               | Sent in ~Authorization: Bearer~ header    |
+| Common in APIs? | Less common                          | Very common                               |
+
+** dependencies for pom.xml
+
+#+begin_src xml
+<dependencies>
+
+    <!-- JUnit Jupiter (JUnit 5) -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.10.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- TestNG -->
+    <dependency>
+        <groupId>org.testng</groupId>
+        <artifactId>testng</artifactId>
+        <version>7.11.0</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- RestAssured Core -->
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>rest-assured</artifactId>
+        <version>5.5.2</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- JsonPath for JSON parsing -->
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>json-path</artifactId>
+        <version>5.5.2</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- XmlPath for XML parsing -->
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>xml-path</artifactId>
+        <version>5.3.2</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- JSON Schema Validator -->
+    <dependency>
+        <groupId>io.rest-assured</groupId>
+        <artifactId>json-schema-validator</artifactId>
+        <version>5.3.2</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- Extent Reports for reporting -->
+    <dependency>
+        <groupId>com.aventstack</groupId>
+        <artifactId>extentreports</artifactId>
+        <version>5.0.9</version>
+        <scope>test</scope>
+    </dependency>
+
+    <!-- SLF4J Simple Logger -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>2.0.13</version> <!-- Latest as of 2025 -->
+        <scope>test</scope>
+    </dependency>
+
+    <!-- org.json library -->
+    <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>20250517</version>
+    </dependency>
+
+</dependencies>
+#+end_src
+
+** Hamcrest Matchers
+*** 🧠 What Are Hamcrest Matchers?
+
+Hamcrest provides a set of matcher utilities for writing readable assertions, often used with `assertThat()`.
+
+In **Rest Assured**, Hamcrest matchers validate:
+
+- HTTP response bodies
+- Status codes
+- Headers
+- Specific JSON/XML fields
+
+---
+
+*** ✅ Basic Syntax
+
+#+begin_src java
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+assertThat(actualValue, matcher);
+#+end_src
+
+---
+
+*** 🔧 Common Hamcrest Matchers
+
+| Matcher               | Description                   | Example                                  |
+|-----------------------+-------------------------------+------------------------------------------|
+| `equalTo(value)`       | Exact equality               | `assertThat(name, equalTo("John Doe"));` |
+| `hasItem(value)`       | List contains value          | `assertThat(names, hasItem("Alice"));`   |
+| `hasItems(v1, v2)`    | List contains multiple values| `assertThat(names, hasItems("Alice", "Bob"));` |
+| `contains(...)`       | List matches exactly in order| `assertThat(numbers, contains(1, 2, 3));`|
+| `containsInAnyOrder(...)` | List matches values any order| `assertThat(numbers, containsInAnyOrder(3, 1, 2));` |
+| `startsWith(prefix)`  | String starts with           | `assertThat(email, startsWith("john"));`|
+| `endsWith(suffix)`    | String ends with             | `assertThat(email, endsWith(".com"));`  |
+| `not(matcher)`        | Negates a matcher            | `assertThat(name, not(equalTo("Jane")));`|
+| `is(value)`           | Sugar for `equalTo()`        | `assertThat(id, is(1));`                 |
+| `greaterThan(n)` / `lessThan(n)` | Numeric comparisons | `assertThat(age, greaterThan(18));`     |
+
+---
+
+*** 🔍 Using Hamcrest in Rest Assured
+
+Rest Assured lets you use matchers **directly** inside `.body()` without `assertThat()`:
+
+#+begin_src java
+given()
+    .when()
+    .get("/users")
+    .then()
+    .statusCode(200)
+    .body("[0].name", equalTo("John Doe"))
+    .body("[1].address.city", containsString("San"))
+    .body("email", hasItems("johndoe@example.com", "janesmith@example.com"));
+#+end_src
+
+---
+
+*** 🧪 Example Use Cases
+
+#+begin_src java
+// String ends with domain
+assertThat(response.jsonPath().getString("[0].email"), endsWith("@example.com"));
+
+// List contains a name
+List<String> names = response.jsonPath().getList("name");
+assertThat(names, hasItem("John Doe"));
+
+// User ID is greater than zero
+int userId = response.jsonPath().getInt("[0].id");
+assertThat(userId, greaterThan(0));
+#+end_src
+
+---
+
+*** 🔗 Tip: Use Static Imports
+
+Add this import to write matchers cleanly:
+
+#+begin_src java
+import static org.hamcrest.Matchers.*;
+#+end_src
+
+This lets you write `equalTo("value")` instead of `Matchers.equalTo("value")`.
+
+** Headers
+*** 📌 What Are Headers in API Testing?
+
+Headers are **key-value pairs** sent with HTTP requests or responses. They carry metadata about the request or response, such as:
+
+- Content type
+- Authentication tokens
+- Caching instructions
+- Language settings
+- And more
+
+---
+
+**✅ Types of Headers**
+
+***** 1. Request Headers
+
+Sent from **client → server**.
+
+| Header         | Purpose                      |
+|----------------+------------------------------|
+| Content-Type   | Data format (e.g., application/json) |
+| Authorization  | Tokens or credentials        |
+| Accept         | Expected response format     |
+| User-Agent     | Client info (browser/tool)   |
+
+**Example request headers:**
+
+#+begin_example
+GET /users HTTP/1.1
+Host: api.example.com
+Authorization: Bearer abc123
+Content-Type: application/json
+#+end_example
+
+---
+
+***** 2. Response Headers
+
+Sent from **server → client**.
+
+| Header         | Purpose                      |
+|----------------+------------------------------|
+| Content-Type   | Format of response body      |
+| Set-Cookie     | Sends cookies to client      |
+| Cache-Control  | Caching rules                |
+| Server         | Server info (e.g., Apache)   |
+
+---
+
+*** 🧪 Using Headers in RestAssured
+
+**✅ Sending Request Headers**
+
+#+begin_src java
+given()
+    .header("Content-Type", "application/json")
+    .header("Authorization", "Bearer abc123")
+.when()
+    .get("https://api.example.com/users")
+.then()
+    .statusCode(200);
+#+end_src
+
+Or with a Map for multiple headers:
+
+#+begin_src java
+Map<String, String> headers = new HashMap<>();
+headers.put("Content-Type", "application/json");
+headers.put("Authorization", "Bearer abc123");
+
+given()
+    .headers(headers)
+.when()
+    .get("https://api.example.com/users")
+.then()
+    .statusCode(200);
+#+end_src
+
+---
+
+**✅ Validating Response Headers**
+
+#+begin_src java
+given()
+    .when()
+    .get("https://api.example.com/users")
+.then()
+    .header("Content-Type", equalTo("application/json"))
+    .header("Cache-Control", containsString("no-cache"));
+#+end_src
+
+---
+
+**🔐 Common Use Cases for Headers in Testing**
+
+- Passing **authentication tokens** or API keys
+- Testing various **content types** (JSON, XML)
+- Validating **security-related headers**
+- Checking **response format** and **server information**
+
+** How to Manage Thousands of Users for Data-Driven Tests in Rest Assured
+
+
+To handle large numbers of test users, use a **data-driven approach** — store user credentials externally (CSV or JSON files) and feed them into your tests.
+
+---
+
+*** 📂 File Formats to Store User Data**
+
+**** CSV (Comma Separated Values)
+
+- Simple tabular format.
+- Each row = one user.
+
+Example **users.csv**:
+
+#+begin_example
+username,password
+user1,password1
+user2,password2
+user3,password3
+#+end_example
+
+**** JSON (JavaScript Object Notation)
+
+- More structured, supports complex data.
+
+Example **users.json**:
+
+#+begin_src json
+[
+  {"username": "user1", "password": "password1"},
+  {"username": "user2", "password": "password2"},
+  {"username": "user3", "password": "password3"}
+]
+#+end_src
+
+---
+
+***** Using Data Files in Rest Assured Tests**
+
+You can read these files in Java using libraries like:
+
+- **Apache Commons CSV** for CSV files
+- **Jackson** or **Gson** for JSON files
+
+Then use TestNG’s `@DataProvider` to supply test data.
+
+---
+
+***** Example: Data-Driven Test Using CSV**
+
+#+begin_src java
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import static io.restassured.RestAssured.given;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVRecord;
+import java.io.FileReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoginApiTest {
+
+    @Test(dataProvider = "userData")
+    public void testLogin(String username, String password) {
+        RestAssured.baseURI = "https://your.api.base.url";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}")
+        .when()
+            .post("/login")
+        .then()
+            .statusCode(200);
+    }
+
+    @DataProvider(name = "userData")
+    public Object[][] userData() throws Exception {
+        Reader in = new FileReader("users.csv");
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT
+            .withHeader("username", "password")
+            .withFirstRecordAsHeader()
+            .parse(in);
+
+        List<Object[]> data = new ArrayList<>();
+        for (CSVRecord record : records) {
+            data.add(new Object[] {record.get("username"), record.get("password")});
+        }
+        return data.toArray(new Object[0][]);
+    }
+}
+#+end_src
+
+---
+
+***** Example: Data-Driven Test Using JSON**
+
+#+begin_src java
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.File;
+import java.util.List;
+import java.util.Map;
+import static io.restassured.RestAssured.given;
+
+public class LoginApiTest {
+
+    @Test(dataProvider = "userData")
+    public void testLogin(String username, String password) {
+        RestAssured.baseURI = "https://your.api.base.url";
+
+        given()
+            .contentType(ContentType.JSON)
+            .body("{\"username\": \"" + username + "\", \"password\": \"" + password + "\"}")
+        .when()
+            .post("/login")
+        .then()
+            .statusCode(200);
+    }
+
+    @DataProvider(name = "userData")
+    public Object[][] userData() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        List<Map<String, String>> users = mapper.readValue(new File("users.json"), List.class);
+
+        Object[][] data = new Object[users.size()][2];
+        for (int i = 0; i < users.size(); i++) {
+            data[i][0] = users.get(i).get("username");
+            data[i][1] = users.get(i).get("password");
+        }
+        return data;
+    }
+}
+#+end_src
+
+---
+
+**Notes**
+
+- Replace `"https://your.api.base.url"` with your actual API base URL.
+- Adjust annotations and dependencies based on your test framework.
+- Make sure to add required dependencies for **Apache Commons CSV** or **Jackson** to your project.
+- This approach scales well for thousands of users and keeps test data clean and maintainable.
+
+** Query Parameter
+*** 📌 What Are Query Parameters?
+
+- Key-value pairs appended to a URL after a `?`.
+- Used to filter, sort, or modify API responses.
+- Multiple parameters separated by `&`.
+
+Example URL with query parameters:
+
+#+begin_example
+https://api.example.com/users?role=admin&active=true
+#+end_example
+
+Here:
+
+- `role=admin`
+- `active=true`
+
+---
+
+*** ✅ Using Query Parameters in RestAssured
+
+You can add query parameters using `.queryParam()` for single or `.queryParams()` for multiple.
+
+Example with single parameters:
+
+#+begin_src java
+given()
+    .queryParam("role", "admin")
+    .queryParam("active", "true")
+.when()
+    .get("https://api.example.com/users")
+.then()
+    .statusCode(200);
+#+end_src
+
+This sends a GET request to:
+
+#+begin_example
+https://api.example.com/users?role=admin&active=true
+#+end_example
+
+---
+
+*** 🆚 Path Parameters vs Query Parameters
+
+| Parameter Type  | Purpose                    | Example         |
+|-----------------|----------------------------|-----------------|
+| *Path Parameter* | Identify a specific resource | /users/123      |
+| *Query Parameter*| Filter or modify results     | /users?active=true |
+
+---
+
+*** 🔢 Passing Multiple Query Parameters with a HashMap
+
+When you have many or dynamic query parameters, use a `HashMap` to organize and send them easily.
+
+Example:
+
+#+begin_src java
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import java.util.HashMap;
+import java.util.Map;
+
+public class RestAssuredExample {
+    public static void main(String[] args) {
+        Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("param1", "value1");
+        queryParams.put("param2", "value2");
+        queryParams.put("param3", "value3");
+
+        Response response = RestAssured.given()
+                .queryParams(queryParams)  // Attach all params
+                .when()
+                .get("https://your-api-endpoint.com");
+
+        System.out.println("Response: " + response.getBody().asString());
+    }
+}
+#+end_src
+
+Explanation:
+
+- `queryParams.put("key", "value")` adds key-value pairs.
+- `.queryParams(queryParams)` adds all parameters from the map.
+- The request URL will automatically include all these as query parameters.
+
+---
+
+This approach is ideal for APIs needing flexible query param inputs or for data-driven tests with variable filters.
+
+** Rest Assured Request-Response Explanined
+*** 1. given()
+
+Used to *set up the HTTP request* — define everything needed _before_ sending the request.
+
+- **Base URI / Base Path**
+
+#+begin_src java
+given().baseUri("http://api.example.com")
+       .basePath("/v1");
+#+end_src
+
+- **Headers**
+
+#+begin_src java
+given().header("Authorization", "Bearer token123");
+#+end_src
+
+- **Query Parameters**
+
+#+begin_src java
+given().queryParam("page", 2);
+#+end_src
+
+- **Request Body**
+
+Can be a `String`, `File`, `Map`, or POJO.
+
+#+begin_src java
+given().body("{ \"name\": \"John\" }");
+#+end_src
+
+- **Authentication**
+
+#+begin_src java
+given().auth().basic("username", "password");       // Basic Auth
+given().auth().oauth2("accessToken");               // OAuth2
+#+end_src
+
+---
+
+*** 2. when()
+
+Used to *send the HTTP request* with the chosen method:
+
+#+begin_src java
+.when().get("/users");
+.when().post("/users");
+.when().put("/users/1");
+.when().delete("/users/1");
+#+end_src
+
+---
+
+*** 3. then()
+
+Used to *validate the response* and *extract data*:
+
+- **Status Code Validation**
+
+#+begin_src java
+.then().statusCode(200);
+#+end_src
+
+- **Validate Headers, Cookies, Body**
+
+#+begin_src java
+.then().header("Content-Type", equalTo("application/json"));
+.then().cookie("SESSIONID");
+.then().body("name", equalTo("John"));
+#+end_src
+
+- **Extract Response**
+
+#+begin_src java
+Response response =
+    given().header("key", "value")
+    .when().get("/users")
+    .then().extract().response();
+#+end_src
+
+---
+
+*Example — Combined Usage*
+
+#+begin_src java
+given()
+    .baseUri("https://api.example.com")
+    .header("Authorization", "Bearer token123")
+    .queryParam("page", 1)
+    .body("{ \"name\": \"Jane\" }")
+.when()
+    .post("/users")
+.then()
+    .statusCode(201)
+    .body("name", equalTo("Jane"));
+#+end_src
+
+** TestNG annotations with RestAssured
+*** Why combine TestNG + RestAssured?
+
+- **TestNG** is a powerful testing framework that manages test lifecycles using annotations.
+- **RestAssured** is a fluent HTTP client library designed for easy API testing and validations.
+- Together, they allow writing structured, data-driven API tests with setup/teardown and assertions.
+
+---
+
+*** ✅ Common TestNG Annotations for RestAssured Tests
+
+| Annotation      | Purpose                                         |
+|-----------------|------------------------------------------------|
+| `@Test`         | Marks a method as a test case                   |
+| `@BeforeClass`  | Runs once before the first test in the class   |
+| `@AfterClass`   | Runs once after all tests in the class          |
+| `@BeforeMethod` | Runs before every `@Test` method                |
+| `@AfterMethod`  | Runs after every `@Test` method                  |
+| `@BeforeSuite`  | Runs once before the entire suite                |
+| `@AfterSuite`   | Runs once after the entire suite                 |
+| `@DataProvider` | Provides test data sets to test methods          |
+| `@Parameters`   | Passes parameters from `testng.xml` configuration|
+| `@Listeners`    | Registers listeners for reporting, logging, etc.|
+
+---
+
+*** 🧪 Example: RestAssured + TestNG
+
+#+begin_src java
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.testng.annotations.*;
+
+public class APITest {
+
+    @BeforeClass
+    public void setup() {
+        RestAssured.baseURI = "https://api.example.com";
+    }
+
+    @Test
+    public void getUsers_shouldReturn200() {
+        Response response = RestAssured
+            .given()
+            .when()
+            .get("/users")
+            .then()
+            .statusCode(200)
+            .extract()
+            .response();
+
+        System.out.println("Response: " + response.asString());
+    }
+
+    @Test(dataProvider = "userIds")
+    public void getUserById(int userId) {
+        RestAssured
+            .given()
+            .pathParam("id", userId)
+            .when()
+            .get("/users/{id}")
+            .then()
+            .statusCode(200);
+    }
+
+    @DataProvider(name = "userIds")
+    public Object[][] userData() {
+        return new Object[][] {
+            {1}, {2}, {3}
+        };
+    }
+
+    @AfterClass
+    public void tearDown() {
+        // Clean up or reset state
+    }
+}
+#+end_src
+
+---
+
+*** 🔧 Useful RestAssured Imports
+
+#+begin_src java
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+#+end_src
+
+These allow concise syntax like:
+
+#+begin_src java
+given()
+    .queryParam("limit", 10)
+.when()
+    .get("/items")
+.then()
+    .statusCode(200)
+    .body("size()", equalTo(10));
+#+end_src
+
+---
+
+*** ✅ Summary
+
+- Use `@Test` to mark API test methods.
+- Use `@BeforeClass` and `@AfterClass` for setup and teardown logic.
+- Use `@DataProvider` to run tests with multiple sets of data.
+- Use `@Parameters` or external configs for dynamic inputs if needed (less common).
+- Combine RestAssured’s fluent API with TestNG annotations for clean, maintainable API tests.
+
+** TestNG Assertions vs RestAssured  Hamcrest Assertions
+*** ✅ Classic Style: TestNG or JUnit
+
+#+begin_src java
+Response response = given()
+    .contentType(ContentType.JSON)
+.when()
+    .get("http://localhost:3000/books");
+
+Assert.assertEquals(response.getStatusCode(), 200);
+Assert.assertEquals(response.header("Content-Type"), "application/json");
+#+end_src
+
+- Uses `Assert.assertEquals()` from TestNG/JUnit
+- Manual extraction of status, headers, body, etc.
+- Imperative, step-by-step approach
+- More verbose, less readable
+
+---
+
+*** ✅ Fluent Style: RestAssured + Hamcrest
+
+#+begin_src java
+given()
+    .contentType(ContentType.JSON)
+.when()
+    .get("http://localhost:3000/books")
+.then()
+    .statusCode(200)
+    .header("Content-Type", equalTo("application/json"));
+#+end_src
+
+- More readable, declarative style
+- Uses **Hamcrest matchers** (like `equalTo()`, `hasItem()`)
+- Validation happens directly inside `.then()` block
+- Supports method chaining and a clean DSL
+
+---
+
+*** 🔁 Key Differences
+
+| Feature         | TestNG / JUnit Style       | RestAssured + Hamcrest       |
+|-----------------|----------------------------|------------------------------|
+| Assertions      | `Assert.*()`               | `equalTo()`, `hasItem()`, etc. |
+| Readability     | Verbose, imperative        | Fluent, expressive            |
+| Method chaining | ❌                         | ✅                           |
+| DSL support     | ❌                         | ✅ (built-in RestAssured DSL) |
+| Manual extraction | ✅                       | ❌ (auto assertions in chain) |
+
+---
+
+*** ✅ Example with TestNG
+
+#+begin_src java
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.*;
+
+public class BookApiTest {
+
+    @Test
+    public void validateBooksEndpoint() {
+        Response response = given()
+            .contentType(ContentType.JSON)
+        .when()
+            .get("http://localhost:3000/books");
+
+        Assert.assertEquals(response.getStatusCode(), 200);
+        Assert.assertEquals(response.header("Content-Type"), "application/json");
+    }
+}
+#+end_src
+
+---
+
+*** ✅ Example with Hamcrest (Recommended)
+
+#+begin_src java
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+import org.testng.annotations.Test;
+
+public class BookApiTest {
+
+    @Test
+    public void validateResponse() {
+        given()
+        .when()
+            .get("http://localhost:3000/books")
+        .then()
+            .statusCode(200)
+            .body("[0].title", equalTo("The Hobbit"))
+            .body("author", hasItem("J.R.R. Tolkien"));
+    }
+}
+#+end_src
+
+---
+
+*** 🧠 What’s Going On?
+
+| Element         | Comes From          | Purpose                            |
+|-----------------|---------------------|----------------------------------|
+| `given()`, `when()`, `then()` | RestAssured DSL     | Fluent API request structure      |
+| `equalTo()`, `hasItem()`       | Hamcrest Matchers   | Expressive assertions             |
+| `@Given`, `@When`, `@Then`     | Cucumber (BDD)      | Only relevant if using Cucumber   |
+
+_Note:_ RestAssured’s DSL is **not related** to Cucumber despite similar method names.
+
+---
+
+*** 🧪 Useful Hamcrest Matchers
+
+| Matcher             | Example                                         |
+|---------------------+------------------------------------------------|
+| **Equality & Null Checks**                             |                                                |
+| `equalTo("val")`     | `.body("name", equalTo("John"))`                |
+| `not(val)`           | `.body("id", not(0))`                            |
+| `nullValue()`        | `.body("middleName", nullValue())`               |
+| `notNullValue()`     | `.body("email", notNullValue())`                  |
+| **Collections**                                        |                                                |
+| `hasItem("val")`     | `.body("roles", hasItem("admin"))`               |
+| `hasItems("v1", "v2")` | `.body("roles", hasItems("admin", "editor"))`  |
+| `contains(...)`      | `.body("ids", contains(1, 2, 3))`                |
+| `containsInAnyOrder(...)` | `.body("ids", containsInAnyOrder(3, 1, 2))`  |
+| `everyItem(matcher)` | `.body("scores", everyItem(greaterThan(50)))`   |
+| **Strings**                                            |                                                |
+| `startsWith("val")`  | `.body("email", startsWith("user"))`             |
+| `endsWith("val")`    | `.body("email", endsWith(".com"))`                |
+| `containsString("v")`| `.body("msg", containsString("error"))`           |
+| **Numbers**                                            |                                                |
+| `greaterThan(10)`    | `.body("price", greaterThan(10))`                 |
+| `lessThan(100)`      | `.body("discount", lessThan(100))`                 |
+| `closeTo(100.0, 0.5)`| `.body("value", closeTo(100, 0.5))`               |
+| **Combiners**                                         |                                                |
+| `allOf(...)`         | `.body("role", allOf(startsWith("a"), containsString("d")))` |
+| `anyOf(...)`         | `.body("status", anyOf(equalTo("active"), equalTo("new")))`   |
+| `not(...)`           | `.body("id", not(equalTo(0)))`                      |
+
+---
+
+*** 📦 Static Imports (For Cleaner Syntax)
+
+#+begin_src java
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+#+end_src
+
+This allows you to write concise assertions like:
+
+#+begin_src java
+.statusCode(200)
+.body("name", equalTo("John"))
+#+end_src
+
+---
+
+*** ✅ Summary
+
+- Use **TestNG/JUnit assertions** for traditional, manual validation steps.
+- Use **RestAssured + Hamcrest** for fluent, expressive, and concise API testing.
+- Hamcrest comes bundled with RestAssured — no extra setup needed.
+- `given()`, `when()`, `then()` are part of **RestAssured DSL**, not Cucumber.
+
+* Maven
+** Apache Maven Essential Commands
+
+Apache Maven is a powerful build automation tool used primarily for Java projects. Below are essential Maven commands, what they do, and how to use them.
+
+---
+
+** ✅ Check if Your Project is a Valid Maven Project**
+
+#+begin_src bash
+mvn validate
+#+end_src
+
+- Validates the `pom.xml` and checks if the project is correctly structured and configured.
+
+---
+
+** 🧹 Clean Compiled Files**
+
+#+begin_src bash
+mvn clean
+#+end_src
+
+- Deletes the `target/` directory (where compiled code is stored).
+- Equivalent to manually deleting the folder to ensure a fresh build.
+
+---
+
+** 🛠️ Compile Java Code**
+
+#+begin_src bash
+mvn compile
+#+end_src
+
+- Compiles the source code from `src/main/java`.
+- Outputs `.class` files into the `target/` directory.
+
+---
+
+** 🧪 Run Tests**
+
+#+begin_src bash
+mvn test
+#+end_src
+
+- Compiles test classes from `src/test/java`.
+- Executes all unit tests using the configured testing framework (e.g., JUnit or TestNG).
+
+---
+
+** 📦 Package the Application**
+
+#+begin_src bash
+mvn package
+#+end_src
+
+- Packages the compiled code into a `.jar` or `.war` file.
+- The final artifact is placed inside the `target/` directory.
+
+---
+
+** 🔗 Chain Multiple Commands**
+
+You can chain commands for efficiency:
+
+#+begin_src bash
+mvn clean compile test package
+#+end_src
+
+---
+
+** 📥 Install into Local Repository**
+
+#+begin_src bash
+mvn install
+#+end_src
+
+- Runs all the previous phases: clean → compile → test → package
+- Installs the resulting artifact into your local Maven repository:
+  `~/.m2/repository`
+
+✅ The final location of the `.jar` or `.war` is printed in the console.
+
+---
+
+** 📚 Resources**
+
+- 📺 **Maven Tutorial Video** _(link placeholder)_
+- 📖 **Maven Complete Reference Guide** _(link placeholder)_

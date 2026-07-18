@@ -1,0 +1,357 @@
+:PROPERTIES:
+:ID:       595ba59a-9760-48d8-aa8a-42e73db8a734
+:END:
+#+title: JavaScript
+
+* VScode extentions
+
+- Live Preview
+- Prettier
+- vscode-icons
+
+* Html
+** Attributes
+https://www.udemy.com/course/the-complete-web-development-bootcamp/learn/lecture/37349818#overview
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a
+
+#+BEGIN_SRC htm
+<tag attribute = value>Content</tag>
+
+<ul>
+  <li>
+       <a href="https://example.com">Website</a>
+  </li>
+</ul>
+#+END_SRC
+
+** Lists
+*** UnOrdered List
+
+#+BEGIN_SRC html
+<ul>
+  <li> Eggs </li>
+  <li> Tomatoes </li>
+</ul>
+#+END_SRC
+
+*** Ordered List
+
+#+BEGIN_SRC html
+<ol>
+  <li> Eggs </li>
+  <li> Tomatoes </li>
+</ol>
+#+END_SRC
+
+Change start count. Basically instead of 1 list will start from any number you pass. Below list will start counting from 10.
+
+#+BEGIN_SRC html
+<ol start = 10 >
+  <li> Eggs </li>
+  <li> Tomatoes </li>
+</ol>
+#+END_SRC
+
+** Images
+
+- It doesn't has a closing tag because it is an void element. It has self closing tag.
+- alt means alternative text
+
+#+BEGIN_SRC html
+<img src = "url" alt = "Forest Image"/>
+#+END_SRC
+
+** File Paths
+*** Same/Current Folder Access
+
+#+BEGIN_SRC html
+<img src = "./bird.jpg" alt = "bird" />
+#+END_SRC
+
+*** Sub Folder Access
+
+#+BEGIN_SRC html
+<img src = "./subFolder/bird.jpg" alt = "bird" />
+#+END_SRC
+
+*** Upper Level Folders
+
+Just like unix, going up is ../
+
+* Css
+
+Css attributes are:
+
+nameOfAttribute = "cssProperty:valueOfProperty"
+** Css File Path
+
+In html file, give path of css file, so it can be applied.
+
+#+BEGIN_SRC html
+ <link rel="stylesheet" href="./style.css" />
+#+END_SRC
+
+** Inline Css
+
+- It is css in same line in specific html element.
+
+Example: Make whole html documents background blue.
+
+#+BEGIN_SRC html
+<html style = "background:blue">
+</html>
+#+END_SRC
+
+- It is not recommended to use inline styling for entire document.
+
+** Internal Css
+
+- This is done with special html tag calles style.
+
+#+BEGIN_SRC html
+<html>
+  <head>
+    <style>
+      html{
+      background:red;
+      }
+    </style>
+  </head>
+</html>
+#+END_SRC
+
+- This styling is limited to the html it sits in. If you have multipage html, you should be using external css not internal css like this one.
+
+** External Css
+- Css code is located inside an .css file.
+
+Example: styles.css
+
+#+BEGIN_SRC css
+html{
+    background:red;
+}
+#+END_SRC
+
+- Link .css file to html file.
+
+#+BEGIN_SRC html
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="./styles.css"
+    />
+  </head>
+</html>
+#+END_SRC
+
+** Css Selectors
+*** Element Selector
+- Select all h2 elements and make them red.
+
+Example: styles.css
+
+#+BEGIN_SRC css
+h2{
+    color:red
+}
+#+END_SRC
+
+*** Class Selector
+
+- . is class in css. red-heading is actual name of the class.
+- class is an attribute that we can add to any html element. Example h2. It is like saying let's group all h2 elements into a class.
+
+#+BEGIN_SRC css
+.red-text{
+    color:red;
+}
+#+END_SRC
+
+In html code:
+
+#+BEGIN_SRC html
+<h2 class="red-text">Red</h2>
+#+END_SRC
+
+- this will select only element that hass class tag and turn it to red. It will not select and change color of other h2 tags that doesn't has class tags.
+- css class tag and html class text must be same.
+- Once defined in css class, it can be referred from anywhere. Let's say if we want to use red-text class inside <p> we can.
+#+BEGIN_SRC html
+<p class="red-text"> Paragraph </p>
+#+END_SRC
+
+*** Id Selector
+
+- It works similirly to class selector. Difference between class and id selector is:
+
+1. class selector can be applied to many elements
+2. id can be applied to only one element in a single html.
+
+#+BEGIN_SRC css
+#main{
+    color:red;
+}
+#+END_SRC
+
+In html code:
+
+#+BEGIN_SRC html
+<h2 id="main">Red</h2>
+#+END_SRC
+
+*** Attribute Selector
+
+- We can add many attributes to an html tag.
+
+Example: Select all paragraph elements with attribute draggable and apply red color to it.
+
+#+BEGIN_SRC css
+p[draggable]{
+    color:red;
+}
+#+END_SRC
+
+In html:
+
+#+BEGIN_SRC html
+<p draggable="true"> Drag me</p>
+<p draggable="false"> Don't Drag me</p>
+#+END_SRC
+
+If we want, we can add more rules. All paragraph tags that has draggable="false" to be red. It will not make other draggable ones red, because they don't have "false" value.
+
+#+BEGIN_SRC css
+p[draggable="false"]{
+    color:red;
+}
+#+END_SRC
+
+*** Universal Selector
+
+- This will apply every element in the html. It will make everything red.
+
+#+BEGIN_SRC css
+*{
+    color:red;
+}
+#+END_SRC
+
+*** img
+
+- We can change img size in .css file by;
+
+#+BEGIN_SRC css
+img{
+    height: 200px;
+    width: 200px;
+}
+#+END_SRC
+
+
+Css Properties:
+
+*** CSS Colors Properties
+
+- It sets color of text and/or background.
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/named-color
+
+https://colorhunt.co/
+
+- Instead of color name, like red, you can use hex code of the color too.
+*** Font Properties
+
+- px for pixel
+- pt for point
+
+Some of the properties:
+
+- font-size: 12pt;
+- font-family: sans-serif;
+- font-family: "Times New Roman";
+
+Resource for free fonts:
+
+https://fonts.google.com/
+
+Text Allign:
+
+#+BEGIN_SRC css
+h1{
+    text-align: center;
+}
+#+END_SRC
+
+*** Box Properties
+
+**** Border
+
+We can change border size of a box.
+
+#+BEGIN_SRC css
+border : 10px solid black;
+#+END_SRC
+
+- 1opx thickness of the border
+- solid is style of border. It can be dashed also
+- black is color of the border.
+
+We can change border of one side of the box in lower line.
+
+#+BEGIN_SRC css
+border : 10px solid black;
+border-top: 0px;
+#+END_SRC
+
+This will keep 3 sides of box same but remove border from top.
+
+We can also define border width depends on side:
+border-width: 0px 10px 20px 30px
+
+**** Padding
+
+Padding will create gap between text and the border.
+
+#+BEGIN_SRC css
+padding: 5px
+#+END_SRC
+
+Let's say we have an image, if we add padding to its box, it will add space inside image and its box.
+
+**** Margin
+
+Margin is distance between 2 elements.
+
+#+BEGIN_SRC css
+p {
+    margin: <top> <right> <bottom> <left>;
+}
+#+END_SRC
+
+#+BEGIN_SRC css
+margin: 5px
+#+END_SRC
+
+**** How do we create a box? Div
+- Div tag is how we create an artificial box around element(s).
+- Div tags are invisable unless you add css to them. Once added, it is an invisable box that has content inbetween opening and closing tags.
+
+#+BEGIN_SRC css
+<div> Content </div>
+#+END_SRC
+
+#+BEGIN_SRC html
+<body>
+
+  <div>
+    <p> Hello world </p>
+    <img src="./world.png" />
+  </div>
+
+</body>
+#+END_SRC
+
+There is a chrome extention helps you so debug div tags:

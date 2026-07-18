@@ -1,0 +1,51 @@
+:PROPERTIES:
+:ID:       b5cc8acd-cb40-4668-bddb-4273890fc006
+:END:
+#+title: Neovim
+
+* Recommended Commands for Using ctags in Neovim
+When using ctags with Neovim, there are a variety of commands and key mappings that can significantly enhance your workflow for navigation, exploration, and productivity. Here’s a list of useful commands and techniques:
+
+** 1. Go to Definition
+   - Use Ctrl-] to go to the definition of the tag under the cursor.
+
+** 2. Go Back
+   - Use Ctrl-T to return to the previous location (back to where you invoked Ctrl-]).
+   - Ctrl + O works too.
+
+** 3. Tag List Navigation
+   - Use :tag <tagname> to search for and jump to a specific tag by name.
+   - You can cycle through the tags with :tnext, :tprev, :tfirst, and :tlast.
+
+** 4. Tag Search and Completion
+   - Use Ctrl-] on a word to jump to the tag under the cursor.
+   - Use :tags <tagname> to search and jump to a specific tag.
+
+** 5. Jump to File in Tag
+   - Use :tselect <tagname> to select and jump to a specific tag.
+   - Use :tjump <tagname> to jump directly to the tag definition.
+
+** 6. Finding Tags in Files
+   - Use :tags to list all available tags.
+   - Use :find <filename> to search for a file and jump to it.
+
+** 7. Tagging Multiple Files
+   If you're working in a multi-file project, you may want to regenerate your tags file when files change. You can use the following:
+   - Run ctags -R . to recursively regenerate the tags file for your project.
+
+** 8. Jumping to the Next/Previous Occurrence of a Tag
+   - Use :tnext and :tprev to jump to the next or previous occurrence of a tag.
+
+** 9. Use Ctrl-] with Lists of Functions/Variables
+   When browsing through a function or variable list (e.g., in a large header file), using Ctrl-] can quickly open the implementation or definition of a symbol.
+
+** 10. Preview Tag Without Leaving Current File
+   - Use :tselect <tagname> to see a list of matching tags and choose one.
+
+** 11. Tag Grouping
+   If you're dealing with large projects, organizing your tags can help. Use ctags with specific options to group tags into files for easier navigation. For example:
+   - Use ctags -f tags -R . to create the tags file in your project directory and recursively tag all files.
+
+** 12. Using ctags in Neovim
+   - Use :tag <tagname> to search for a tag and jump to its definition.
+   - Ctrl-] is typically mapped to jump to a tag definition.

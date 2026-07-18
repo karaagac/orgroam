@@ -1,0 +1,198 @@
+:PROPERTIES:
+:ID:       d42cdb3f-e327-4938-8ac2-cf089cf18d5f
+:END:
+#+title: ankinotes
+
+* Deck Name :deck:corejava
+
+** Default value of int[]
+   :PROPERTIES:
+   :ANKI_NOTE_TYPE: Basic
+   :ANKI_DECK: corejava
+   :ANKI_NOTE_ID: 1757907800902
+   :ANKI_NOTE_HASH: b4ad3113f6c92919893234baf4f8b743
+   :END:
+
+*** Front
+   What default value for `int[]` ?
+
+*** Back
+   `int[]` will have 0 as default value. Arrays are not empty. They have default primitive values inserted.
+
+** What data types we can use inside double[]
+   :PROPERTIES:
+   :ANKI_NOTE_TYPE: Basic
+   :ANKI_DECK: corejava
+   :ANKI_NOTE_ID: 1757907800928
+   :ANKI_NOTE_HASH: accbe4a59876c19d548c1f10a538226c
+   :END:
+
+*** Front
+  What data types we can use inside an double[]?
+
+*** Back
+Java allows implicit type promotion when initializing a double[], so values of other types (like int, float, char, long) can be automatically promoted to double.
+
+Here’s an example:
+
+#+BEGIN_SRC java
+double[] doubleArr = {100, 200.00f, 'c', 300L, 100.00};
+#+END_SRC
+
+Explanation:
+- 100 is an int → promoted to double
+- 200.00f is a float → promoted to double
+- 'c' is a char → promoted to its ASCII value as double
+- 300L is a long → promoted to double
+- 100.00 is already a double
+
+** What is length, length() and size()
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:ANKI_DECK: corejava
+:ANKI_NOTE_ID: 1757909376130
+:ANKI_NOTE_HASH: f190494fab5570a8b05269dffd98fabf
+:END:
+
+*** Front
+What is difference between length variable and length() method?
+
+*** Back
+- length variable is for arrays when we loop or when we want to learn its size.
+- length() method is for strings.
+- And collections has size() method.
+
+** What is difference between return and break?
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:ANKI_DECK: corejava
+:ANKI_NOTE_ID: 1758304729044
+:ANKI_NOTE_HASH: 538231db053bdc0370b1fdd946c335e4
+:END:
+
+*** Front
+What is difference between return and break?
+
+*** Back
+- return exits the method. If it is inside main method program ends.
+- break exits loop and goes back to main method or other method, whereever it is in.
+
+** Explain Bubble Sort?
+:PROPERTIES:
+:ANKI_NOTE_TYPE: Basic
+:ANKI_DECK: corejava
+:ANKI_NOTE_ID: 1758509176351
+:ANKI_NOTE_HASH: b254a01ff744810bb44cb64ebc01f464
+:END:
+
+*** Front
+Write buble sort algorithm?
+
+*** Back
+#+BEGIN_SRC java
+int[] arr = {3, 2, 4, 1, 2, 5, 8, 7, 6, 8};
+        Arrays.sort(arr);
+
+        int target = 5;
+        int start = 0;
+        int end = arr.length - 1;
+
+        while (start <= end) {
+        int middle = start + (end - start) / 2;
+            if (arr[middle] == target) {
+                System.out.println("target is present at index: " + middle);
+                return;
+            } else if (arr[middle] > target) {
+                end = middle - 1;
+            } else {
+                start = middle + 1;
+            }
+        }
+#+END_SRC
+
+** Count of Digits?
+   :PROPERTIES:
+   :ANKI_NOTE_TYPE: Basic
+   :ANKI_DECK: corejava
+   :ANKI_NOTE_ID: 1758386819030
+   :ANKI_NOTE_HASH: ba98ba768c016441fb0fca6913da9a72
+   :END:
+
+*** Front
+   Calculate count of Digits?
+
+*** Back
+#+BEGIN_SRC java
+int number = 12345;
+int count = 0;
+
+while (number != 0) {
+      number /= 10;
+      count++;
+    }
+System.out.println("The number has " + count + " digits.");
+#+END_SRC
+
+** Fibonacci Numbers?
+   :PROPERTIES:
+   :ANKI_NOTE_TYPE: Basic
+   :ANKI_DECK: corejava
+   :ANKI_NOTE_ID: 1758386947918
+   :ANKI_NOTE_HASH: ad6e8256d44259aaa479e40907372bf9
+   :END:
+
+*** Front
+   Fibonacci Numbers find?
+
+*** Back
+#+BEGIN_SRC java
+public static int fib(int n) {
+if (n <= 1)
+	return n;
+
+return fib(n - 1) + fib(n - 2);
+}
+#+END_SRC
+
+* Deck Name :deck:stream
+** How do you save int[] as String[]?
+   :PROPERTIES:
+   :ANKI_NOTE_TYPE: Basic
+   :ANKI_DECK: stream
+   :ANKI_NOTE_ID: 1758640189381
+   :ANKI_NOTE_HASH: 8d81805511751b53552449f5b42aa32c
+   :END:
+
+*** Front
+   How do you save int[] as String[]?
+
+*** Back
+#+BEGIN_SRC java
+int[] arr = {2, 3, 5, 4, 6, 88, 11};
+
+// Convert int[] to String[] using IntStream
+String[] stringArray = Arrays.stream(arr)
+         .mapToObj(Integer::toString)
+         .toArray(String[]::new);
+
+// Output the resulting String[] array
+System.out.println(Arrays.toString(stringArray));
+#+END_SRC
+
+** How do you save int[] as String?
+   :PROPERTIES:
+   :ANKI_NOTE_TYPE: Basic
+   :ANKI_DECK: stream
+   :ANKI_NOTE_ID: 1758640365546
+   :ANKI_NOTE_HASH: cab373d2f8cbd27e324f75a9c9f96ab6
+   :END:
+
+*** Front
+   How do you save int[] as String?
+
+*** Back
+#+BEGIN_SRC java
+int[] arr = { 12, 4, 56, 61, 22 };
+String strArr = Arrays.stream(arr).mapToObj(String::valueOf).collect(Collectors.joining(","));
+System.out.println(strArr);
+#+END_SRC

@@ -1,0 +1,11 @@
+:PROPERTIES:
+:ID:       a76395f7-389e-4e29-a286-40c802a260f6
+:END:
+#+title: Python
+
+* Python Environment
+
+Virtual environment doesn't contain your code! It contains things about that environment. So save your code anywhere else than virtual environment folder like venv or env.
+
+Videos shows how to create an python environment, install packages and same requirements for next person to install.
+https://www.youtube.com/watch?v=Y21OR1OPC9A

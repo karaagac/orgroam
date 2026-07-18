@@ -1,0 +1,310 @@
+:PROPERTIES:
+:ID:       8d000651-cfc6-41ff-910c-c3c8467085a2
+:END:
+#+title: Lua
+
+* Resources
+
+Video resource for the document: https://youtu.be/CuWfgiwI73Q
+
+* Variables
+** numbers
+#+BEGIN_SRC lua
+local number = 5
+#+END_SRC
+** Strings
+#+BEGIN_SRC lua
+local string = "hello world"
+local single = 'also works'
+local multiline = [[this is multiline
+and literal]]
+#+END_SRC
+
+Concatinate strings with ..
+
+#+BEGIN_SRC lua
+print("hellow " .. "world")
+#+END_SRC
+** boolean
+#+BEGIN_SRC lua
+local truth, lies = true, false
+#+END_SRC
+
+** null
+#+BEGIN_SRC lua
+local nothing = nil
+#+END_SRC
+* Functions
+
+There are 2 ways to declare functions.
+
+** First
+
+#+BEGIN_SRC lua :results output
+local function hello(name)
+	print("hello", name)
+end
+
+hello("world ")
+#+END_SRC
+
+#+RESULTS:
+: hello	world
+
+** Second
+
+#+BEGIN_SRC lua
+local greet = function(name)
+   print("greeting " .. name)
+end
+
+greet("abe")
+#+END_SRC
+
+#+RESULTS:
+
+* Data Tables
+
+** Tables as Lists
+
+- Lua lists can take anything.
+- index starts from 1
+
+#+BEGIN_SRC lua
+local list = {"first", 2, false, function() print('forth!') end}
+print("Yes 1-indexted ", list[1])
+print("fourth it 4: ", list[4]())
+#+END_SRC
+
+** Tables as Maps
+
+#+BEGIN_SRC lua
+local t = {
+	literal_key = "a string",
+	["an expression"] = "also works",
+	[function() end] = true,
+}
+
+print("literal key: ", t.literal_key)
+print("an expression: ", t["an expression"])
+print("function() end ", t[function() end])
+#+END_SRC
+
+- In above code, first function() and second function() points to different location. So they are not the same thing!
+
+* for loops
+
+#+BEGIN_SRC lua
+local favorite_accounts = {"abe", "angel", "xalil"}
+for index = 1, #favorite_accounts do
+   print(index, favorite_accounts[index])
+end
+#+END_SRC
+
+- index is variable
+- start from 1
+- # is length operator. (lendth of 3)
+
+* If statements
+
+#+BEGIN_SRC lua
+local function action(loves_coffee)
+	if loves_coffee then
+		print("Good for you!")
+	else
+		print("Who doesn't like coffee?")
+	end
+end
+
+action(false)
+action(true)
+action({}) -- Considered true.
+#+END_SRC
+
+* Modules
+
+*** What is a Lua Module?
+
+In Lua, a module is a way to organize your code into separate, reusable chunks.
+
+*** To create a Lua module:
+
+You write a Lua file containing functions or variables that you want to "export."
+You return a table from that file that will act as the "module."
+Other Lua scripts can then require this module and use its functions.
+
+File: mathmodule.lua
+
+#+BEGIN_SRC lua
+-- Create the module by returning a table
+local mathmodule = {}
+
+-- Add a function for addition
+function mathmodule.add(a, b)
+    return a + b
+end
+
+-- Add a function for subtraction
+function mathmodule.subtract(a, b)
+    return a - b
+end
+
+-- Return the module table
+return mathmodule
+#+END_SRC
+
+*** Use Created lua module
+
+Now that you've created the mathmodule.lua module, you can use it in another Lua script. You do this by using the require function.
+
+File: main.lua
+
+#+BEGIN_SRC lua
+-- Import the mathmodule
+local math = require("mathmodule")
+
+-- Use the functions from the module
+local result1 = math.add(5, 3)
+print("5 + 3 = " .. result1)  -- Output: 5 + 3 = 8
+
+local result2 = math.subtract(10, 4)
+print("10 - 4 = " .. result2)  -- Output: 10 - 4 = 6
+#+END_SRC
+
+Explanation:
+- The require("mathmodule") function loads the mathmodule.lua file and assigns its returned table (the module) to the local variable math.
+- Now you can call math.add() and math.subtract() like regular functions.
+- This script prints the results of the addition and subtraction.
+
+*** OS Module
+
+#+BEGIN_SRC lua
+-- Create a file
+local file = io.open("rename.txt", "w")
+file:close()
+
+--rename a file
+os.rename("rename.txt", "rename1.txt")
+
+-- remove a file
+os.remove("rename1.txt")
+
+-- Time your code
+local start = os.clock()
+
+for i = 1, 10, 1 do
+  print(i)
+  if i == 5 then
+    os.exit()
+  end
+end
+
+print(os.clock() - start)
+#+END_SRC
+
+*** Custom Module
+Custom module is single module that turns to a table when called.
+
+As an example: create a mymath.lua file
+
+* OOP Concept
+** Objects and Instances
+*** Summary
+- lua is not object oriented programming language
+- We can simulate object logic in lua. In order to do that we will use functions.
+- These functions will return a table and that table is going to help us create object
+
+Example: Create an table (similiar to object)
+
+#+BEGIN_SRC lua
+local t = {
+  name = "jack",
+  age = 30,
+  friends = {"abe", "xalil"},
+}
+-- call table(Object) property
+print(t.name)
+#+END_SRC
+
+*** Crating an Object and its instance
+
+- Create an function that can act like an object
+
+#+BEGIN_SRC lua
+local function Pet(name, status) -- Constructor
+  name = name or "louise" -- if name is not set, set to louise
+--return table
+  return {
+    name = name,
+    status = "Hungry",
+    -- self is like this in java
+    -- it allows you to access this local block properties
+    feed = function(self) -- function feed
+      print(name .. " is Fed")
+      self.status = "Full"
+    end
+  }
+end
+#+END_SRC
+
+- Create an instance of above object
+
+#+BEGIN_SRC lua
+-- Create an instance of Pet
+local cat = Pet("louise", "hungry")
+
+-- Access cat object properties
+print(cat.name)
+print(cat.status) -- get default status
+cat.feed(cat)     -- feed the cat
+--cat:feed()     -- feed the cat, same as above line
+print(cat.status) -- get changed status
+#+END_SRC
+
+** Inheritance
+
+#+BEGIN_SRC lua
+local function Dog(name, breed)
+  local dog = Pet(name) -- Inheritance
+  --add to Pet table above
+  dog.breed = breed
+  dog.loyalty = 0
+
+  -- create a function to return loyalty
+  dog.isLoyal = function(self)
+    return self.loyalty >= 10 -- if loyalty is >= 10 then dog is loyal
+  end
+
+  -- another functions
+  dog.bark = function(self)
+    print("Woof woof")
+  end
+
+  -- override feed function created in Pet
+  dog.feed = function (self)
+      print(name .. " is Fed")
+      self.status = "Full"
+      self.loyalty = self.loyalty + 5
+  end
+
+  --return the table dog
+  return dog
+end
+#+END_SRC
+
+- Use Inheritance
+
+#+BEGIN_SRC lua
+local lassy = Dog("Lassy", "Poodle")
+print(lassy.breed) -- access variable breed
+lassy:bark() -- access function bark
+
+lassy:feed() -- we need to feed twice because it has to be >= 10
+lassy:feed()
+
+if lassy:isLoyal() then
+  print("Will protect against introdurs")
+else
+  print("Will not protect against introdurs!")
+end
+#+END_SRC

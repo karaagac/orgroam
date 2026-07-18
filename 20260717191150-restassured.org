@@ -1,0 +1,229 @@
+:PROPERTIES:
+:ID:       b7a35e10-3ef1-434a-8b22-995f670c516c
+:END:
+#+title: RestAssured
+
+* Headers
+
+** What are Headers?
+Headers carry important information that controls how the request and response are handled. They provide metadata about the request or the response, including content type, authorization, and caching information.
+
+Headers are essential for defining the specifics of how an API should behave, how it should process data, and how it should handle authentication and authorization.
+
+** Key Types of Headers in API Testing
+
+*** Request Headers
+
+   These headers are sent by the client to the server when making an HTTP request. They can control various aspects of the server’s response or provide metadata about the request.
+
+   Some common request headers include:
+
+**** Content-Type: Specifies the media type of the resource (i.e., what kind of data is being sent).
+     - Example: `Content-Type: application/json` (indicates that the request body is JSON).
+**** Authorization: Used to send authentication information to the server, often as a token or a credential.
+     - Example: `Authorization: Bearer <token>` (commonly used in OAuth2 authentication).
+**** Accept: Specifies the media types that the client is willing to accept in the response.
+     - Example: `Accept: application/json` (requests a JSON response).
+**** User-Agent: Describes the client application making the request.
+     - Example: `User-Agent: Postman/7.36.0` (requests made using the Postman API client).
+**** Accept-Encoding: Specifies the types of encoding the client is able to handle for the response body (e.g., gzip, deflate).
+     - Example: `Accept-Encoding: gzip, deflate`
+**** Cache-Control*: Instructs how caching should be handled (e.g., whether to cache the response).
+       - Example: `Cache-Control: no-cache` (prevents caching).
+
+*** Response Headers
+
+   These headers are sent by the server to the client after processing the request. They provide information about the response, such as content type, server details, or instructions on how to handle the response.
+
+   Some common response headers include:
+
+   - **Content-Type**: Indicates the media type of the response body.
+     - Example: `Content-Type: application/json` (indicates that the server is sending JSON data).
+   - **Content-Length**: Specifies the size of the response body in bytes.
+     - Example: `Content-Length: 1024`
+   - **Server**: Information about the server software.
+     - Example: `Server: Apache/2.4.29 (Ubuntu)`
+   - **Location**: Provides the URL for a resource when a redirect occurs.
+     - Example: `Location: https://example.com/new-page`
+   - **Set-Cookie**: Used to send cookies from the server to the client.
+     - Example: `Set-Cookie: sessionid=abc123; path=/; HttpOnly`
+   - **WWW-Authenticate**: Used for HTTP authentication challenges (e.g., basic authentication).
+     - Example: `WWW-Authenticate: Basic realm="Access to the staging site"`
+
+3. **Custom Headers**
+
+   Sometimes, APIs may require or support custom headers, which are headers defined by the API itself to perform special functions. These can be used for things like tracking requests, managing special authentication tokens, or other custom features.
+
+   Example of a custom header:
+   - `X-Request-ID: 123456` (this could be used to track the request for debugging or logging purposes).
+
+*** Common Scenarios Where Headers Are Used in API Testing
+
+1. **Authentication and Authorization**:
+
+   Headers often carry tokens or credentials for verifying the identity of the user or application. For example, APIs that require OAuth tokens might send a header like:
+   #+begin_example
+   Authorization: Bearer <token>
+   #+end_example
+
+2. **Content-Type Handling**:
+
+   When sending data, especially in POST or PUT requests, the `Content-Type` header tells the server how to interpret the body of the request (e.g., as JSON, XML, or form data).
+
+   For example:
+   #+begin_example
+   Content-Type: application/json
+   #+end_example
+   tells the server that the body contains JSON data, which it should process accordingly.
+
+3. **Caching Control**:
+
+   In some scenarios, headers like `Cache-Control`, `ETag`, and `Last-Modified` help to manage caching, telling the client or server how to cache the response data and for how long.
+
+4. **Accepting Specific Formats in the Response**:
+
+   The `Accept` header is used to specify what kind of response formats (such as JSON or XML) the client expects.
+
+   Example:
+   #+begin_example
+   Accept: application/json
+   #+end_example
+
+5. **Handling Redirects**:
+
+   The `Location` header is used in HTTP responses to indicate where the client should be redirected (commonly seen in 3xx responses).
+
+   Example:
+   #+begin_example
+   Location: https://new-url.com
+   #+end_example
+
+*** Example of an API Request and Response with Headers
+
+- **API Request Example (GET Request):**
+  #+begin_example
+  GET /users/123 HTTP/1.1
+  Host: api.example.com
+  Authorization: Bearer abcdef1234567890
+  Accept: application/json
+  User-Agent: MyApp/1.0
+  #+end_example
+
+- **API Response Example (200 OK):**
+  #+begin_example
+  HTTP/1.1 200 OK
+  Content-Type: application/json
+  Content-Length: 123
+  Server: Apache/2.4.29 (Ubuntu)
+  Cache-Control: no-cache
+  Date: Sat, 16 Dec 2023 14:50:00 GMT
+
+  {
+    "id": 123,
+    "name": "John Doe",
+    "email": "johndoe@example.com"
+  }
+  #+end_example
+
+*** Why Headers Are Important in API Testing
+
+1. **Testing Authentication**: Ensure that the correct headers (e.g., `Authorization`) are used for authentication and that the API correctly processes them.
+
+2. **Content Handling**: Verify that the `Content-Type` and `Accept` headers are correctly set and that the server handles them properly.
+
+3. **Caching and Redirection**: Test that caching headers are set as expected and that redirects (e.g., via `Location`) are handled correctly.
+
+4. **Custom Headers**: Validate that any custom headers (e.g., for tracking or session management) are functioning as intended.
+
+5. **Cross-Origin Resource Sharing (CORS)**: Check that CORS headers (e.g., `Access-Control-Allow-Origin`) are configured correctly when making cross-origin API calls.
+
+* Query Paramaters
+Query parameters are a key component of the URL used to send additional data to the server when making a request. These parameters typically follow a question mark (?) in the URL and are used to filter, sort, or paginate data, among other things.
+
+** How Query Parameters Work
+Query parameters consist of key-value pairs and are appended to the URL in the following format:
+
+https://api.example.com/resource?key1=value1&key2=value2
+
+In this example:
+
+- key1 and key2 are the names of the parameters. value1 and value2 are their respective values.
+- The ? separates the base URL from the parameters, and & is used to separate multiple parameters.
+
+In API testing, query parameters are a key component of the URL used to send additional data to the server when making a request. These parameters typically follow a question mark (?) in the URL and are used to filter, sort, or paginate data, among other things.
+
+** Common Use Cases for Query Parameters
+Filtering: Retrieve data based on specific criteria.
+Example: https://api.example.com/products?category=electronics&price_max=100
+Filters the products to show only electronics that cost no more than $100.
+
+Sorting: Sort data by certain fields.
+Example: https://api.example.com/products?sort_by=price&order=asc
+Sorts products by price in ascending order.
+
+Pagination: Limit the number of results returned or specify which page of results to show.
+Example: https://api.example.com/products?page=2&limit=10
+Requests the second page of results with a limit of 10 items per page.
+
+Searching: Search for data matching certain keywords.
+Example: https://api.example.com/search?query=smartphone
+Searches for items related to the keyword "smartphone."
+
+** Example in API Testing
+In API testing, query parameters allow testers to validate how the API handles different inputs and behaviors. You can test:
+
+- Correctness: Ensure the API correctly returns filtered, sorted, or paginated data based on the provided query parameters.
+
+- Boundary conditions: Test how the API behaves when passing edge cases (e.g., invalid, missing, or extreme values for query parameters).
+
+- Performance: Evaluate the performance of the API with different query parameter combinations (e.g., large result sets, long sorting times, etc.).
+** Query Parameters in Postman for Testing
+In tools like Postman, you can add query parameters easily:
+Choose the Params tab in Postman.
+Add key-value pairs for each query parameter.
+Send the request and analyze the response.
+
+*** Example in Postman
+
+If you're testing the endpoint https://api.example.com/products with query parameters, you'd add the following:
+Key: category → Value: electronics
+Key: price_max → Value: 100
+Postman would then send a request to: https://api.example.com/products?category=electronics&price_max=100
+
+* Swagger
+
+https://www.youtube.com/watch?v=7LQrTQTS_R0&t=29s
+
+Swagger is an open source documentation framework for REST APIs.
+
+It provides html view of the api documentation with JSON support and detail information on the http methods.
+
+Some of the answers documentation helps in are:
+
+- What are the endpoints?
+- What method to be used?
+- What data to be passed?
+- What are the mandatory and optional params to the endpoint?
+- Is authentication required?
+
+* Rest Assured
+
+** Notes
+
+Resource: Make Java Groovy - Page: 256
+
+RESTful web services are based on the following principles:
+
+- Addressable resource—Items are accessible to clients through URIs.
+- Uniform interface—Resources are accessed and modified using the standard HTTP verbs GET, POST, PUT, and DELETE.
+- Content negotiation—The client can request different representations of resources, usually by specifying the desired MIME type in the Accept header of a request.
+- Stateless services—Interactions with resources are done through self-contained requests.
+
+Web services based on these ideas are intended to be highly scalable and extensible, because they follow the mechanisms that make the web itself highly scalable and extensible.
+
+- Part of the scalability of a RESTful web service comes from the terms safe and idempotent:
+
+- Safe—Does not modify the state of the server.
+- Idempotent — Can be repeated without causing any additional effects
+
+GET requests are both safe and idempotent. PUT and DELETE requests are idempotent but not safe. They can be repeated (for example, if there’s a network error) without making any additional changes.4 POST requests are neither safe nor idempotent.

@@ -1,0 +1,744 @@
+:PROPERTIES:
+:ID:       604ce80e-de2c-4d53-a10d-02e8e843918b
+:END:
+#+title: Groovy
+
+* Groovy General
+** How to compile and run groovy classes
+Compile: groovyc
+Run/Execute: groovy
+
+- You don't have to compile first. groovy command will compile and run the classes.
+
+** Classes
+- Groovy classes are public by default.
+
+** Methods
+- Groovy methods are public by default.
+
+** Attributes
+- Groovy attributes are private by default.
+
+** Operators
+*** The Elvis Operator
+
+Yes, *the Elvis operator (`?:`) exists in Groovy* and is one of its most expressive features. It is similar in spirit to the *null-coalescing operator* found in other languages such as C#, JavaScript, and Kotlin.
+
+**** What Is the Elvis Operator?
+The Elvis operator (~?:~) is used to *provide a default value when an expression evaluates to null*.
+It is called the *Elvis operator* because, like Elvis Presley, it’s hard to do without.
+
+***** Syntax
+#+begin_src groovy
+value ?: defaultValue
+#+end_src
+
+- If ~value~ is *not null*, the expression returns ~value~.
+- If ~value~ is *null*, the expression returns ~defaultValue~.
+
+**** Example
+
+#+begin_src groovy
+def name = null
+def displayName = name ?: "Guest" // Returns "Guest"
+
+println displayName // Output: Guest
+#+end_src
+
+**** Common Use Cases
+
+***** Providing Default Values
+#+begin_src groovy
+def userId = user?.getId() ?: "unknown"
+#+end_src
+
+If ~user~ is ~null~ or ~user.getId()~ returns ~null~, the default value ~"unknown"~ is used.
+
+***** Simplifying Null Checks
+#+begin_src groovy
+def message = input ?: "No input provided"
+#+end_src
+
+***** Chaining with Safe Navigation
+#+begin_src groovy
+def fullName = person?.address?.city ?: "Unknown City"
+#+end_src
+
+If ~person~, ~address~, or ~city~ is ~null~, the expression evaluates to ~"Unknown City"~.
+
+**** Difference Between ~?:~ and ~??~
+In Groovy, both operators can be used to handle ~null~, but there is a subtle distinction:
+
+- ~?:~ checks whether a value is ~null~.
+- ~??~ checks for ~null~ *and* values that are logically equivalent to null (such as empty strings or zero).
+
+***** Example
+#+begin_src groovy
+def value = null
+println value ?: "default"   // Output: "default"
+println value ?? "default"   // Output: "default"
+
+// But:
+def emptyString = ""
+println emptyString ?? "default" // Output: "default"
+#+end_src
+
+**** Ternary Elvis Operator
+Groovy also supports ternary expressions that can be combined with default values:
+
+#+begin_src groovy
+def result = condition ? "yes" : "no"
+
+// vs.
+def result = condition ? "yes" ?: "fallback"
+#+end_src
+
+While not directly related, this pattern can be useful when providing fallback values in conditional logic.
+
+**** Key Takeaways
+- Use ~?:~ to *avoid explicit null checks*.
+- It leads to cleaner and more expressive Groovy code.
+- Prefer ~?:~ over verbose ~if-else~ or traditional ternary expressions in simple cases.
+
+**** Final Example
+
+#+begin_src groovy
+def person = null
+def age = person?.age ?: 30 // Returns 30 because person is null
+
+println "Age is ${age}"
+#+end_src
+
+The Elvis operator is a powerful tool for writing *concise, readable, and expressive* Groovy code 🎸
+
+* Gradle
+
+- Groovy has killer feature called Gradle. Gradle does dependency management based on Maven repositories, and defines build tasks in a manner similar to Ant, but it's easy to set up and run.
+
+- Gradle is all about customization, and because the build file is written in groovy you have the entire power of the groovy language available to you.
+
+---
+
+The build.gradle File in Gradle Testing
+
+** General
+The =build.gradle= file is a core configuration file in *Gradle*, used to define how your project is built, tested, and managed. In the context of the *Gradle testing framework*, it orchestrates *automated testing*, *dependency management*, and *build lifecycle tasks*.
+
+With gradle build.gradle you can do:
+
+** 1. Configures Testing Dependencies
+
+- Declares libraries needed for testing (e.g., JUnit, TestNG, Mockito).
+
+#+begin_src groovy
+dependencies {
+    testImplementation 'junit:junit:4.13.2' // For JUnit 4
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2' // For JUnit 5
+    testImplementation 'org.mockito:mockito-core:4.0.0' // Mocking framework
+}
+#+end_src
+
+** 2. Sets Up Test Execution
+
+- Configures how tests are run (e.g., using JUnit Platform).
+
+#+begin_src groovy
+test {
+    useJUnitPlatform() // For JUnit 5
+    // Or
+    testNG() // For TestNG
+}
+#+end_src
+
+** 3. Manages Test Sources
+
+- Specifies directories for test code (e.g., =src/test/java=).
+
+#+begin_src groovy
+sourceSets {
+    test {
+        java {
+            srcDirs = ['src/test/java-custom']
+        }
+    }
+}
+#+end_src
+
+** 4. Integrates with CI/CD
+
+- Links tests to build verification (e.g., fail the build if tests fail).
+
+#+begin_src groovy
+tasks.named('check') {
+    // Run tests as part of the build lifecycle
+}
+#+end_src
+
+** 5. Code Coverage Reporting
+
+- Configures tools like JaCoCo to measure test coverage.
+
+#+begin_src groovy
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+jacoco { // Java Code Coverage.
+    toolVersion = '0.8.7'
+    reports {
+        xml.enabled true
+    }
+}
+#+end_src
+
+** 6. Parallel Test Execution
+
+- Optimizes test runs by enabling parallelism.
+
+#+begin_src groovy
+test {
+    maxParallelTests = 4
+}
+#+end_src
+
+** 7. Test Filtering
+
+- Includes or excludes specific tests based on tags or patterns.
+
+#+begin_src groovy
+test {
+    filter {
+        includeTestsMatching 'com/example/MyClass*Test'
+        excludeTestsMatching 'com/example/util*'
+    }
+}
+#+end_src
+
+** 8. Reporting and Distribution
+
+- Generates reports (HTML, XML) and archives test results.
+
+#+begin_src groovy
+tasks.withType(JUnitReport) {
+    reportDir = file("$buildDir/reports/tests")
+}
+#+end_src
+
+** Example build.gradle Snippet
+
+#+begin_src groovy
+plugins {
+    id 'java'
+    id 'org.junit.platform.gradle.plugin'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+    maxParallelTests = 4
+    filter {
+        include 'com/example/**/*.java'
+        exclude 'com/example/integration/**/*.java'
+    }
+}
+
+jacoco {
+    toolVersion = '0.8.7'
+}
+#+end_src
+
+** Key Takeaways
+
+- The =build.gradle= file centralizes all testing configuration.
+- It enables *reproducible builds*, *faster test execution*, and *quality enforcement*.
+- Without proper configuration, Gradle won’t know how to execute tests or handle dependencies.
+
+* Spock Framework
+** Overview
+
+- The *Spock Framework* is a *testing and specification framework* for *Groovy* (and Java) that emphasizes *behavior-driven development (BDD)* and *test readability*. It combines the power of testing with the conciseness of Groovy's syntax, enabling expressive, maintainable tests.
+- Spock versions are tied to Groovy versions.
+- Spock tests all extend a superclass called =spock.lang.Specification=. In addition to its own methods, the Specification class includes the @RunWith annotation from JUnit. The result is that Spock tests can be run within the normal JUnit testing infrastructure.
+- The tests themselves all have a common form. Each test method (known as a fixture) is declared using the =def= keyword, followed by a string that describes what the test is supposed to accomplish. Fixture methods normally take no arguments.
+---
+- By convention, Spock test cases end in =Spec=. That isn’t a requirement, but it does help to keep the Spock tests easily identifiable, especially when your system uses both Spock and JUnit tests together.
+
+Example:
+#+begin_src groovy
+import spock.lang.Specification;
+class StringSpec extends Specification {
+String llap
+def setup() { llap = "Live Long and Prosper" }
+def "LLaP has 21 characters"() {
+expect: llap.size() == 21
+}
+def "LLaP has 4 words"() {
+expect: llap.split(/\W/).size() == 4
+}
+def "LLaP has 6 vowels"() {
+expect: llap.findAll(/[aeiou]/).size() == 6
+}
+}
+#+end_src
+
+Code Explanation:
+
+- The spec is testing a String , so it has an attribute named llap. In the =setup= method, the llap variable is assigned to the string “Live Long and Prosper.” The setup method runs before each test, similar to @Before in JUnit 4. JUnit 3 contains a method called setUp that does the same thing, but in Spock the setup method is written in lower-case, with a =def= keyword.
+- The test methods, known as feature methods in the Spock documentation, are written in block structure. In each of the test methods shown here, there’s a single block called =expect=. The expect block consists of a series of Boolean expressions, each of which must evaluate to true for the test to pass.
+---
+-  Like JUnit 4, Spock tests can verify that exceptions are thrown. Spock tests can also verify that exceptions are not thrown. Consider the following two tests, which are added to the previous listing:
+
+Example:
+#+begin_src groovy
+def "Access inside the string doesn't throw an exception"() {
+when: s.charAt(s.size() – 1)
+then: notThrown(IndexOutOfBoundsException)
+}
+
+def "Access beyond the end of the string throws exception"() {
+when: s.charAt(s.size() + 1)
+then: thrown(IndexOutOfBoundsException)
+}
+#+end_src
+
+These tests use the when/then blocks, which are used as a stimulus/response pair. Any code can be added to the when block, but the then block must consist of Boolean expressions, as with expect. The expressions are evaluated automatically, using the
+Groovy Truth. This means that non-null references, non-empty strings, and non-zero numbers all evaluate to true.
+
+---
+
+** Core Features
+
+*** Behavior-Driven Development (BDD)
+Uses a *Given / When / Then* structure to describe test scenarios in a natural, readable way.
+
+#+begin_src groovy
+def "should multiply two numbers"() {
+    given:
+    def a = 2
+    def b = 3
+
+    when:
+    def result = a.multiply(b)
+
+    then:
+    result == 6
+}
+#+end_src
+
+*** Data-Driven Testing
+
+- The idea is that if you provide a collection of data in a format that Groovy can iterate over, then the test will run each entry through any supplied Boolean conditions.
+- Parameterize tests with multiple inputs and expected outputs using =where= blocks.
+- The =where= block in the first test contains a data table. The column names (name and length) are variables, which are referenced in the expect block. Groovy takes each row of the table and evaluates the expect condition. It’s an elegant system that’s easy to understand and quite powerful. While the data table is a powerful construct, in fact any collection that Groovy knows how to iterate over works as well.
+- Another interesting part of Spock is the @Unroll annotation. Without it, the name listed in the test output would be the name of the test itself. With it, each row of the where block creates a different name.
+
+#+begin_src groovy
+class HelloSpock extends spock.lang.Specification {
+@Unroll
+def "#name should be #length"() {
+expect:
+name.size() == length
+}
+
+where:
+name | length
+"Spock" | 5
+"Kirk"  | 4
+"Scotty" | 6
+'McCoy' | 5
+
+def "check lengths using arrays"() {
+expect: name.size() == length
+}
+
+where:
+name << ["Spock","Kirk","Scotty"]
+length << [5,4,6]
+#+end_src
+
+Example 2:
+
+#+begin_src groovy
+def "should multiply two numbers"() {
+    given:
+    def a = 2
+
+    where:
+    b | result
+    3 | 6
+    4 | 8
+
+    expect:
+    a.multiply(b) == result
+}
+#+end_src
+
+- Spock test names are descriptive sentences. The framework uses AST transformations to convert them to legal Groovy.
+- The tests are composed of blocks, like expect or when/then. Expressions in an expect or then block are evaluated for the Groovy Truth automatically.
+- The where block is used to iterate over test data, either from a table, a database result, or any data structure over which Groovy can iterate.
+- Spock is built with Gradle, which configures all the dependencies, and can plug into other APIs like Spring.
+
+*** Mocking and Stubbing
+Simplifies mocking with Groovy's built-in capabilities and Spock's extensions.
+
+#+begin_src groovy
+def "should delegate to calculator"() {
+    given:
+    def calculator = Mock(Calculator)
+    service calculator: calculator
+
+    when:
+    service.calculate(2, 3)
+
+    then:
+    one { calculator.add(2, 3) }
+}
+#+end_src
+
+*** Powerful Matchers
+Uses *Hamcrest* and *Groovy's matchers* for flexible assertions.
+
+#+begin_src groovy
+expect:
+    service.calculate(2, 3) == 5
+    2 * 3 == 6
+    0 * 5 == 0
+#+end_src
+
+*** Test Reporting
+Generates *XML* and *HTML* reports for CI/CD pipelines.
+
+** Key Benefits
+
+- *Expressive Syntax*: Leverages Groovy features such as GString interpolation and closures.
+- *Test-First Development*: Aligns with BDD principles and encourages better design.
+- *Interoperability*: Works with JUnit, TestNG, and other testing frameworks.
+
+** Example: Full Spock Specification
+- The class extends spock.lang.Specification, which is what makes it a Spock test.
+#+begin_src groovy
+import spock.lang.Specification
+
+class CalculatorSpec extends Specification {
+    def "should add two numbers"() {
+        expect:
+        2 + 3 == 5
+    }
+
+    def "should throw for negative numbers"() {
+        when:
+        calculator.add(-1, 2)
+
+        then:
+        thrown IllegalArgumentException
+    }
+}
+#+end_src
+
+#+begin_src groovy
+import spock.lang.Specification;
+class StringSpec extends Specification {
+String llap
+def setup() { llap = "Live Long and Prosper" }
+def "LLaP has 21 characters"() {
+expect: llap.size() == 21
+}
+def "LLaP has 4 words"() {
+expect: llap.split(/\W/).size() == 4
+}
+def "LLaP has 6 vowels"() {
+expect: llap.findAll(/[aeiou]/).size() == 6
+}
+}
+#+end_src
+
+- The spec is testing a String , so it has an attribute named llap. In the =setup= method, the llap variable is assigned to the string “Live Long and Prosper.” The setup method runs before each test, similar to @Before in JUnit 4. JUnit 3 contains a method called setUp that does the same thing, but in Spock the setup method is written in lower-case, with a =def= keyword.
+- The test methods, known as feature methods in the Spock documentation, are written in block structure. In each of the test methods shown here, there’s a single block called =expect=. The expect block consists of a series of Boolean expressions, each of which must evaluate to true for the test to pass.
+
+** Why Use Spock?
+
+- *Readability*: Tests are written in a human-readable format.
+- *Maintainability*: Data-driven and reusable specifications reduce duplication.
+- *Community Adoption*: Widely used in the Groovy and Grails ecosystem.
+
+** Drawbacks
+
+- *Learning Curve*: Requires understanding BDD concepts and Groovy AST transformations.
+- *Overhead*: Less suitable for simple unit tests; better for integration and behavioral specs.
+
+** Conclusion
+
+Spock is ideal for *behavior-driven development* in Groovy and Java projects. It provides a strong balance of *expressiveness*, *maintainability*, and *test coverage*, making it popular among developers who value *test-driven development (TDD)* and *clean code practices*.
+
+* Strings
+- Single quoted strings in groovy are instance of =java.lang.String=
+- Double quoted strings are GStrings.
+* Closure
+- Think of closure as a block of code representing the body of a function which may take dummy arguments.
+- Closure is a block of code, delimited(marked) by curly braces({}), which can be treated as an object. The arrow -> annotation is used to specify dummy arguments. =param.collect{k,v -> "$k=$v"}=
+
+* Collections
+** Map
+- Map keys are assumed to be String.
+
+*** Methods
+**** collect():
+When applied to Map, closure takes either 1 or 2 arguments.
+
+- If closure takes 1 argument, the argument represents Map.Entry.
+- If clousure takes 2 arguments, the first is key and the second is value for each entry.
+To transform the map into a list of key=value pairs, the following two-argument closure works in the collect method:
+=param.collect{k,v -> "$k=$v"}=
+
+* Assertions
+** assert
+- When Groovy developers write scripts, they typically add asserts to demonstrate that the script works properly.
+- Groovy assert keyword takes a boolean expression as an argument. If expression is true nothing will be returned. If it's false, then error will be printed on the console.
+
+#+begin_src groovy
+params.each{ k, v ->
+  asset gs.contains{"$k=$v"}
+}
+#+end_src
+
+#+begin_src groovy
+import groovy.json.JsonSlurper
+def result = 'http://api.icndb.com/jokes/random'.toURL().text
+def json = new JsonSlurper().parseText(result)
+def joke = json?.value?.joke
+assert joke
+println joke
+#+end_src
+
+This script, when executed, accesses the RESTful web service at the URL shown, retrieves a random joke in JavaScript Object Notation (JSON) form, parses (or, rather, slurps) it, and prints the resulting joke. The script uses the safe dereference operator to avoid NullPointerExceptions in case something goes wrong, but it has an assert statement to check that something actually was retrieved. When executed, the result is something like:
+
+Chuck Norris can instantiate an interface
+
+- To test this script all I need to do is execute it and let the embedded assert statement do the work. I can execute it programmatically as in the following listing.
+
+#+begin_src groovy
+class ScriptTests {
+@Test
+void testChuckNorrisScript() {
+GroovyShell shell = new GroovyShell()
+shell.evaluate(new File('src/main/groovy/mjg/chuck_norris.groovy'))
+}
+}
+#+end_src
+
+
+** Groovy Object Initialization and Assertions
+
+In Groovy, the line:
+
+#+begin_src groovy
+def faith = new Person(name: 'Faith', id: 1)
+#+end_src
+
+creates an instance of the ~Person~ class and initializes its properties using *named parameters*. However, the need for an assertion such as:
+
+#+begin_src groovy
+assert faith.id == 1
+#+end_src
+
+arises due to several possible reasons.
+
+** Reasons for Using Assertions
+
+*** Dynamic Nature of Groovy
+Groovy allows flexible syntax, but the object's state isn't guaranteed unless explicitly verified. The assertion checks whether the ~id~ property was correctly set to ~1~.
+
+*** Potential Class Implementation Issues
+- If the ~Person~ class does not define a constructor that accepts ~name~ and ~id~, the properties might not be set as expected.
+- If the ~Person~ class contains custom logic in its constructor (e.g., validation or transformation), the ~id~ value might be altered.
+
+*** Testing and Verification
+In test-driven development or when ensuring correctness, assertions help verify that the object’s state matches expectations. This is especially important in *dynamic languages* like Groovy.
+
+*** Debugging and Safety
+Even when code looks correct, assertions act as safeguards against unintended behavior, such as:
+- Typos
+- Changes in class definitions
+- Unexpected edge cases
+
+** Example Scenario
+
+#+begin_src groovy
+class Person {
+    String name
+    int id
+
+    // Custom constructor logic might alter the id
+    Person(String name, int id) {
+        this.name = name
+        this.id = id * 2 // Example: id is doubled accidentally
+    }
+}
+
+def faith = new Person(name: 'Faith', id: 1)
+assert faith.id == 1 // This would fail if the constructor modified the id
+#+end_src
+
+Without the assertion, such subtle errors could go unnoticed. Assertions help *enforce correctness* and make your code safer and more reliable.
+
+** Assertions in Groovy and Java
+
+*assertions in Groovy serve the same purpose as in Java*: they verify expected conditions during development. Below is a breakdown of why assertions are used and how Groovy and Java handle them similarly.
+
+*** Assertions Verify State
+In both Groovy and Java, assertions are used to check whether an object's state matches expectations.
+
+#+begin_src java
+// Java
+Person faith = new Person(name: "Faith", id: 1);
+assert faith.id == 1; // Verify ID was set correctly
+#+end_src
+
+This ensures that the ~Person~ constructor properly initializes the ~id~ field.
+
+*** Dynamic Languages Require Explicit Checks
+Even in a dynamic language like Groovy, assumptions must be explicitly verified. Without assertions, subtle bugs may go unnoticed.
+
+#+begin_src groovy
+// Groovy: What if the constructor doesn't set id?
+def faith = new Person(name: "Faith")
+assert faith.id == 1 // Fails if id isn't initialized
+#+end_src
+
+*** Assertions vs. Unit Tests
+- *Assertions* are lightweight checks and are often disabled in production.
+- *Unit tests* (e.g., JUnit or Spock) are more robust and typically run unconditionally.
+
+In Groovy and Java, the *Spock Framework* (Groovy’s testing DSL) provides expressive and readable tests:
+
+#+begin_src groovy
+// Spock test (Groovy)
+def "test Person creation"() {
+    given:
+    def person = new Person(name: "Faith", id: 1)
+
+    expect:
+    person.id == 1
+}
+#+end_src
+
+*** Key Difference: Named Parameters (Groovy-Only)
+Groovy supports *named-parameter syntax*:
+
+#+begin_example
+new Person(name: "Faith", id: 1)
+#+end_example
+
+This is cleaner than Java’s positional parameters. However, the underlying constructor logic remains the same in both languages.
+
+*** Why Use Assertions in Both Languages?
+- *Debugging*: Catch unintended side effects or incorrect logic early.
+- *Documentation*: Provide self-documenting checks for expected behavior.
+- *Safety*: Ensure assumptions hold during development.
+
+*** Comparable Example in Java
+
+#+begin_src java
+public class Person {
+    public String name;
+    public int id;
+
+    // Groovy-style named parameters aren't native in Java
+    public Person(String name, int id) {
+        this.name = name;
+        this.id = id;
+    }
+}
+
+// Test
+Person faith = new Person("Faith", 1);
+assert faith.id == 1; // Works identically in Java
+#+end_src
+
+*** Summary
+- Assertions verify state in both *Groovy* and *Java*.
+- Groovy adds flexibility (such as named parameters) but still requires explicit checks.
+- Use *Spock* or *JUnit* for more robust validation.
+
+Assertions are a *universal tool* for ensuring correctness — they don’t belong only to Groovy.
+
+* EST (Abstract Syntax Tree)
+** Description
+The idea is to place annotations on Groovy classes and invoke the compiler, which builds a syntax tree as usual and then modifies it in interesting ways.
+
+* Groovy Delegation (Simple Breakdown)
+
+** What is Delegation?
+
+Imagine you have a class (let's call it =Client=) that needs to use the functionality
+of another class (let’s call it =Server=).
+
+Instead of having =Client= directly call methods on =Server=, delegation allows
+=Client= to *delegate* the responsibility of calling those methods to a different
+object — often a proxy.
+
+** How it Works in Groovy
+
+Groovy delegation lets you “borrow” the methods of another object and use them as if
+they were part of your own object.
+
+It’s a powerful way to share code and avoid code duplication.
+
+** The Key Components
+
+1. *delegate*
+   This is a property within your =Client= class. It’s assigned the object you want
+   to delegate to (the =Server= object).
+
+2. *Calling Methods*
+   When you call a method on the =Client= object, Groovy automatically looks for that
+   method on the =delegate= object. If found, it executes the method on the =delegate=.
+
+** Example
+
+#+begin_src groovy
+class Server {
+    String message = "Hello from Server"
+
+    String getMessage() {
+        return message
+    }
+}
+
+class Client {
+    Server server = new Server()
+    def delegate = server
+
+    def sayHello() {
+        return delegate.getMessage()
+    }
+}
+
+def client = new Client()
+println client.sayHello()
+#+end_src
+
+** In this example
+
+- =Server= has a =getMessage()= method.
+- =Client= has a =delegate= property that points to the =Server= object.
+- When =client.sayHello()= is called, Groovy calls =server.getMessage()=.
+
+** Why is it useful?
+
+- *Code Reuse* — avoids duplicating code
+- *Abstraction* — separates interface from implementation
+- *Flexibility* — swap delegated objects at runtime
+
+** Mental Model
+
+The =Client= asks the =Server= to do something, and delegation makes it happen
+without tightly coupling the two.

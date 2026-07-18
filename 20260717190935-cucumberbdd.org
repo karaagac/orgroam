@@ -1,0 +1,16 @@
+:PROPERTIES:
+:ID:       4d7a21c3-e511-4469-ae96-7853f2f2900b
+:END:
+#+title: CucumberBDD
+
+* Pico Container - Creating Shared State
+
+This note is about creating a shared state between steps. Ex: create an user and get its userId and use it in another step/s.
+
+- Add pico container dependency:
+
+https://mvnrepository.com/artifact/org.picocontainer/picocontainer
+
+** Create a class to use dependency.
+
+We will create a class, let's name it Context to use it in step definitions. Example class:
