@@ -1,0 +1,8 @@
+:PROPERTIES:
+:ID:       DDCCAE64-494E-4A0C-B5D1-A757ED8B0EDB
+:END:
+#+title: Nix-Darwin
+* Where is nix-darwin in macos?
+=/etc/nix-darwin/=
+
+
