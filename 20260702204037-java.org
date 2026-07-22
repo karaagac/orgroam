@@ -54,7 +54,7 @@ The Factory Pattern helps replace tight coupling with clean abstraction, making 
       	//Based on type passed, create an object
       	if(type.equalsIgnoreCase("Email")){
       	    return new EmailNotification();
-      	}else(type.equalsIgnoreCase("SMS")){
+      	}else if (type.equalsIgnoreCase("SMS")){
       		return new SMSNotification();
       	    }
       	return null;
