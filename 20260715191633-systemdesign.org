@@ -145,3 +145,20 @@ https://www.youtube.com/watch?v=6ULyxuHKxg8
 
 History of API Gataway and what it is?
 https://www.youtube.com/watch?v=7-6F3b14baA
+
+* Database
+** What is Sharding
+Instead of keeping everything in one place, we split the database into smaller, more managable pieces and distribute them across multiple servers. this is called sharding. 
+
+We devide the database into smaller parts called shards. Each shard contains subset of total data. Data is distributed based on sharding key, for example user id. By distributing data this way, we reduce database load since each shard hadles only a portion of query and it speed ups read and write performance. Since querries are distributed across multiple shards, instead of hitting multiple database. Sharding is also referred as =Horizontal Partitioning= since it splits data by rows. But what if the issue is not rows but columns? In such cases, we use =Vertical Partitioning= where we split database by columns. Imagine we have a user table that stores profile details, login history and billing information. As this table grows querries becomes slower because table must scan many columns even when request only needs a few specific fields. To optimize this we use =Vertical Partitioning= where we split user table into smaller, more focused tables based on usage patterns. This improves query performance since each request only scans relevant columns instead of the entire table. It also reduces unnecessary disk i/o making data retrival quicker. 
+
+No matter how much we optimize the database, retrieving data from disk is always slower than retrieving from memory. What if we store frequently accessed data in memory? This is called caching.
+
+*** Caching
+
+Caching is used to optimize the performance of a system by storing frequently accessed data in memory instead of repediately fetching it from database. One of the most common caching strategies is =Cache-aside pattern=. This is how it works: When a user request a data the application first checks the cache, if the data is in the cache, it's returned instantly avoiding the database call. If the data is not in the cache the application retrieves it from the database. It stores it in the cache for feature requests and returns it to the user. Next time, the same data is requested it serves directly from cache making the request much faster. To prevent outdated data from being served, we use time-to-live value or ttl.
+
+*** Denormalization
+Most relational database use normalization to store data efficiently by breaking it into seperate tables. While this reduces redundancy it also introduces joins. When retrieving data from multiple tables the data must combine them using join operations which can slow down queries as the data set grows.
+
+Denormalization reduces number of joins by combining related data into a single table even if it means some data gets duplicated. For example instead of keeping users and orders in a seperate table, we create user orders table that stores user details along with the latest orders. Now when retrieving a user's order history, we don't need a join operation. The data is already stored together leading to faster querries and better read performance. Denormalization is often used in read-only applications where speed is more critical but the down side is it leads to increase the storage and more complex update requests. 
