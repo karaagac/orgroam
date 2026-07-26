@@ -2,5 +2,422 @@
 :ID:       32A6F7BF-42BC-46A3-86D1-FDB3C789937C
 :END:
 #+title: WebDevelopment
+
+* Tools
+** vscode html related
+- prettier: To format code etc.
+- Image Preview - by Kiss tamas.
+- Color highlight - by Sergi Nuamov
+- Auto rename - by Jun Han
+- live server - by Ritwich Dey        
+
 * html
+** Attributes: Pieces of data describes elements.
+<img/ src="post-img.jpg">
+
+=alt= Describes what the image is about. With this text web browsers understand what this object is. 
+<img src="post-img.jpg" alt="Image of Code block."/>
+
+width="500" is another attribute.
+height="500" is another attribute.
+** Hyperlinks
+<a href="https://developer.mozilla.org/en-US/" >MDN.com</a>
+
+Open url in a new tab:
+target="_black" 
+
+<a href="https://developer.mozilla.org/en-US/" target="_black" >MDN.com</a>
+
+*** Page Navigation
+Create a link that goes nowhere, like page navigation but this page doesnt exist and will be created later on: use =#= inside href=
+<a href="#" >Challenges</a>
+
+We can group links together for page navigation.
+
+#+BEGIN_SRC html
+<nav>
+    <a href="blog.html"  >Blog</a>
+    <a href="#" >Challenges</a>
+    <a href="#" >Flexbox</a>
+    <a href="#" >Css</a>
+</nav>
+#+END_SRC
+
+
+We can also add header tag to group those header navigation links together.
+
+#+BEGIN_SRC html
+  <header>
+    <nav>
+        <a href="blog.html"  >Blog</a>
+        <a href="#" >Challenges</a>
+        <a href="#" >Flexbox</a>
+        <a href="#" >Css</a>
+    </nav>
+  </header>
+#+END_SRC
+
+We can also add article tag.
+
+** Special Icons
+*** Copyright
+Add following to add copyright icon
+
+    Copyright &copy;
+** Div
+Div's used for putting containing items inside a box. After html5 they are only used for thing that are not categorized. Let's say if you want to put navigation items inside a box use: =<nav> homepage, contact </nav>= etc. Same for =<article>= and others. If its undefined, then use div. Basically div is generic box nowdays.
 * css
+** Coments in css
+We =/*= to start a comment and =*/= to close a comment.
+** Selectors
+A css rule always start with a selector. Lets say we want to style a certain item of the page, like =h1=:
+
+#+BEGIN_SRC css
+  h1{
+      color: blue;
+      text-align: center;
+      font-size: 20px;
+  }
+#+END_SRC
+
+Above code all together is called css rule.
+
+=Note: Inline css shouldn't be used.= 
+** In file style css
+
+We can create <style> </style> tag to style properties inside a html file.
+
+#+BEGIN_SRC html
+  <style>
+    h1{
+    color: blue;
+    }
+  </style>
+#+END_SRC
+
+We generally don't want to add .css code in html file.
+
+Instead we add all .css code inside a .css file. like style.css
+
+=How to connect .css file to .html file?=
+
+We can this file from .hmtl file with
+#+BEGIN_SRC css
+<link href="style.css" rel="stylesheet"/>
+#+END_SRC
+
+** List elements stying
+We do not style =ul= or =ol= elements. We style =li=. Basically we style list items.
+#+BEGIN_SRC css
+li{
+    font-size: 20px;
+    font-family: sans-serif;
+}
+#+END_SRC
+
+** List Selectors - Reusable code
+Lets say we have below .css. One thing that is noticable is use reused same code again again.
+
+Instead we can define once and use again.
+
+#+BEGIN_SRC css
+
+h1{
+    font-size: 26px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+h2{
+    font-size: 40;
+    font-family: sans-serif;
+}
+
+h3{
+    font-size: 30px;
+    font-family: sans-serif;
+}
+
+h4{
+    font-size: 20px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+p{
+    font-size: 22px;
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+li{
+    font-size: 20px;
+    font-family: sans-serif;
+}
+#+END_SRC
+
+Lets say if we want to change fonts. We need to change them in each and every part of the .css files. Instead we can do below:
+
+#+BEGIN_SRC css
+
+h1, h2, h3, h4, p, li{
+    font-family: sans-serif;
+}
+
+h1{
+    font-size: 26px;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+h2{
+    font-size: 40;
+}
+
+h3{
+    font-size: 30px;
+}
+
+h4{
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+p{
+    font-size: 22px;
+    line-height: 1.5;
+}
+
+li{
+    font-size: 20px;
+}
+#+END_SRC
+
+Now we can change the font at some location and it will reflect everywhere.
+
+** Style specific selector - Descendent selector
+
+Lets say we are ok with above changes but we dont want something different for footer selector. We want to style paragraph inside footer differently.
+
+We can add (Above list) :
+
+#+BEGIN_SRC css
+  footer p{
+      font-size: 16px;
+  }
+#+END_SRC
+
+This way =p= inside footer will have its own style. 
+
+** Descendent descendant selector
+Lets say we want to change styling of a paragraph inside a header that is inside an article.
+
+#+BEGIN_SRC css
+  article header p{
+      font-style: italic;
+  }
+#+END_SRC
+
+Essentially that is not good idea too. Because instead putting this code inside html, its inside .css and code is still bloated. Because it encodes our html structure inside our .css selector. Instead we will name the element we want to style with an ID and style it.
+
+** ID on elements
+
+=NOTE: We can use id only once!=
+
+So instead of using:
+
+#+BEGIN_SRC html
+ <p> Posted by <strong>Laura Jones</strong> on Monday, June 21st 2027 </p>
+#+END_SRC
+
+We will use:
+
+#+BEGIN_SRC html
+ <p id="author"> Posted by <strong>Laura Jones</strong> on Monday, June 21st 2027</p>
+#+END_SRC
+
+So now this paragraph is basically called author. So in our .css file we can use =#= which is =id= selector.
+
+#+BEGIN_SRC css
+#author{
+    font-style: italic;
+}
+#+END_SRC
+
+=NOTE: We can use id only once!=
+
+** Class on element
+
+If we want to reuse a id we can use classes instead.
+
+In classes if we have multiple words, we seperate those words with dashes -.
+
+=NOTE: Using class is much better than using id's for possible feature issues.=
+*** Example
+Lets say we have this html and we have some author names:
+#+BEGIN_SRC html
+
+  <ul>
+    <li>
+      <img
+        src="img/related-1.jpg"
+        alt="Person programming"
+        width="75"
+        width="75"
+        />
+      <a href="#">How to Learn Web Development</a>
+      <p>By Jonas Schmedtmann</p>
+    </li>
+    <li>
+      <img src="img/related-2.jpg" alt="Lightning" width="75" heigth="75" />
+      <a href="#">The Unknown Powers of CSS</a>
+      <p>By Jim Dillon</p>
+    </li>
+    <li>
+      <img
+        src="img/related-3.jpg"
+        alt="JavaScript code on a screen"
+        width="75"
+        height="75"
+        />
+      <a href="#">Why JavaScript is Awesome</a>
+      <p>By Matilda</p>
+    </li>
+  </ul>
+#+END_SRC
+
+If we want to style all author names similarly we can use class attribute.
+
+#+BEGIN_SRC html
+
+  <ul>
+    <li>
+      <img
+        src="img/related-1.jpg"
+        alt="Person programming"
+        width="75"
+        width="75"
+        />
+      <a href="#">How to Learn Web Development</a>
+      <p class="related-author">By Jonas Schmedtmann</p>
+    </li>
+    <li>
+      <img src="img/related-2.jpg" alt="Lightning" width="75" heigth="75" />
+      <a href="#">The Unknown Powers of CSS</a>
+      <p class="related-author">By Jim Dillon</p>
+    </li>
+    <li>
+      <img
+        src="img/related-3.jpg"
+        alt="JavaScript code on a screen"
+        width="75"
+        height="75"
+        />
+      <a href="#">Why JavaScript is Awesome</a>
+      <p class="related-author">By Matilda</p>
+    </li>
+  </ul>
+#+END_SRC
+
+in .css file we use class attribute with period . Ex: =.related-author=
+
+#+BEGIN_SRC css
+.related-author{
+    font-size: 18px;
+    font-weight: bold;
+}
+#+END_SRC
+
+** Colors with css
+*** RGB (Red Green Blue)
+
+Read this link for color theory:
+https://www.davemorrowphotography.com/color-theory-photography
+
+RGB model: Every color can be represented by a combination of RED, GREEN, BLUE.
+
+Each of the 3 base colors can take a value between 0 and 255, which leads to 16.8 million diffrent colors.
+
+So if we want complete RED color, it will be RED in complete maximum 255 and other colors at 0. Example: R(255), G(0), B(0).
+
+Same for other colors too. If we want complete color of one kind, give it 255 and others 0.
+
+White: All the Red, Green, Blue at maximum of 255.
+When all colors in all 3 channels are the same, we get a grey color. So all numbers must be same: rgb(0,0,0) / #000000 / #000 This will be black. rgb(69, 69, 69) / #444444 / #444 this is more grey. rgb(183, 183, 183) / #b7b7b7 This is more lighter grey.
+
+Other complementary colors will have mix of 2 colors. Ex: Yellow: Red(255), Green(255), Blue(0).
+
+We define colors 2 ways in css:
+- RGB/RGBA Notation
+- Hexadecimal Notation
+
+
+What is GRB with transparency ("alpha")?
+RGB with Alpha is RGB with transparency. Ex: rgba (0, 255, 255, 0.3)
+
+
+Hexadecimal notation:
+Instead of using a scale from 0 to 255, we go from 0 to ff (255 in hexadecimal numbers). Ex: #00ffff (this can be also shorthand to #0ff)
+  
+*** Border
+
+Lets say we have a selector named aside in the html file and we want to style it in the css. =border= is special property that takes 3 different keywords.
+
+#+BEGIN_SRC css
+aside{
+    background-color: #f7f7f7f;
+    border: 5px solid #1098ad;
+}
+#+END_SRC
+
+This will put border all along the aside property. If we just want a border on one side we can define it too:
+
+#+BEGIN_SRC css
+aside{
+    background-color: #f7f7f7f;
+    border-top: 5px solid #1098ad;
+}
+#+END_SRC
+
+
+
+* JavaScript
+Learn:
+- modules (import/export)
+- functions/closures
+- arrays/objects
+- async basics
+- event handling
+* TypeScript
+Learn:
+- Types and interfaces, unions, generics
+- Typing React props and events
+- utility types like Pick<> 
+* React
+** React core
+- Components(Function components), props/state
+- Rendering and controller inputs (value + onchange)
+- Composition patterns
+** React Hooks
+Learn:
+- useState
+- useEffects
+- useMemo
+- useCallback
+** Forms in React
+Learn:
+- Controller vs uncontroller inputs
+- Validation timing
+- Dirt/Touched concepts
+* Formik
+Learn:
+- values, touched, errors, setFieldTouched, setValues
+* Salt DS
+Learn:
+- Prebuild components (Input, helper text)
+- Understanding component props, theming, consistency, and accesibility expectations.
+  
+

@@ -1,0 +1,447 @@
+% Created 2026-07-25 Sat 09:24
+% Intended LaTeX compiler: pdflatex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{capt-of}
+\usepackage{hyperref}
+\author{Ibrahim Karaagac}
+\date{\today}
+\title{WebDevelopment}
+\hypersetup{
+ pdfauthor={Ibrahim Karaagac},
+ pdftitle={WebDevelopment},
+ pdfkeywords={},
+ pdfsubject={},
+ pdfcreator={Emacs 30.2 (Org mode 9.7.11)}, 
+ pdflang={English}}
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Tools}
+\label{sec:org4ec48de}
+\subsection{vscode html related}
+\label{sec:org60915c2}
+\begin{itemize}
+\item prettier: To format code etc.
+\item Image Preview - by Kiss tamas.
+\item Color highlight - by Sergi Nuamov
+\item Auto rename - by Jun Han
+\item live server - by Ritwich Dey
+\end{itemize}
+\section{html}
+\label{sec:orgb9d5238}
+\subsection{Attributes: Pieces of data describes elements.}
+\label{sec:org5366581}
+<img/ src="post-img.jpg">
+
+\texttt{alt} Describes what the image is about. With this text web browsers understand what this object is. 
+<img src="post-img.jpg" alt="Image of Code block."/>
+
+width="500" is another attribute.
+height="500" is another attribute.
+\subsection{Hyperlinks}
+\label{sec:orgdbb3ada}
+<a href="\url{https://developer.mozilla.org/en-US/}" >MDN.com</a>
+
+Open url in a new tab:
+target="\textsubscript{black}" 
+
+<a href="\url{https://developer.mozilla.org/en-US/}" target="\textsubscript{black}" >MDN.com</a>
+\subsubsection{Page Navigation}
+\label{sec:orgcef7164}
+Create a link that goes nowhere, like page navigation but this page doesnt exist and will be created later on: use \texttt{\#} inside href=
+<a href="\#" >Challenges</a>
+
+We can group links together for page navigation.
+
+\begin{verbatim}
+<nav>
+    <a href="blog.html"  >Blog</a>
+    <a href="#" >Challenges</a>
+    <a href="#" >Flexbox</a>
+    <a href="#" >Css</a>
+</nav>
+\end{verbatim}
+
+
+We can also add header tag to group those header navigation links together.
+
+\begin{verbatim}
+<header>
+  <nav>
+      <a href="blog.html"  >Blog</a>
+      <a href="#" >Challenges</a>
+      <a href="#" >Flexbox</a>
+      <a href="#" >Css</a>
+  </nav>
+</header>
+\end{verbatim}
+
+We can also add article tag.
+\subsection{Special Icons}
+\label{sec:org60b0817}
+\subsubsection{Copyright}
+\label{sec:org98b0b83}
+Add following to add copyright icon
+
+Copyright \&copy;
+\subsection{Div}
+\label{sec:orgf747949}
+Div's used for putting containing items inside a box. After html5 they are only used for thing that are not categorized. Let's say if you want to put navigation items inside a box use: \texttt{<nav> homepage, contact </nav>} etc. Same for \texttt{<article>} and others. If its undefined, then use div. Basically div is generic box nowdays.
+\section{css}
+\label{sec:orga101a14}
+\subsection{Coments in css}
+\label{sec:org90add34}
+We \texttt{/*} to start a comment and \texttt{*/} to close a comment.
+\subsection{Selectors}
+\label{sec:org06713b0}
+A css rule always start with a selector. Lets say we want to style a certain item of the page, like \texttt{h1}:
+
+\begin{verbatim}
+h1{
+    color: blue;
+    text-align: center;
+    font-size: 20px;
+}
+\end{verbatim}
+
+Above code all together is called css rule.
+
+\texttt{Note: Inline css shouldn't be used.} 
+\subsection{In file style css}
+\label{sec:org036e7e2}
+
+We can create <style> </style> tag to style properties inside a html file.
+
+\begin{verbatim}
+<style>
+  h1{
+  color: blue;
+  }
+</style>
+\end{verbatim}
+
+We generally don't want to add .css code in html file.
+
+Instead we add all .css code inside a .css file. like style.css
+
+\texttt{How to connect .css file to .html file?}
+
+We can this file from .hmtl file with
+\begin{verbatim}
+<link href="style.css" rel="stylesheet"/>
+\end{verbatim}
+\subsection{List elements stying}
+\label{sec:org795b112}
+We do not style \texttt{ul} or \texttt{ol} elements. We style \texttt{li}. Basically we style list items.
+\begin{verbatim}
+li{
+    font-size: 20px;
+    font-family: sans-serif;
+}
+\end{verbatim}
+\subsection{List Selectors - Reusable code}
+\label{sec:org5e1009c}
+Lets say we have below .css. One thing that is noticable is use reused same code again again.
+
+Instead we can define once and use again.
+
+\begin{verbatim}
+
+h1{
+    font-size: 26px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+h2{
+    font-size: 40;
+    font-family: sans-serif;
+}
+
+h3{
+    font-size: 30px;
+    font-family: sans-serif;
+}
+
+h4{
+    font-size: 20px;
+    font-family: sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+p{
+    font-size: 22px;
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+li{
+    font-size: 20px;
+    font-family: sans-serif;
+}
+\end{verbatim}
+
+Lets say if we want to change fonts. We need to change them in each and every part of the .css files. Instead we can do below:
+
+\begin{verbatim}
+
+h1, h2, h3, h4, p, li{
+    font-family: sans-serif;
+}
+
+h1{
+    font-size: 26px;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+h2{
+    font-size: 40;
+}
+
+h3{
+    font-size: 30px;
+}
+
+h4{
+    font-size: 20px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+p{
+    font-size: 22px;
+    line-height: 1.5;
+}
+
+li{
+    font-size: 20px;
+}
+\end{verbatim}
+
+Now we can change the font at some location and it will reflect everywhere.
+\subsection{Style specific selector - Descendent selector}
+\label{sec:org85878bf}
+
+Lets say we are ok with above changes but we dont want something different for footer selector. We want to style paragraph inside footer differently.
+
+We can add (Above list) :
+
+\begin{verbatim}
+footer p{
+    font-size: 16px;
+}
+\end{verbatim}
+
+This way \texttt{p} inside footer will have its own style. 
+\subsection{Descendent descendant selector}
+\label{sec:org3ad416e}
+Lets say we want to change styling of a paragraph inside a header that is inside an article.
+
+\begin{verbatim}
+article header p{
+    font-style: italic;
+}
+\end{verbatim}
+
+Essentially that is not good idea too. Because instead putting this code inside html, its inside .css and code is still bloated. Because it encodes our html structure inside our .css selector. Instead we will name the element we want to style with an ID and style it.
+\subsection{ID on elements}
+\label{sec:org5b8a851}
+
+\texttt{NOTE: We can use id only once!}
+
+So instead of using:
+
+\begin{verbatim}
+<p> Posted by <strong>Laura Jones</strong> on Monday, June 21st 2027 </p>
+\end{verbatim}
+
+We will use:
+
+\begin{verbatim}
+<p id="author"> Posted by <strong>Laura Jones</strong> on Monday, June 21st 2027</p>
+\end{verbatim}
+
+So now this paragraph is basically called author. So in our .css file we can use \texttt{\#} which is \texttt{id} selector.
+
+\begin{verbatim}
+#author{
+    font-style: italic;
+}
+\end{verbatim}
+
+\texttt{NOTE: We can use id only once!}
+\subsection{Class on element}
+\label{sec:org9ffe1b0}
+
+If we want to reuse a id we can use classes instead.
+
+In classes if we have multiple words, we seperate those words with dashes -.
+
+\texttt{NOTE: Using class is much better than using id's for possible feature issues.}
+\subsubsection{Example}
+\label{sec:org10983d7}
+Lets say we have this html and we have some author names:
+\begin{verbatim}
+
+<ul>
+  <li>
+    <img
+      src="img/related-1.jpg"
+      alt="Person programming"
+      width="75"
+      width="75"
+      />
+    <a href="#">How to Learn Web Development</a>
+    <p>By Jonas Schmedtmann</p>
+  </li>
+  <li>
+    <img src="img/related-2.jpg" alt="Lightning" width="75" heigth="75" />
+    <a href="#">The Unknown Powers of CSS</a>
+    <p>By Jim Dillon</p>
+  </li>
+  <li>
+    <img
+      src="img/related-3.jpg"
+      alt="JavaScript code on a screen"
+      width="75"
+      height="75"
+      />
+    <a href="#">Why JavaScript is Awesome</a>
+    <p>By Matilda</p>
+  </li>
+</ul>
+\end{verbatim}
+
+If we want to style all author names similarly we can use class attribute.
+
+\begin{verbatim}
+
+<ul>
+  <li>
+    <img
+      src="img/related-1.jpg"
+      alt="Person programming"
+      width="75"
+      width="75"
+      />
+    <a href="#">How to Learn Web Development</a>
+    <p class="related-author">By Jonas Schmedtmann</p>
+  </li>
+  <li>
+    <img src="img/related-2.jpg" alt="Lightning" width="75" heigth="75" />
+    <a href="#">The Unknown Powers of CSS</a>
+    <p class="related-author">By Jim Dillon</p>
+  </li>
+  <li>
+    <img
+      src="img/related-3.jpg"
+      alt="JavaScript code on a screen"
+      width="75"
+      height="75"
+      />
+    <a href="#">Why JavaScript is Awesome</a>
+    <p class="related-author">By Matilda</p>
+  </li>
+</ul>
+\end{verbatim}
+
+in .css file we use class attribute with period . Ex: \texttt{.related-author}
+
+\begin{verbatim}
+.related-author{
+    font-size: 18px;
+    font-weight: bold;
+}
+\end{verbatim}
+\subsection{Colors with css}
+\label{sec:org984ae03}
+\subsubsection{RGB (Red Green Blue)}
+\label{sec:orgad291c7}
+
+Read this link for color theory:
+\url{https://www.davemorrowphotography.com/color-theory-photography}
+
+RGB model: Every color can be represented by a combination of RED, GREEN, BLUE.
+
+Each of the 3 base colors can take a value between 0 and 255, which leads to 16.8 million diffrent colors.
+
+So if we want complete RED color, it will be RED in complete maximum 255 and other colors at 0. Example: R(255), G(0), B(0).
+
+Same for other colors too. If we want complete color of one kind, give it 255 and others 0.
+
+White: All the Red, Green, Blue at maximum of 255.
+Black: All colors at 0.
+
+Other complementary colors will have mix of 2 colors. Ex: Yellow: Red(255), Green(255), Blue(0).
+\section{JavaScript}
+\label{sec:org1a9a312}
+Learn:
+\begin{itemize}
+\item modules (import/export)
+\item functions/closures
+\item arrays/objects
+\item async basics
+\item event handling
+\end{itemize}
+\section{TypeScript}
+\label{sec:orgb8664b2}
+Learn:
+\begin{itemize}
+\item Types and interfaces, unions, generics
+\item Typing React props and events
+\item utility types like Pick<>
+\end{itemize}
+\section{React}
+\label{sec:org67d0f44}
+\subsection{React core}
+\label{sec:org55d297e}
+\begin{itemize}
+\item Components(Function components), props/state
+\item Rendering and controller inputs (value + onchange)
+\item Composition patterns
+\end{itemize}
+\subsection{React Hooks}
+\label{sec:org160a4a9}
+Learn:
+\begin{itemize}
+\item useState
+\item useEffects
+\item useMemo
+\item useCallback
+\end{itemize}
+\subsection{Forms in React}
+\label{sec:orgaa64b2e}
+Learn:
+\begin{itemize}
+\item Controller vs uncontroller inputs
+\item Validation timing
+\item Dirt/Touched concepts
+\end{itemize}
+\section{Formik}
+\label{sec:org46b574d}
+Learn:
+\begin{itemize}
+\item values, touched, errors, setFieldTouched, setValues
+\end{itemize}
+\section{Salt DS}
+\label{sec:org66fed9e}
+Learn:
+\begin{itemize}
+\item Prebuild components (Input, helper text)
+\item Understanding component props, theming, consistency, and accesibility expectations.
+\end{itemize}
+\end{document}
