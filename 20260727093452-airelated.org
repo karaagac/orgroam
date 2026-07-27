@@ -1,0 +1,9 @@
+:PROPERTIES:
+:ID:       2A62635F-E3F7-4D04-9171-24C9C2537E8E
+:END:
+#+title: AiRelated
+
+* Gemma 4:12b it model
+https://ollama.com/library/gemma4:12b-mlx
+
+

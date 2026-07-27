@@ -88,6 +88,8 @@ https://signor.dev/simple-inline-images-in-org-mode/
 * Link Files
 org-insert-link
 
+type =[[file:= this fill trigger files to be listed in current directory.
+
 * Yasnippet
 * Creating a YASnippet for Org Mode
 

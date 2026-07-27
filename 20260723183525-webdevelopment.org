@@ -161,39 +161,40 @@ li{
 Lets say if we want to change fonts. We need to change them in each and every part of the .css files. Instead we can do below:
 
 #+BEGIN_SRC css
+  ;;a list
+  h1, h2, h3, h4, p, li{
+      font-family: sans-serif;
+  }
 
-h1, h2, h3, h4, p, li{
-    font-family: sans-serif;
-}
+  ;;a list
+  h1{
+      font-size: 26px;
+      text-transform: uppercase;
+      font-style: italic;
+  }
 
-h1{
-    font-size: 26px;
-    text-transform: uppercase;
-    font-style: italic;
-}
+  h2{
+      font-size: 40;
+  }
 
-h2{
-    font-size: 40;
-}
+  h3{
+      font-size: 30px;
+  }
 
-h3{
-    font-size: 30px;
-}
+  h4{
+      font-size: 20px;
+      text-transform: uppercase;
+      text-align: center;
+  }
 
-h4{
-    font-size: 20px;
-    text-transform: uppercase;
-    text-align: center;
-}
+  p{
+      font-size: 22px;
+      line-height: 1.5;
+  }
 
-p{
-    font-size: 22px;
-    line-height: 1.5;
-}
-
-li{
-    font-size: 20px;
-}
+  li{
+      font-size: 20px;
+  }
 #+END_SRC
 
 Now we can change the font at some location and it will reflect everywhere.
@@ -251,11 +252,12 @@ So now this paragraph is basically called author. So in our .css file we can use
 
 ** Class on element
 
-If we want to reuse a id we can use classes instead.
+*** Overview
+- If we want to reuse a id we can use classes instead.
 
-In classes if we have multiple words, we seperate those words with dashes -.
+- In classes if we have multiple words, we seperate those words with dashes -.
 
-=NOTE: Using class is much better than using id's for possible feature issues.=
+- =NOTE: Using class is much better than using id's for possible feature issues.=
 *** Example
 Lets say we have this html and we have some author names:
 #+BEGIN_SRC html
@@ -334,8 +336,7 @@ in .css file we use class attribute with period . Ex: =.related-author=
 ** Colors with css
 *** RGB (Red Green Blue)
 
-Read this link for color theory:
-https://www.davemorrowphotography.com/color-theory-photography
+Read this link for [[https://www.davemorrowphotography.com/color-theory-photography][color theory]]
 
 RGB model: Every color can be represented by a combination of RED, GREEN, BLUE.
 
@@ -354,10 +355,8 @@ We define colors 2 ways in css:
 - RGB/RGBA Notation
 - Hexadecimal Notation
 
-
 What is GRB with transparency ("alpha")?
 RGB with Alpha is RGB with transparency. Ex: rgba (0, 255, 255, 0.3)
-
 
 Hexadecimal notation:
 Instead of using a scale from 0 to 255, we go from 0 to ff (255 in hexadecimal numbers). Ex: #00ffff (this can be also shorthand to #0ff)
@@ -382,6 +381,34 @@ aside{
 }
 #+END_SRC
 
+** Style each list elements differently
+Instead of adding class to each list element, we can make css figure out lets say what is first element of the list. 
+
+** Pseudo classes
+We can style items of ordered or unordered lists.
+
+#+BEGIN_SRC css
+li:first-child {
+    font-weight: bold;
+}
+
+li:last-child{
+    font-style: italic;
+}
+
+/* Select specific number of item */
+li:nth-child(3){
+    color: red;
+}
+
+/* You can even style even or odd items.
+li:nth-child(even){
+    color: blue;
+}
+*/
+#+END_SRC
+
+** Style Hyperlinks
 
 
 * JavaScript
