@@ -146,6 +146,8 @@ https://www.youtube.com/watch?v=6ULyxuHKxg8
 History of API Gataway and what it is?
 https://www.youtube.com/watch?v=7-6F3b14baA
 
+Reverse Proxy vs Load Balancer vs API Gateway: The Real Difference ?
+https://www.youtube.com/watch?v=-R5ak7-LiVY
 * Database
 ** What is Sharding
 Instead of keeping everything in one place, we split the database into smaller, more managable pieces and distribute them across multiple servers. this is called sharding. 

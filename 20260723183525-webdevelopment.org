@@ -409,7 +409,60 @@ li:nth-child(even){
 #+END_SRC
 
 ** Style Hyperlinks
+We shouldn't style =a= for hyperlinks directly. This is not a good practice.
 
+#+BEGIN_SRC css
+  a{
+      color:#1098ad;
+  }
+#+END_SRC
+
+Because above code will style anything like: <a> Test </a>. But we just want hyperlinks to be styled, so;
+
+Instead we should style pseudo classes. Directly address the a element that has href attribute.
+
+#+BEGIN_SRC css
+  a:link{
+      color: #1099ad;
+      ;;Get rid of underline
+      text-decoration: none;  
+  }
+#+END_SRC
+
+We can also get rid of hyperlink underline text with: =text-decoration: none;=  
+
+Style visited hyperlinks:
+#+BEGIN_SRC css
+a:visited{
+    color:#1099ad;
+}
+#+END_SRC
+
+We can also change color, font-weight, text-decoration style etc when we hover over a hyperlink:
+#+BEGIN_SRC css
+a:hover{
+    color: orangered;
+    font-weight: bold;
+    text-decoration: underline dotted orangered;
+}
+#+END_SRC
+
+
+When clicking on a link we can define a different behavior.
+#+BEGIN_SRC css
+a:active{
+    background-color: black;
+    font-style: italic;
+}
+#+END_SRC
+
+Always define hyperlink related css same as above order.
+- Link
+- Visited
+- Hover
+- Active      
+
+** Developer Tools
 
 * JavaScript
 Learn:
@@ -418,6 +471,16 @@ Learn:
 - arrays/objects
 - async basics
 - event handling
+
+** Resources
+Javascript:
+https://github.com/rwaldron/idiomatic.js
+
+** Data types
+*** Strings
+Use double quotes. (Single quotes are ok too.).
+
+  
 * TypeScript
 Learn:
 - Types and interfaces, unions, generics
