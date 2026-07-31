@@ -663,14 +663,20 @@ Lets say we will manupulate and add 1 at the end of those name. We can run a loo
 Generate header, h1 for each element in the array:
 
 #+BEGIN_SRC js
-    const names = ["Abe", "Jack", "Jessica", "Pedro"];
-  /*Iterate over array */
-    names.map( (name) => {
-        /*Execute this code for each array element. Add 1 to them */
-        return <h1> {name} </h1>;
-    })
+        const names = ["Abe", "Jack", "Jessica", "Pedro"];
+      /*Iterate over array */
+        names.map( (name) => {
+            /*Execute this code for each array element. Add 1 to them
+    	 name is a parameter that represents the current item in the array.
+  	  */
+            return <h1> {name} </h1>;
+        })
 #+END_SRC
+The {name} syntax is specific to JSX (the syntax React uses to describe UI), not plain JavaScript.
 
+In JSX:
+Anything outside {} is treated as plain HTML/text.
+Anything inside {} is treated as a JavaScript expression.
 *** filter()
 
 #+BEGIN_SRC js
@@ -683,10 +689,31 @@ Generate header, h1 for each element in the array:
 #+END_SRC
 
 
+- map() → transforms every element into something else.
+- filter() → keeps only the elements that match a condition.
+
+#+BEGIN_SRC js
+  const names = ["Abe", "Jack", "Jessica", "Pedro"];
+
+  const filteredNames = names.filter((name) => {
+      return name.startsWith("J");
+  });
+
+  console.log(filteredNames);
+  /*
+    ["Jack", "Jessica"]
+  */  
+#+END_SRC
+  
 
 ** Async + Await + Fetch
+
+*** Asynchronous
 Asynchronous Javascript Tutorial - Promises and Async Await Explained
 https://www.youtube.com/watch?v=PgZ9npYJZzU
+
+
+*** Fetch
 
 How To Make An API Request in ReactJS With Axios and Fetch - Tutorial [2020]
 https://www.youtube.com/watch?v=rpg1jOvGCtQ
