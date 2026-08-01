@@ -706,14 +706,9 @@ Anything inside {} is treated as a JavaScript expression.
 #+END_SRC
   
 ** Async + Await + Fetch
-*** Asynchronous
 Asynchronous Javascript Tutorial - Promises and Async Await Explained
 https://www.youtube.com/watch?v=PgZ9npYJZzU
 
-*** Fetch
-
-How To Make An API Request in ReactJS With Axios and Fetch - Tutorial [2020]
-https://www.youtube.com/watch?v=rpg1jOvGCtQ
 *** Promise
 Asynchronous Javascript Tutorial - Promises and Async Await Explained
 https://www.youtube.com/watch?v=PgZ9npYJZzU
@@ -829,7 +824,385 @@ Promise
     ── rejected  (failure → .catch())
 
      
+**** Async and Await
 
+`async` and `await` are a cleaner way to work with Promises. They let you write asynchronous code that *looks more like normal synchronous code*.
+
+Before =async/await=, you usually wrote:
+
+#+begin_src js
+getData()
+  .then(result => {
+      console.log(result);
+  })
+  .catch(error => {
+      console.log(error);
+  });
+#+end_src
+
+With =async/await=, you can write:
+
+#+begin_src js
+async function run() {
+    try {
+        const result = await getData();
+        console.log(result);
+    } catch (error) {
+        console.log(error);
+    }
+}
+#+end_src
+
+Both versions do the same thing. =async/await= is simply easier to read.
+
+**** 1. =async= means "this function returns a Promise"
+
+Example:
+
+#+begin_src js
+async function hello() {
+    return "Hello";
+}
+#+end_src
+
+Even though it looks like it returns a string:
+
+#+begin_src js
+return "Hello";
+#+end_src
+
+JavaScript actually wraps it in a Promise.
+
+So this works:
+
+#+begin_src js
+hello().then((message) => {
+    console.log(message);
+});
+#+end_src
+
+Output:
+
+#+begin_example
+Hello
+#+end_example
+
+It is basically equivalent to:
+
+#+begin_src js
+function hello() {
+    return Promise.resolve("Hello");
+}
+#+end_src
+
+**** 2. =await= means "wait for this Promise to finish"
+
+Example:
+
+#+begin_src js
+function getPizza() {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve("🍕 Pizza is ready");
+        }, 3000);
+    });
+}
+
+async function orderPizza() {
+    console.log("Ordering...");
+
+    const pizza = await getPizza();
+
+    console.log(pizza);
+}
+
+orderPizza();
+#+end_src
+
+Output:
+
+#+begin_example
+Ordering...
+(wait 3 seconds)
+🍕 Pizza is ready
+#+end_example
+
+This line:
+
+#+begin_src js
+const pizza = await getPizza();
+#+end_src
+
+means:
+
+#+begin_quote
+Start =getPizza()=. When the Promise resolves, put the result into =pizza=.
+#+end_quote
+
+It is similar to:
+
+#+begin_src js
+getPizza().then((pizza) => {
+    console.log(pizza);
+});
+#+end_src
+
+**** 3. Important: =await= does NOT block JavaScript
+
+This confuses many beginners.
+
+Example:
+
+#+begin_src js
+async function test() {
+    console.log("A");
+
+    await new Promise(resolve => {
+        setTimeout(resolve, 3000);
+    });
+
+    console.log("B");
+}
+
+test();
+
+console.log("C");
+#+end_src
+
+Output:
+
+#+begin_example
+A
+C
+(wait 3 seconds)
+B
+#+end_example
+
+JavaScript did *not* freeze.
+
+It paused *only the =test()= function*, while the rest of the program continued running.
+
+Think of =await= as saying:
+
+#+begin_quote
+Pause this async function until the Promise finishes.
+#+end_quote
+
+It does *not* pause the entire program.
+
+**** 4. Handling errors
+
+With Promises:
+
+#+begin_src js
+getPizza()
+    .then(result => console.log(result))
+    .catch(error => console.log(error));
+#+end_src
+
+With =async/await=:
+
+#+begin_src js
+async function order() {
+    try {
+        const pizza = await getPizza();
+        console.log(pizza);
+    } catch (error) {
+        console.log(error);
+    }
+}
+#+end_src
+
+=try/catch= replaces =.then()= and =.catch()=.
+
+**** 5. Your earlier Promise example with =async/await=
+
+Promise version:
+
+#+begin_src js
+const event = new Promise((resolve, reject) => {
+    const name = "abe";
+
+    if (name === "abe") {
+        resolve(name);
+    } else {
+        reject("No match");
+    }
+});
+
+event.then((name) => {
+    console.log(name);
+});
+#+end_src
+
+Async/await version:
+
+#+begin_src js
+const event = new Promise((resolve, reject) => {
+    const name = "abe";
+
+    if (name === "abe") {
+        resolve(name);
+    } else {
+        reject("No match");
+    }
+});
+
+async function checkName() {
+    try {
+        const name = await event;
+        console.log(name);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+checkName();
+#+end_src
+
+This line:
+
+#+begin_src js
+const name = await event;
+#+end_src
+
+means:
+
+#+begin_quote
+Wait until =event= finishes. If it resolves, store the resolved value in =name=.
+#+end_quote
+
+If the Promise had:
+
+#+begin_src js
+resolve("abe");
+#+end_src
+
+then after =await=:
+
+#+begin_src js
+name === "abe";
+#+end_src
+
+If it had:
+
+#+begin_src js
+reject("No match");
+#+end_src
+
+execution jumps directly to the =catch= block.
+
+**** 6. Comparing =return= and =resolve=
+
+A normal function:
+
+#+begin_src js
+function getName() {
+    return "abe";
+}
+
+const name = getName();
+console.log(name);
+#+end_src
+
+A Promise:
+
+#+begin_src js
+const event = new Promise((resolve) => {
+    resolve("abe");
+});
+
+event.then((name) => {
+    console.log(name);
+});
+#+end_src
+
+An async function combines these ideas:
+
+#+begin_src js
+async function getName() {
+    return "abe";
+}
+
+async function run() {
+    const name = await getName();
+    console.log(name);
+}
+
+run();
+#+end_src
+
+Even though =getName()= uses =return=, because it's marked =async=, JavaScript automatically wraps the returned value in a Promise.
+
+**** Mental model
+
+Think of it like ordering food at a restaurant.
+
+#+begin_example
+Order food
+    |
+    v
+Kitchen starts cooking
+    |
+    v
+You continue talking with friends
+    |
+    v
+Food is ready
+    |
+    +--> Success -> resolve(food)
+    |
+    +--> Problem -> reject(error)
+#+end_example
+
+With =.then()=:
+
+#+begin_src js
+orderFood()
+    .then(food => eat(food))
+    .catch(error => complain(error));
+#+end_src
+
+With =async/await=:
+
+#+begin_src js
+async function dinner() {
+    try {
+        const food = await orderFood();
+        eat(food);
+    } catch (error) {
+        complain(error);
+    }
+}
+#+end_src
+
+Both do the same thing. =async/await= is simply easier to read because it looks like ordinary step-by-step code.
+
+**** Beginner Mental Model
+
+- =Promise= a box that will contain a value later.
+- =resolve(value)=  put a successful value into the box.
+- =reject(error)=  put an error into the box.
+- =.then()=  "When the box is ready, give me the value."
+- =async= "This function always returns a Promise."
+- =await= "Pause this async function until the Promise has a result."
+
+You'll use this constantly in React:
+
+#+begin_src js
+async function fetchUsers() {
+    const response = await fetch("/api/users");
+    const users = await response.json();
+
+    console.log(users);
+}
+#+end_src
+
+This is the standard way modern JavaScript and React applications perform asynchronous operations.
+*** Fetch
+
+How To Make An API Request in ReactJS With Axios and Fetch - Tutorial [2020]
+https://www.youtube.com/watch?v=rpg1jOvGCtQ
 * TypeScript
 Learn:
 - Types and interfaces, unions, generics
