@@ -644,7 +644,7 @@ Lets say we will manupulate and add 1 at the end of those name. We can run a loo
 #+BEGIN_SRC js
     const names = ["Abe", "Jack", "Jessica"];
   /*Iterate over array */
-    names.map( (name) => {
+  names.map( (name) => {
         /*Execute this code for each array element. In this case print them, one by one */
         console.log(name);
     })
@@ -705,18 +705,131 @@ Anything inside {} is treated as a JavaScript expression.
   */  
 #+END_SRC
   
-
 ** Async + Await + Fetch
-
 *** Asynchronous
 Asynchronous Javascript Tutorial - Promises and Async Await Explained
 https://www.youtube.com/watch?v=PgZ9npYJZzU
-
 
 *** Fetch
 
 How To Make An API Request in ReactJS With Axios and Fetch - Tutorial [2020]
 https://www.youtube.com/watch?v=rpg1jOvGCtQ
+*** Promise
+Asynchronous Javascript Tutorial - Promises and Async Await Explained
+https://www.youtube.com/watch?v=PgZ9npYJZzU
+
+**** Summary
+A Promise in JavaScript is an object that represents a value that you don't have yet, but will get later.
+
+Think of it like ordering food at a restaurant:
+
+You order food → you get a receipt (the Promise)
+The kitchen is working → the Promise is pending
+Food arrives → the Promise is fulfilled (resolved)
+Kitchen fails → the Promise is rejected
+
+In JavaScript, Promises are mostly used for things that take time, like:
+
+- fetching data from an API
+- reading files
+- waiting for a timer
+- database queries
+**** Example
+
+#+BEGIN_SRC js
+const pizzaOrder = new Promise((resolve, reject) => {
+  const pizzaReady = true;
+
+  if (pizzaReady) {
+    resolve("Your pizza is ready!");
+  } else {
+    reject("The pizza shop is closed.");
+  }
+});
+#+END_SRC
+
+At this point, pizzaOrder is a Promise. It does not immediately contain "Your pizza is ready!". It represents the possibility that you'll get that value later.
+
+Getting the result with .then():
+
+#+BEGIN_SRC js
+ pizzaOrder.then((message) => {
+  console.log(message);
+}); 
+#+END_SRC
+
+Result is: Your pizza is ready!
+
+.then() runs when the Promise succeeds.
+
+Handling errors with .catch():
+
+#+BEGIN_SRC js
+  pizzaOrder
+      .then((message) => {
+  	console.log(message);
+      })
+      .catch((error) => {
+  	console.log(error);
+      }); 
+#+END_SRC
+
+**** Real world Example
+Imagine getting a user's profile from a server:
+
+#+BEGIN_SRC js
+function getUser() {
+  return fetch("https://api.example.com/user");
+}
+
+getUser()
+  .then((response) => {
+    console.log(response);
+  })
+  .catch((error) => {
+    console.log("Something went wrong:", error);
+  });
+#+END_SRC
+
+fetch() does not instantly return the user data. It returns a Promise because the browser needs time to talk to the server.
+
+**** The newer way: async / await
+Most modern JavaScript uses Promises with async/await because it looks more like normal code:
+
+#+BEGIN_SRC js
+async function showUser() {
+  try {
+    const response = await fetch("https://api.example.com/user");
+    console.log(response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+showUser();
+#+END_SRC
+
+then
+
+#+BEGIN_SRC js
+ const response = await fetch(...) 
+#+END_SRC
+means:
+
+"Pause this function until the Promise finishes, then give me the result."
+
+A good beginner mental model:
+
+Promise
+    |
+   ├── pending   (waiting)
+    |
+   ├── resolved  (success → .then())
+    |
+    ── rejected  (failure → .catch())
+
+     
+
 * TypeScript
 Learn:
 - Types and interfaces, unions, generics
