@@ -465,12 +465,39 @@ Always define hyperlink related css same as above order.
 ** Developer Tools
 
 * JavaScript
-Learn:
-- modules (import/export)
-- functions/closures
-- arrays/objects
-- async basics
 - event handling
+
+** Javascript is:
+- Single threaded, meaning it can do one thing at a time. But environment(brwoser) it runs is not. Browser has WEB API, which is seperate theads. So javascript hands tasks to WEB API and it can run tasks in different threads synchronously.
+
+** Developer Tools
+This video is about how to run and debug a javascript file in Chrome.
+https://www.youtube.com/watch?v=rjOJ2eLBft8
+
+
+** How javascript interact with html
+In a separate file (the common approach):
+
+index.html
+app.js
+
+In index.html we will have:
+
+#+BEGIN_SRC html
+ <script src="app.js"></script>
+#+END_SRC
+
+Which will refer to javascript file. And this file will contain javascript code:
+
+app.js:
+
+#+BEGIN_SRC js
+ function sayHello() {
+    alert("Hello!");
+} 
+#+END_SRC
+
+The browser loads script.js and runs it.
 
 ** Resources
 Javascript:
@@ -478,11 +505,47 @@ https://github.com/rwaldron/idiomatic.js
 
 All The JavaScript You Need To Know For React:
 https://www.youtube.com/watch?v=m55PTVUrlnA
-** Data types
+** Variables
+You create variables with =let= keyword.
 *** Strings
 Use double quotes. (Single quotes are ok too.).
 
+** Logical Operators
+
+=&&= Both side must be true
+
+#+BEGIN_SRC js
+  if(age >= 18 && hasTicket){
+      console.log("Grant access");
+  }
+#+END_SRC
+
+=||= At least one must be true
+
+#+BEGIN_SRC js
+  if(isAdmin || isModerator){
+      console.log("Grant access");
+  }  
+#+END_SRC
+
+=!= flips true and false (Not operator)
+
+#+BEGIN_SRC js
+  if(!isLoggedIn){
+      console.log("Redirect the login");
+  }
+#+END_SRC
+
+** Loops
+
+#+BEGIN_SRC js
+  for(let count =1; count <=10; count++){
+      console.log(count)
+  }
+#+END_SRC
+
 ** Functions
+*** Defining Functions
 There are 2 ways to write fucntions:
 
 Add =function= key:
@@ -502,13 +565,197 @@ Use =const= and =lambda=.
 
 Use above (second) way.
 
-If you are going to export the function, for second approach you need to use:
+*** Export and Import
 
-#+BEGIN_SRC js
-export const DoSomething = () => {
+The purpose of *export* is to make a variable, function, class, or object
+available to other JavaScript files.
 
-    }
+Without exporting, everything defined in a file is private to that file.
+
+Example:
+
+File: math.js
+
+#+begin_src javascript
+export const add = (a, b) => {
+    return a + b;
+};
+#+end_src
+
+Another file can then import and use it.
+
+File: app.js
+
+#+begin_src javascript
+import { add } from "./math.js";
+
+console.log(add(2, 3));
+#+end_src
+
+Flow:
+
+math.js
+---------
+export add
+      |
+      v
+app.js
+---------
+import add
+use add()
+
+Mental model:
+
+- export = "I'm making this available to other files."
+- import = "I want to use something another file made available."
+
+Notice that the names match.
+
+#+begin_src javascript
+// math.js
+export const add = (a, b) => a + b;
+#+end_src
+
+#+begin_src javascript
+// app.js
+import { add } from "./math.js";
+#+end_src
+
+The 'add' being imported is the same function that was exported.
+
+**** React example
+
+Components are exported in the same way.
+
+#+begin_src javascript
+// Button.jsx
+export const Button = () => {
+    return <button>Click me</button>;
+};
+#+end_src
+
+Another component imports and uses it.
+
+#+begin_src javascript
+// App.jsx
+import { Button } from "./Button";
+
+function App() {
+    return <Button />;
+}
+#+end_src
+
+Summary:
+
+1. Define a function.
+2. Export it from its file.
+3. Import it where needed.
+4. Use it like any other function.
+
+This is one of the core ideas of modern JavaScript and React. It allows code to
+be organized into small, reusable modules instead of putting everything into a
+single large file.
+
+*** Important Javascript functions
+**** setTimeout
+It run once.
+
+#+BEGIN_SRC javascript
+ console.log("1 - before timeout")
+
+setTimeout(function () {
+  console.log("Inside set timeout")
+}, 2000);
+
+console.log("2 - after setTimeout")
 #+END_SRC
+
+**** setInterval
+It runs once in set time. For below functon it will run every second.
+
+#+BEGIN_SRC javascript
+ let count = 0;
+
+const intervalID = setInterval(function () {
+  console.log("Tick", count)
+}, 1000);
+#+END_SRC
+
+If you dont limit it, it will run infinitely.
+
+#+BEGIN_SRC javascript
+   let count = 0;
+  count++;
+
+  const intervalID = setInterval(function () {
+    console.log("Tick", count)
+  }, 1000);
+#+END_SRC
+
+This will run infinity but it will increase the count number.
+
+If we want to limit that run:
+
+#+BEGIN_SRC javascript
+  let count = 0;
+
+  const intervalID = setInterval(function () {
+      count++;
+      console.log("Tick", count)
+
+      if (count == 5) {
+  	clearInterval(intervalID);
+      }
+      console.log("Stopped!")
+  }, 1000);
+#+END_SRC
+** Callbacks
+- It is a function that you pass to another function to be called later.
+
+ Lets see below code:
+ #+BEGIN_SRC javascript
+   function getUserData(userID) {
+       console.log("Fetching user:", userID);
+
+       //Because we dont have a database for this example,
+       // We will use setTimeOut to simulate it
+
+       setTimeout(function () {
+   	//Simulate database
+   	const user = { id: userID, name: "alice", role: "admin" };
+       }, 2000);
+
+       console.log(user);
+   } 
+ #+END_SRC
+
+- Print "Fetching user: ..."
+- Schedule the callback to run 2 seconds later.
+- Immediately continue to console.log(user).
+- user hasn't been created yet, so there's nothing to print.
+
+  Below callback solves that problem. With callback we can access the first function(getUserData).
+
+#+BEGIN_SRC javascript
+ function getUserData(userID, callback) {
+    console.log("Fetching user:", userID);
+
+    setTimeout(function () {
+        const user = {
+            id: userID,
+            name: "alice",
+            role: "admin"
+        };
+
+        callback(user);
+    }, 2000);
+}
+
+getUserData(1, function(user) {
+    console.log(user);
+}); 
+#+END_SRC
+
 
 ** Ternary operators
 Ternary operation is very important in React.
@@ -551,7 +798,9 @@ This is very important because in React we return html a lot:
 So in above code; return Abe div if age > 10 if not return Jack div.
 
 ** Objects
-Objects are very important in React!
+*** Overview
+- Objects define one thing with multiple details. 
+- Objects are very important in React!
 
 *** Object Destructure
 
@@ -631,6 +880,22 @@ This is usefull for cloning arrays too:
 #+END_SRC
 
 ** Arrays
+Define and print an array:
+
+#+BEGIN_SRC javascript
+  let fruits = ["apple", "orange", "fig"]
+
+  console.log(fruits[0]); /* apple */
+#+END_SRC
+
+Add an item to array:
+
+#+BEGIN_SRC javascript
+  let fruits = ["apple", "orange", "fig"]
+  fruits.push("pear");
+  console.log(fruits[3]); /* pear */
+#+END_SRC
+
 3 fundamentals functions of Javascript arrays:
 .map()
 .filter()
@@ -705,7 +970,90 @@ Anything inside {} is treated as a JavaScript expression.
   */  
 #+END_SRC
   
+** forEach
+
+Instead of writing loops we can use forEach. forEach takes function.
+
+#+BEGIN_SRC javascript
+  let names = ["abe", "ali", "veli"]
+
+  names.forEach((name) => {
+      console.log("Name is: " + name);
+  })
+#+END_SRC
+
+** Use a javascript function inside a html file
+
+#+BEGIN_SRC html
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>JavaScript Notes</title>
+    </head>
+
+    <body>
+
+      <button onClick="sayHello()" id="myButton"> Click me </button>
+
+      <script>
+        function sayHello(){
+        alert("Hello");
+        }
+      </script>
+
+    </body>
+  </html>
+#+END_SRC
+
+We can also change html elements with javascript. Lets say we want to change myButton:
+
+#+BEGIN_SRC html
+ <!DOCTYPE html>
+  <html>
+    <head>
+      <title>JavaScript Notes</title>
+    </head>
+
+    <body>
+
+        <button onClick="sayHello()" id="myButton"> Click me </button>
+
+      <script>
+        let myButton = document.getElementById('myButton')
+        
+        function sayHello(){
+            myButton.textContent = "Hello"
+        }
+      </script>
+
+    </body>
+  </html>
+#+END_SRC
+
 ** Async + Await + Fetch
+
+Synchronous run like line by line, top to buttom.
+
+#+BEGIN_SRC javascript
+  console.log("Before block")
+
+  const start = Date.now();
+
+  while (Date.now() - start < 3000) {
+      //Do nothing
+  }
+
+  console.log("After block.")
+#+END_SRC
+
+Above block will run as :
+
+Before block
+(waits 3 seconds)
+After block.
+
+And asynchronous code means, start something do not wait, keep going. You will get the result in the feature.
+
 Asynchronous Javascript Tutorial - Promises and Async Await Explained
 https://www.youtube.com/watch?v=PgZ9npYJZzU
 
