@@ -474,7 +474,6 @@ Always define hyperlink related css same as above order.
 This video is about how to run and debug a javascript file in Chrome.
 https://www.youtube.com/watch?v=rjOJ2eLBft8
 
-
 ** How javascript interact with html
 In a separate file (the common approach):
 
@@ -505,11 +504,60 @@ https://github.com/rwaldron/idiomatic.js
 
 All The JavaScript You Need To Know For React:
 https://www.youtube.com/watch?v=m55PTVUrlnA
+** import export
+
+*** Single import/export
+In order to make a variable, function etc. to be usable in another file, we add =export= key.
+
+Filename: util.js
+#+BEGIN_SRC javascript
+ export let apiKey = "asdasdasdasdasd";
+#+END_SRC
+
+Above is called named exports. 
+
+In order to use above variable in another file, open related file and:
+
+Filename: api.js
+#+BEGIN_SRC javascript
+import { apiKey } from "./util.js"
+console.log(apiKey);
+#+END_SRC
+
+If there are multiple exports you want to make from same file, you can use as:
+
+#+BEGIN_SRC javascript
+import { apiKey, abc } from "./util.js"
+console.log(apiKey);
+#+END_SRC
+
+*** Multiple imports/exports (as one object)
+
+If you want to import multiple items from a file:
+#+BEGIN_SRC javascript
+ import * as util from "./util.js"
+#+END_SRC
+
+With above code, all the things in util.js will be groupped by util. This will be an object and can be used as:
+#+BEGIN_SRC javascript
+ console.log(util.apiKey)
+ console.log(util.abc)
+#+END_SRC
+
+*** as keyword
+It is an alias. If you dont like the name of an variable you can assign an alias to it.
+
+#+BEGIN_SRC javascript
+ import {apiKey, abc as content} from "./util.js";
+#+END_SRC
+
 ** Variables
 You create variables with =let= keyword.
 *** Strings
 Use double quotes. (Single quotes are ok too.).
 
+** const
+=const= are data holder, like variables. But they can not be reassigned. If you want to reassing a variable use =let= keyword.
 ** Logical Operators
 
 =&&= Both side must be true
@@ -711,8 +759,27 @@ If we want to limit that run:
 #+END_SRC
 ** Callbacks
 - It is a function that you pass to another function to be called later.
+- Used to handle asynchronous operations: Reading a file, Network request, Interacting with databases.
+- Hey when you are done, call this next.  
 
- Lets see below code:
+In below code we want to make sure goodbye runs after hello. So we pass goodbye as parameter to hello function.
+
+https://www.youtube.com/watch?v=i2SPq-nb3NQ
+
+ #+BEGIN_SRC javascript
+   hello(goodbye);
+
+   function hello(callback){
+       console.log("Hello!");
+       callback();
+   }
+
+   function goodbye(){
+       console.log("Goodbye!");
+   }
+ #+END_SRC
+
+
  #+BEGIN_SRC javascript
    function getUserData(userID) {
        console.log("Fetching user:", userID);
@@ -755,7 +822,6 @@ getUserData(1, function(user) {
     console.log(user);
 }); 
 #+END_SRC
-
 
 ** Ternary operators
 Ternary operation is very important in React.
@@ -879,7 +945,8 @@ This is usefull for cloning arrays too:
   const names2 = [...names1, "Joel"];
 #+END_SRC
 
-** Arrays
+** Arrays - Functions map() filter() forEach()
+*** Arrays Overview
 Define and print an array:
 
 #+BEGIN_SRC javascript
@@ -942,6 +1009,18 @@ The {name} syntax is specific to JSX (the syntax React uses to describe UI), not
 In JSX:
 Anything outside {} is treated as plain HTML/text.
 Anything inside {} is treated as a JavaScript expression.
+
+Another Example:
+#+BEGIN_SRC javascript
+ const array = [2,4,5,6,23,11]
+
+const newArray = array.map((number) => {
+    return number * 2;
+});
+
+console.log(newArray); 
+#+END_SRC
+
 *** filter()
 
 #+BEGIN_SRC js
@@ -969,8 +1048,55 @@ Anything inside {} is treated as a JavaScript expression.
     ["Jack", "Jessica"]
   */  
 #+END_SRC
-  
-** forEach
+
+Another Example: Return numbers less than 5.
+#+BEGIN_SRC javascript
+ const array = [2, 4, 5, 6, 23, 11];
+
+const newArray = array.filter((number) => {
+  return number < 5;
+});
+
+console.log(newArray); 
+#+END_SRC
+
+Another Example: Return numbers other than 4.
+#+BEGIN_SRC javascript
+ const array = [2, 4, 5, 6, 23, 11];
+
+const newArray = array.filter((number) => {
+  return number != 4;
+});
+
+console.log(newArray); 
+#+END_SRC
+
+*** reduce()
+Append string to array number: [] in reduce function is initial value, menaning an empty array. We will add results to that empty array.
+
+#+BEGIN_SRC javascript
+ const array = [2, 4, 5, 6, 23, 11];
+
+const newArray = array.reduce((total, number) => {
+  return total.concat("Number: " + number);
+}, []);
+
+console.log(newArray); 
+#+END_SRC
+
+Find total of numbers: 0 in reduce function is sum for now. Think it like starting point. We will add numbers to it. It is basically starting variable.
+#+BEGIN_SRC js
+const array = [2, 4, 5, 6, 23, 11];
+
+const sum = array.reduce((sum, number) => {
+  return sum + number;
+}, 0);
+
+console.log(sum);
+#+END_SRC
+
+
+*** forEach
 
 Instead of writing loops we can use forEach. forEach takes function.
 
