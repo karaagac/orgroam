@@ -584,6 +584,53 @@ Use double quotes. (Single quotes are ok too.).
   }
 #+END_SRC
 
+Checks equality.
+#+BEGIN_SRC javascript
+ console.log(10 === 5);
+#+END_SRC
+
+returns false.
+
+** Ternary operators
+Ternary operation is very important in React.
+
+*** Positive Conditions && operator
+
+Lets say for below example we want to say; if age is > 16 name if Abe if not name is jack.
+
+#+BEGIN_SRC js
+  let age = 16;
+  /* If age is > 10 then set the name as "Abe"*/
+  let name = age > 10 && "Abe";
+#+END_SRC
+
+Think it like while "Abe" is on the right side of the = we are sayin if age > 10 set name to "Abe". A bit weird syntax but, it is what it is.
+
+*** Negative conditions || operator:
+Apposite of above. Do not return Abe if age > 10
+
+#+BEGIN_SRC js
+  let age = 16;
+  /* If age is > 10 then set the name as "Abe"*/
+  let name = age > 10 || "Abe";
+#+END_SRC
+
+*** If else - Ternary ? :
+
+#+BEGIN_SRC js
+  let age = 16;
+  let name = age > 10 ? "Abe" : "Jack";
+#+END_SRC
+
+This is very important because in React we return html a lot:
+#+BEGIN_SRC js
+  const Component = () => {
+      return age > 10 ? <div> Abe </div> : <div> Jack </div> ;
+  }
+#+END_SRC
+
+So in above code; return Abe div if age > 10 if not return Jack div.
+
 ** Loops
 
 #+BEGIN_SRC js
@@ -604,7 +651,7 @@ Add =function= key:
     }
 #+END_SRC
 
-Use =const= and =lambda=.
+Use =const= and =lambda=. This is an anonymous function. When you use () =>, you don not use function keyword.
 #+BEGIN_SRC js
     const DoSomething = () => {
 
@@ -612,6 +659,20 @@ Use =const= and =lambda=.
 #+END_SRC
 
 Use above (second) way.
+
+We can also define anonymous function as follows:
+#+BEGIN_SRC javascript
+  function(){
+      console.log("Hello!")
+  }
+#+END_SRC
+
+Or we can make it default and export it:
+#+BEGIN_SRC javascript
+ export default  function(){
+   console.log("Hello!")}
+#+END_SRC
+
 
 *** Export and Import
 
@@ -823,46 +884,6 @@ getUserData(1, function(user) {
 }); 
 #+END_SRC
 
-** Ternary operators
-Ternary operation is very important in React.
-
-*** Positive Conditions && operator
-
-Lets say for below example we want to say; if age is > 16 name if Abe if not name is jack.
-
-#+BEGIN_SRC js
-  let age = 16;
-  /* If age is > 10 then set the name as "Abe"*/
-  let name = age > 10 && "Abe";
-#+END_SRC
-
-Think it like while "Abe" is on the right side of the = we are sayin if age > 10 set name to "Abe". A bit weird syntax but, it is what it is.
-
-*** Negative conditions || operator:
-Apposite of above. Do not return Abe if age > 10
-
-#+BEGIN_SRC js
-  let age = 16;
-  /* If age is > 10 then set the name as "Abe"*/
-  let name = age > 10 || "Abe";
-#+END_SRC
-
-*** If else - Ternary ? :
-
-#+BEGIN_SRC js
-  let age = 16;
-  let name = age > 10 ? "Abe" : "Jack";
-#+END_SRC
-
-This is very important because in React we return html a lot:
-#+BEGIN_SRC js
-  const Component = () => {
-      return age > 10 ? <div> Abe </div> : <div> Jack </div> ;
-  }
-#+END_SRC
-
-So in above code; return Abe div if age > 10 if not return Jack div.
-
 ** Objects
 *** Overview
 - Objects define one thing with multiple details. 
@@ -921,6 +942,10 @@ Above is correct but we can make it shorter:
   };
 #+END_SRC
 
+Also objects can contian functions too.
+
+Constructor:
+We can use =constructor= keyword to create constructor.
 *** Copy an Object
 Lets say we have an object:
 #+BEGIN_SRC js
