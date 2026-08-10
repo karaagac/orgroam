@@ -947,7 +947,7 @@ Also objects can contian functions too.
 
 Constructor:
 We can use =constructor= keyword to create constructor.
-*** Copy an Object
+*** Copy an Object/Array
 Lets say we have an object:
 #+BEGIN_SRC js
   const person1 = {
@@ -970,6 +970,21 @@ This is usefull for cloning arrays too:
   const names1 = ["Abe", "Jack", "Jessica"];
   const names2 = [...names1, "Joel"];
 #+END_SRC
+
+
+Spread operator: ...
+Create a new array from 2 arrays:
+
+#+BEGIN_SRC js
+  const names1 = ["Abe", "Jack", "Jessica"];
+  const names2 = ["Angel"];
+  const allNames = [...names1, ...names2];
+  console.log(allNames);
+#+END_SRC
+This will print both arrays.
+
+We can also use spread operator ... inside a rgular object:
+
 
 ** Arrays - Functions map() filter() forEach()
 *** Arrays Overview
@@ -1054,15 +1069,15 @@ Lets say we will manupulate and add 1 at the end of those name. We can run a loo
 Generate header, h1 for each element in the array:
 
 #+BEGIN_SRC js
-        const names = ["Abe", "Jack", "Jessica", "Pedro"];
-      /*Iterate over array */
-        names.map( (name) => {
-            /*Execute this code for each array element. Add 1 to them
-    	 name is a parameter that represents the current item in the array.
-  	  */
-            return <h1> {name} </h1>;
-        })
+  const names = ["Abe", "Jack", "Jessica", "Pedro"];
+  /*Iterate over array */
+  const headers = names.map( (name) => {
+      return <h1> {name} </h1>;
+  })
 #+END_SRC
+
+#+RESULTS:
+
 The {name} syntax is specific to JSX (the syntax React uses to describe UI), not plain JavaScript.
 
 In JSX:
@@ -1071,13 +1086,13 @@ Anything inside {} is treated as a JavaScript expression.
 
 Another Example:
 #+BEGIN_SRC javascript
- const array = [2,4,5,6,23,11]
+  const array = [2,4,5,6,23,11]
 
-const newArray = array.map((number) => {
-    return number * 2;
-});
+  const newArray = array.map((number) => {
+      return number * 2;
+  });
 
-console.log(newArray); 
+  console.log(newArray); 
 #+END_SRC
 
 *** filter()
