@@ -886,6 +886,7 @@ getUserData(1, function(user) {
 
 ** Objects
 *** Overview
+- Objects allows us to group values together with key:value pairs.
 - Objects define one thing with multiple details. 
 - Objects are very important in React!
 
@@ -972,8 +973,8 @@ This is usefull for cloning arrays too:
 
 ** Arrays - Functions map() filter() forEach()
 *** Arrays Overview
-Define and print an array:
-
+**** Define and print an array:
+- Arrays allows us to create a just list of values.
 #+BEGIN_SRC javascript
   let fruits = ["apple", "orange", "fig"]
 
@@ -988,34 +989,67 @@ Add an item to array:
   console.log(fruits[3]); /* pear */
 #+END_SRC
 
+**** const
+- =const= makes the variable binding immutable, but the array contents can still be changed.
+  #+BEGIN_SRC javascript
+    const a = [1, 2, 3];
+    a.push(4);     // ✅ allowed
+    a[0] = 99;     // ✅ allowed
+    // a = [7, 8]; // ❌ TypeError: Assignment to constant variable 
+  #+END_SRC
+With const, you can’t do a = [7, 8]—that would be =reassigning the variable to a completely new array.=
+
+But you can still change the same array object:
+
+- mutate it: a.push(7)
+- change elements: a[0] = 99
+- remove elements: a.pop(), `a.splice(...)
+
+If you need a “completely new array,” use =let=
+
+**** let
+- =let= allows reassigning the variable to a different array.
+#+BEGIN_SRC javascript
+  let b = [1, 2, 3];
+  b.push(4);     // ✅ allowed
+  b = [7, 8];    // ✅ allowed (reassignment) 
+#+END_SRC
+
 3 fundamentals functions of Javascript arrays:
 .map()
 .filter()
 .reduce()
 
 *** map()
+- =map()= is for transforming data: it returns a new array based on what your callback returns.
+
 Lets say you have this array: =const names1 = ["Abe", "Jack", "Jessica"];=
 
 Lets say we will manupulate and add 1 at the end of those name. We can run a loop and manupulate but thats a alot of code. Instead:
 
-#+BEGIN_SRC js
-    const names = ["Abe", "Jack", "Jessica"];
-  /*Iterate over array */
-  names.map( (name) => {
-        /*Execute this code for each array element. In this case print them, one by one */
-        console.log(name);
-    })
+#+begin_src js :results output
+  const names = ["Abe", "Jack", "Jessica"];
+
+  const upper = names.map(name => name.toUpperCase());
+  console.log(upper);
 #+END_SRC
 
+#+RESULTS:
+: [ 'ABE', 'JACK', 'JESSICA' ]
 
-#+BEGIN_SRC js
-    const names = ["Abe", "Jack", "Jessica"];
+
+#+BEGIN_SRC js  :results output
+  const names = ["Abe", "Jack", "Jessica"];
   /*Iterate over array */
-    names.map( (name) => {
-        /*Execute this code for each array element. Add 1 to them */
-        return name + "1";
-    })
+  const newNames = names.map( (name) => {
+      /*Execute this code for each array element. Add 1 to them */
+      return name + "1";
+  });
+  console.log(newNames);
 #+END_SRC
+
+#+RESULTS:
+: [ 'Abe1', 'Jack1', 'Jessica1' ]
 
 Generate header, h1 for each element in the array:
 
@@ -1119,7 +1153,6 @@ const sum = array.reduce((sum, number) => {
 
 console.log(sum);
 #+END_SRC
-
 
 *** forEach
 
