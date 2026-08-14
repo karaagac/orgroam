@@ -465,7 +465,6 @@ Always define hyperlink related css same as above order.
 ** Developer Tools
 
 * JavaScript
-- event handling
 
 ** Javascript is:
 - Single threaded, meaning it can do one thing at a time. But environment(brwoser) it runs is not. Browser has WEB API, which is seperate theads. So javascript hands tasks to WEB API and it can run tasks in different threads synchronously.
@@ -975,16 +974,35 @@ This is usefull for cloning arrays too:
 Spread operator: ...
 Create a new array from 2 arrays:
 
-#+BEGIN_SRC js
+#+BEGIN_SRC js :results output  
   const names1 = ["Abe", "Jack", "Jessica"];
   const names2 = ["Angel"];
   const allNames = [...names1, ...names2];
   console.log(allNames);
 #+END_SRC
+
+#+RESULTS:
+: [ 'Abe', 'Jack', 'Jessica', 'Angel' ]
+
 This will print both arrays.
 
 We can also use spread operator ... inside a rgular object:
 
+#+BEGIN_SRC js :results output 
+  const user = {
+      name: "abe",
+      age: 34
+  };
+
+  const extendUser = {
+      isAdmin : true,
+      ...user 
+  }
+  console.log(extendUser);
+#+END_SRC
+
+#+RESULTS:
+: { isAdmin: true, name: 'abe', age: 34 }
 
 ** Arrays - Functions map() filter() forEach()
 *** Arrays Overview
@@ -1756,6 +1774,53 @@ Learn:
 - Typing React props and events
 - utility types like Pick<> 
 * React
+** Create a Javascript/React project
+#+BEGIN_SRC bash
+npm create vite@latest my-react-app
+#+END_SRC
+
+** Start React localhost
+If you want to start localhost preview server, go to folder where your project lives and in terminal:
+#+BEGIN_SRC sh 
+ npm run dev 
+#+END_SRC
+
+It should give you : http://localhost:5173/
+
+** Project Structure
+*** Main entry point
+index.html
+    ↓
+main.tsx        ← entry point
+    ↓
+<App />
+    ↓
+your React application
+
+This line:
+=createRoot(document.getElementById('root')!).render(=
+
+finds the <div id="root"> in index.html and tells React:
+
+"Render my React application inside this element."
+
+And:
+=<App />=
+
+loads your main App component from App.tsx.
+
+So yes — main.tsx is where your React app gets started/mounted.
+
+** import and use images
+#+BEGIN_SRC tsx
+import abeImg from "./assets/city.jpg";
+
+<img src={abeImg} className="city" alt="City img" />
+#+END_SRC
+
+
+
+
 ** React core
 - Components(Function components), props/state
 - Rendering and controller inputs (value + onchange)
