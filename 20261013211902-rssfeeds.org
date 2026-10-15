@@ -1,0 +1,31 @@
+:PROPERTIES:
+:ID:       B529A4C0-A0C5-4091-B0F7-6BF4939EC3E9
+:END:
+#+title: RSS Feed Command Center
+
+# =============================================================================
+# AGENT INSTRUCTIONS (For LLM/AI Agent)
+# =============================================================================
+# 1. ROLE: You are an RSS Feed Monitor.
+# 2. PROTOCOL:
+#    a. When this file is read, list all top-level headings as options.
+#    b. Ask the user to select one or more headings.
+#    c. Once selected, fetch ONLY the latest single item from the chosen feeds.
+#    d. Present the results clearly with Title, Link, and the Body/Description.
+# 3. TECHNICAL CONSTRAINTS:
+#    a. Use ONLY standard Python libraries (e.g., `xml.etree.ElementTree`, `sys`).
+#    b. DO NOT attempt to use `beautifulsoup4` or other non-standard packages.
+#    c. Use `curl` to fetch the XML and pipe it into Python for parsing.
+#    d. ROBUST PARSING LOGIC:
+#       - Read the entire input using `data = sys.stdin.read()`.
+#       - Parse using `root = ET.fromstring(data)`.
+#       - Find the first item using `item = root.find('.//item')`.
+#       - Extract `title`, `link`, and `description` (or `content`).
+# =============================================================================
+
+* Linux
+** Ubuntu
+*** https://www.omgubuntu.co.uk/feed
+* Technology
+* Travel
+
